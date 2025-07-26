@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curved Navbar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+</head>
+<style>
+  .card-wrapper {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .red-border {
+    position: absolute;
+    top: 10px;
+    left: -10px;
+    right: 20px;
+    bottom: -10px;
+    border: 2px solid red;
+    border-radius: 0.8rem;
+    z-index: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+
+  .card-wrapper:hover .red-border {
+    opacity: 1;
+  }
+
+  @keyframes marqueeY {
+    0% {
+      transform: translateY(0%);
+    }
+
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+
+  .marquee-text-track {
+    animation: marqueeY 5s linear infinite;
+  }
+
+  .gradient-word {
+    background: linear-gradient(90deg, #facc15, #f43f5e, #8b5cf6);
+    /* yellow, red, grape */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+  }
+
+  .gradient-word::before {
+    content: "";
+    position: absolute;
+    top: var(--y);
+    left: var(--x);
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    border-radius: 9999px;
+    pointer-events: none;
+  }
+
+  .hovered-word {
+    transition: all 0.1s ease;
+  }
+</style>
+
+<body class="h-full  bg-gradient-to-r from-transparent to-[#021AA1] ">
+  <section class="relative">
+
+
+    <header class="absolute top-0 left-0 w-full z-40">
+      <!-- Curved background image -->
+      <img src="https://test.infolks.info/navbar/navbar.png" alt="Curved Navbar" class="hidden xl:block w-full" />
+
+      <!-- Navbar container -->
+      <div
+        class=" relative xl:absolute xl:top-0 xl:left-0 xl:right-0 w-full flex items-center justify-between px-2 py-6 lg:bg-blue-800 bg-[#13b1f538] rounded-b-2xl lg:border-0 border-b border-b-[#13B2F5]  xl:bg-transparent">
+        <!-- Logo fixed hard left -->
+         <div class="flex justify-between items-center sticky top-0  z-50 rounded-t-2xl pb-4">
+    <a href="/" class="flex items-center shrink-0">
+      <img src="https://test.infolks.info/home/logo_new.svg" alt="Logo" class="h-10 w-auto" />
+    </a>
+   
+  </div>
+       <button id="menu-btn" aria-expanded="false" aria-label="Toggle menu"
+        class="text-white bg-transparent hover:bg-white/10 opacity-80 hover:opacity-100 transition-opacity lg:hidden text-3xl p-2 z-50">
+        &#9776;
+      </button>
+    </nav>
+        <!-- Desktop Menu Right -->
+        <nav class="hidden  lg:flex items-center gap-8 text-white font-medium">
+          <div class="container mx-auto flex justify-between items-center   text-white">
+
+            <ul class="flex space-x-9">
+              <li><a href="#">Home</a></li>
+              <li><a href="#">About</a></li>
+
+              <li class="relative inline-block group">
+                <button spy="true" smooth="true" duration="500"
+                  class="inline-block cursor-default hover:text-[#98FFDD] text-white">Industries</button>
+
+                <!-- Mega Menu -->
+                <div
+                  class="absolute border border-white  left-1/2 transform -translate-x-1/2 mt-4 w-[500px] bg-blue-500 rounded-2xl shadow-lg text-white p-8 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+
+                  <!-- Notch -->
+                  <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <div class="w-4 h-4 bg-blue-500 border-l border-t border-white rotate-45"></div>
+                  </div>
+
+                  <!-- Columns -->
+                  <div class="flex justify-between space-x-12">
+
+                    <!-- Column 1 -->
+                    <div class="flex justify-between space-x-12">
+                      <div class="space-y-4 w-1/2">
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer ">
+                          <span>Image Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Text Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Video Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Audio Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Lidar Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Product Categorisation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+                      </div>
+                      <!-- Column 2 rewritten with <div> instead of <ul><li> -->
+                      <div class="space-y-4 w-1/2">
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>Generative AI</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>NLP</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>AR & VR</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>Outstaffing</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>ODC</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+                      </div>
+
+                      <!-- Dropdown Parent -->
+              <li class="relative inline-block group">
+                <button spy="true" smooth="true" duration="500"
+                  class="inline-block cursor-default hover:text-[#98FFDD] text-white">Solutions</button>
+
+                <!-- Mega Menu -->
+                <div
+                  class="absolute border border-white  left-1/2 transform -translate-x-1/2 mt-4 w-[500px] bg-blue-500 rounded-2xl shadow-lg text-white p-8 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+
+                  <!-- Notch -->
+                  <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <div class="w-4 h-4 bg-blue-500 border-l border-t border-white rotate-45"></div>
+                  </div>
+
+                  <!-- Columns -->
+                  <div class="flex justify-between space-x-12">
+
+                    <!-- Column 1 -->
+                    <div class="flex justify-between space-x-12">
+                      <div class="space-y-4 w-1/2">
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer ">
+                          <span>Image Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Text Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Video Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Audio Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Lidar Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Product Categorisation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+                      </div>
+                      <!-- Column 2 rewritten with <div> instead of <ul><li> -->
+                      <div class="space-y-4 w-1/2">
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>Generative AI</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>NLP</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>AR & VR</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>Outstaffing</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>ODC</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+                      </div>
+
+
+              <li><a href="#">Pricing</a></li>
+
+              <li class="relative inline-block group">
+                <button spy="true" smooth="true" duration="500"
+                  class="inline-block cursor-default hover:text-[#98FFDD] text-white"> Resources</button>
+
+                <!-- Mega Menu -->
+                <div
+                  class="absolute border border-white  left-1/2 transform -translate-x-1/2 mt-4 w-[300px] bg-blue-500 rounded-xl shadow-lg text-white p-8 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+
+                  <!-- Notch -->
+                  <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <div class="w-4 h-4 bg-blue-500 border-l border-t border-white rotate-45"></div>
+                  </div>
+
+                  <!-- Columns -->
+                  <div class="flex flex-col  ">
+
+
+
+                    <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                      <span>certifications</span>
+                      <svg
+                        class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                        fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </div>
+
+                    <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                      <span>blog</span>
+                      <svg
+                        class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                        fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </div>
+
+                    <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                      <span>careers</span>
+                      <svg
+                        class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                        fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </div>
+                  </div>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+      
+      </div>
+ 
+      <!-- Mobile Menu -->
+      <nav id="mobile-menu"
+       class="fixed overflow-hidden  top-0 pt-20 left-0 h-auto w-full max-w-full bg-gradient-to-r from-[#138ff5] to-[#03a7ee] text-white font-medium transform -translate-x-full transition-transform duration-300 p-6 lg:hidden z-40 rounded-b-3xl shadow-2xl">
+
+        <div class="group w-full">
+          <div class="border-b-[1px] mx-10 md:mx-15">
+            <a href="/">
+              <div class="flex justify-between md:py-1">
+                <p class="text-white group-hover:text-[#13B2F5] text-[16px] md:text-[19px] lg:text-[24px]">Home</p>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="mt-2 transform transition-transform duration-300 ease-in-out group-hover:rotate-45">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M7.98429 4.61142L17.1308 4.6054C17.2169 4.63461 17.2765 4.69796 17.3004 4.78572L16.7027 13.8904C16.7266 13.9782 16.628 14.0709 16.5108 14.071L15.5824 14.0716C15.4652 14.0716 15.3781 13.9791 15.3807 13.8571L15.783 6.88358L5.36076 16.6872C5.07544 16.9556 4.61893 16.99 4.36222 16.7171C4.078 16.4149 4.13509 15.9663 4.4256 15.693L14.7545 5.97724L7.95443 5.96221C7.83717 5.96229 7.75007 5.86969 7.75732 5.75265L7.79234 4.79197C7.82709 4.70417 7.92566 4.61146 7.98429 4.61142Z"
+                    fill="white"></path>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="group">
+          <div class="border-b-[1px] mx-10 md:mx-15">
+            <a href="/">
+              <div class="flex justify-between md:py-1">
+                <p class="text-white group-hover:text-[#13B2F5] text-[16px] md:text-[19px] lg:text-[24px]">about</p>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="mt-2 transform transition-transform duration-300 ease-in-out group-hover:rotate-45">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M7.98429 4.61142L17.1308 4.6054C17.2169 4.63461 17.2765 4.69796 17.3004 4.78572L16.7027 13.8904C16.7266 13.9782 16.628 14.0709 16.5108 14.071L15.5824 14.0716C15.4652 14.0716 15.3781 13.9791 15.3807 13.8571L15.783 6.88358L5.36076 16.6872C5.07544 16.9556 4.61893 16.99 4.36222 16.7171C4.078 16.4149 4.13509 15.9663 4.4256 15.693L14.7545 5.97724L7.95443 5.96221C7.83717 5.96229 7.75007 5.86969 7.75732 5.75265L7.79234 4.79197C7.82709 4.70417 7.92566 4.61146 7.98429 4.61142Z"
+                    fill="white"></path>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="group">
+          <div class="border-b-[1px] mx-10 md:mx-15">
+            <a href="/">
+              <div class="flex justify-between md:py-1">
+                <p class="text-white group-hover:text-[#13B2F5] text-[16px] md:text-[19px] lg:text-[24px]">Industries
+                </p>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="mt-2 transform transition-transform duration-300 ease-in-out group-hover:rotate-45">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M7.98429 4.61142L17.1308 4.6054C17.2169 4.63461 17.2765 4.69796 17.3004 4.78572L16.7027 13.8904C16.7266 13.9782 16.628 14.0709 16.5108 14.071L15.5824 14.0716C15.4652 14.0716 15.3781 13.9791 15.3807 13.8571L15.783 6.88358L5.36076 16.6872C5.07544 16.9556 4.61893 16.99 4.36222 16.7171C4.078 16.4149 4.13509 15.9663 4.4256 15.693L14.7545 5.97724L7.95443 5.96221C7.83717 5.96229 7.75007 5.86969 7.75732 5.75265L7.79234 4.79197C7.82709 4.70417 7.92566 4.61146 7.98429 4.61142Z"
+                    fill="white"></path>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="group">
+          <div class="border-b-[1px] mx-10 md:mx-15">
+            <a href="/">
+              <div class="flex justify-between md:py-1">
+                <p class="text-white group-hover:text-[#13B2F5] text-[16px] md:text-[19px] lg:text-[24px]">Solutions</p>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="mt-2 transform transition-transform duration-300 ease-in-out group-hover:rotate-45">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M7.98429 4.61142L17.1308 4.6054C17.2169 4.63461 17.2765 4.69796 17.3004 4.78572L16.7027 13.8904C16.7266 13.9782 16.628 14.0709 16.5108 14.071L15.5824 14.0716C15.4652 14.0716 15.3781 13.9791 15.3807 13.8571L15.783 6.88358L5.36076 16.6872C5.07544 16.9556 4.61893 16.99 4.36222 16.7171C4.078 16.4149 4.13509 15.9663 4.4256 15.693L14.7545 5.97724L7.95443 5.96221C7.83717 5.96229 7.75007 5.86969 7.75732 5.75265L7.79234 4.79197C7.82709 4.70417 7.92566 4.61146 7.98429 4.61142Z"
+                    fill="white"></path>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="group">
+          <div class="border-b-[1px] mx-10 md:mx-15">
+            <a href="/">
+              <div class="flex justify-between md:py-1">
+                <p class="text-white group-hover:text-[#13B2F5] text-[16px] md:text-[19px] lg:text-[24px]">Techniques
+                </p>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="mt-2 transform transition-transform duration-300 ease-in-out group-hover:rotate-45">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M7.98429 4.61142L17.1308 4.6054C17.2169 4.63461 17.2765 4.69796 17.3004 4.78572L16.7027 13.8904C16.7266 13.9782 16.628 14.0709 16.5108 14.071L15.5824 14.0716C15.4652 14.0716 15.3781 13.9791 15.3807 13.8571L15.783 6.88358L5.36076 16.6872C5.07544 16.9556 4.61893 16.99 4.36222 16.7171C4.078 16.4149 4.13509 15.9663 4.4256 15.693L14.7545 5.97724L7.95443 5.96221C7.83717 5.96229 7.75007 5.86969 7.75732 5.75265L7.79234 4.79197C7.82709 4.70417 7.92566 4.61146 7.98429 4.61142Z"
+                    fill="white"></path>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="group">
+          <div class="border-b-[1px] mx-10 md:mx-15">
+            <a href="/">
+              <div class="flex justify-between md:py-1">
+                <p class="text-white group-hover:text-[#13B2F5] text-[16px] md:text-[19px] lg:text-[24px]">Resources</p>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="mt-2 transform transition-transform duration-300 ease-in-out group-hover:rotate-45">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M7.98429 4.61142L17.1308 4.6054C17.2169 4.63461 17.2765 4.69796 17.3004 4.78572L16.7027 13.8904C16.7266 13.9782 16.628 14.0709 16.5108 14.071L15.5824 14.0716C15.4652 14.0716 15.3781 13.9791 15.3807 13.8571L15.783 6.88358L5.36076 16.6872C5.07544 16.9556 4.61893 16.99 4.36222 16.7171C4.078 16.4149 4.13509 15.9663 4.4256 15.693L14.7545 5.97724L7.95443 5.96221C7.83717 5.96229 7.75007 5.86969 7.75732 5.75265L7.79234 4.79197C7.82709 4.70417 7.92566 4.61146 7.98429 4.61142Z"
+                    fill="white"></path>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="border-b-[1px] mx-10 md:mx-15">
+            <a href="/">
+              <div class="flex justify-between md:py-1">
+                <p class="text-white group-hover:text-[#13B2F5] text-[16px] md:text-[19px] lg:text-[24px]">pricing</p>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="mt-2 transform transition-transform duration-300 ease-in-out group-hover:rotate-45">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M7.98429 4.61142L17.1308 4.6054C17.2169 4.63461 17.2765 4.69796 17.3004 4.78572L16.7027 13.8904C16.7266 13.9782 16.628 14.0709 16.5108 14.071L15.5824 14.0716C15.4652 14.0716 15.3781 13.9791 15.3807 13.8571L15.783 6.88358L5.36076 16.6872C5.07544 16.9556 4.61893 16.99 4.36222 16.7171C4.078 16.4149 4.13509 15.9663 4.4256 15.693L14.7545 5.97724L7.95443 5.96221C7.83717 5.96229 7.75007 5.86969 7.75732 5.75265L7.79234 4.79197C7.82709 4.70417 7.92566 4.61146 7.98429 4.61142Z"
+                    fill="white"></path>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="group">
+          <div class="border-b-[1px] mx-10 md:mx-15">
+            <a href="/">
+              <div class="flex justify-between md:py-1">
+                <p class="text-white group-hover:text-[#13B2F5] text-[16px] md:text-[19px] lg:text-[24px]">Contact Us
+                </p>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="mt-2 transform transition-transform duration-300 ease-in-out group-hover:rotate-45">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M7.98429 4.61142L17.1308 4.6054C17.2169 4.63461 17.2765 4.69796 17.3004 4.78572L16.7027 13.8904C16.7266 13.9782 16.628 14.0709 16.5108 14.071L15.5824 14.0716C15.4652 14.0716 15.3781 13.9791 15.3807 13.8571L15.783 6.88358L5.36076 16.6872C5.07544 16.9556 4.61893 16.99 4.36222 16.7171C4.078 16.4149 4.13509 15.9663 4.4256 15.693L14.7545 5.97724L7.95443 5.96221C7.83717 5.96229 7.75007 5.86969 7.75732 5.75265L7.79234 4.79197C7.82709 4.70417 7.92566 4.61146 7.98429 4.61142Z"
+                    fill="white"></path>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+
+
+
+
+      </nav>
+    </header>
+
+
+    <!-- Background Video -->
+    <div class="relative w-full h-screen overflow-hidden">
+      <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover ">
+        <source src="https://test.infolks.info/techniques/video/technique.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+    </div>
+    <div class="absolute inset-0 bg-blue-900 opacity-40"></div>
+    <div
+      class="absolute inset-0 flex flex-col justify-center items-center mx-auto container lg:items-start lg:left-[6%] gap-4">
+      <h1 class="hero-banner-heading-h1 text-center lg:text-left text-[#FFFBF0] text-5xl leading-tight">
+        CHOOSE THE<br>
+        RIGHT ANNOTATION TECHNIQUE TO<br>
+        ENHANCE YOUR AI INITIATIVES
+      </h1>
+
+
+      <!-- Desktop paragraph -->
+      <p
+        class="hidden lg:flex flex-col text-left text-[#FFFBF0] text-[16px] md:text-[20px] lg:text-[23px] leading-8 mt-3 w-[90%] lg:w-[70%]">
+        We specialize in data annotation, offering extensive expertise and a wide range of services. Our commitment is
+        to deliver precise datasets through diverse annotation techniques, ensuring accessibility to meet your unique
+        requirements.
+      </p>
+
+      <div class="flex flex-col lg:hidden text-center justify-center items-center mt-3 w-[90%]">
+        <p class="paragraph text-[#FFFBF0] text-[16px] md:text-[20px] leading-8">
+          We specialize in data annotation, offering extensive expertise and a wide range of services.
+          <span id="more-text" class="hidden">
+            Our commitment is to deliver precise datasets through diverse annotation techniques, ensuring accessibility
+            to meet your unique requirements.
+          </span>
+        </p>
+        <button id="read-more-btn" class="text-[#20B3F1] mt-2 paragraph cursor-pointer">
+          Read more
+        </button>
+      </div>
+
+
+      <!-- Call to Action Button -->
+
+      <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 md:gap-x-2.5">
+        <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A]">
+          <span class="relative z-10 text-sm">CONNECT US</span>
+        </button>
+        <span
+          class="absolute inset-0 h-full w-full bg-[#FFFBF0] transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] md:group-hover:w-[calc(100%-3.7rem)] rounded-full"></span>
+        <div
+          class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
+          style="width: 50px; height: 50px;">
+          <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
+        </div>
+      </div>
+
+    </div>
+    <div
+      class="absolute  bottom-0 left-1/2 transform -translate-x-1/2 translate-y-2/3
+              bg-gradient-to-r from-blue-400 to-blue-500 p-6 md:p-10 rounded-3xl w-[90%] max-w-7xl text-center text-white shadow-xl z-50 w-[83%] ">
+      <h2 class="text-4xl mb-4">ANNOTATION TECHNIQUES</h2>
+      <p class="max-w-3xl mx-auto">
+        In today's digital age, visual data plays a pivotal role in various applications, from computer vision to
+        machine learning. This requires precise and informative annotations. Here, our annotation techniques come into
+        play.
+      </p>
+    </div>
+
+
+  </section>
+
+  <section
+    class=" bg-gradient-to-r from-transparent to-[#021AA1] min-h-screen flex flex-col items-center justify-center">
+    <div class="bg-white w-[84.71%] items-center justify-center pt-10  ">
+
+      <div class="relative flex items-center justify-center overflow-hidden py-8">
+        <!-- Cursor Glow -->
+        <div
+          class="fixed items-center justify-center pointer-events-none    rounded-full w-24 h-24 bg-gradient-to-r from-yellow-400 via-red-500 to-purple-600 opacity-70 blur-2xl z-[9999] ">
+        </div>
+
+        <!-- Left Column -->
+        <div class="flex flex-col gap-y-8 marquee-text-track pt-20 lg:pt-2 ">
+          <p class="px-4 py-2 max-w-fit text-base font-normal gradient-word">Polygon/Contour</p>
+          <p class="px-4 py-2 max-w-fit text-base font-normal gradient-word">Keypoint</p>
+          <p class="px-4 py-2 max-w-fit text-base font-normal gradient-word">Polygon/Contour</p>
+          <p class="px-4 py-2 max-w-fit text-base font-normal gradient-word">Keypoint</p>
+        </div>
+
+        <!-- Center Heading -->
+        <div id="cursor" class="flex flex-col items-center text-center z-10 justify-center px-4 pt-20 lg:pt-2">
+          <h2 class="text-xl md:text-3xl font-normal leading-relaxed text-center">
+            <span class="hovered-word block text-xl md:text-3xl">OUR JOURNEY INTO</span>
+            <span class="hovered-word block text-xl md:text-3xl">IMAGE ANNOTATION WILL TAKE US THROUGH</span>
+            <span class="hovered-word block text-xl md:text-3xl">A VARIETY OF ANNOTATION TECHNIQUES</span>
+          </h2>
+
+        </div>
+
+        <!-- Right Column -->
+        <div class="flex flex-col gap-y-8 marquee-text-track pt-20 lg:pt-2">
+          <p class="px-4 py-2 translate-x-20 max-w-fit text-base font-normal gradient-word">Polyline</p>
+          <p class="px-4 py-2 max-w-fit translate-x-[16rem] text-base font-normal gradient-word">Ellipse</p>
+          <p class="px-4 py-2 max-w-fit text-base font-normal gradient-word">Semantic Segmentation</p>
+          <p class="px-4 py-2 translate-x-20 max-w-fit text-base font-normal gradient-word">2D/3D Bounding Box</p>
+          <p class="px-4 py-2 max-w-fit text-base font-normal gradient-word">Cuboidal</p>
+          <p class="px-4 py-2 max-w-fit translate-x-[10rem] text-base font-normal gradient-word">Keypoint</p>
+        </div>
+      </div>
+
+ <div class="grid grid-cols-1 md:grid-cols-2 gap-8 ml-5 mr-5 lg:hidden justisfy-center ">
+  <!-- Video Block 1 -->
+  <div class="group w-130 p-4 transition-all duration-500">
+    <div
+      class="border rounded-2xl border-[#4771CD] p-3 bg-white group-hover:bg-gradient-to-b group-hover:from-[#7EBCF3] group-hover:to-[#006DE8] group-hover:rounded-b-none transition-all duration-500 ease-in-out">
+      <video autoplay loop muted playsinline class="w-full h-64 rounded-xl object-cover">
+        <source src="https://test.infolks.info/techniques/video/polygoncontour-apple.mp4" type="video/mp4" />
+      </video>
+      <h3 class="text-[#37508A] group-hover:hidden p-2 text-lg font-semibold">Polygon/Contour</h3>
+    </div>
+  </div>
+
+  <!-- Video Block 2 -->
+  <div class="group w-130 p-4 transition-all duration-500">
+    <div
+      class="border rounded-2xl border-[#547ED8] p-3 bg-white group-hover:bg-gradient-to-b group-hover:from-[#7EBCF3] group-hover:to-[#006DE8] group-hover:rounded-b-none transition-all duration-500 ease-in-out">
+      <video autoplay loop muted playsinline class="w-full h-64 rounded-xl object-cover">
+        <source src="https://test.infolks.info/techniques/video/semantic-segmentation.mp4" type="video/mp4" />
+      </video>
+      <h3 class="text-[#37508A] group-hover:hidden p-2 text-lg font-semibold">Semantic Segmentation</h3>
+    </div>
+  </div>
+   <div class="flex justify-center items-center py-10">
+              <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 md:gap-x-2.5">
+
+                <!-- Text Button -->
+                <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A] z-20">
+                  <span class="relative z-10 text-sm">VIEW ALL </span>
+                </button>
+                <!-- White Background Span WITH BORDER -->
+                <span
+                  class="absolute inset-0 h-full w-full bg-[#FFFBF0] border border-[#13B2F5] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] md:group-hover:w-[calc(100%-3.7rem)]"></span>
+                <!-- Arrow Button -->
+                <div
+                  class="relative z-30 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
+                  style="width: 50px; height: 50px;">
+                  <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
+                </div>
+              </div>
+            </div>
+
+</div>
+      <div class="relative w-[99%] max-w-[1280px] w-auto hidden lg:block ">
+       
+
+        <!-- Left Arrow -->
+        <button id="prev"
+          class="absolute left-0 top-40 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-200 mr-5 ">
+          &#8592;
+        </button>
+
+        <!-- Right Arrow -->
+        <button id="next"
+          class="absolute right-0 top-40 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-200 ml-5 ">
+          &#8594;
+        </button>
+
+        <!-- Carousel Wrapper -->
+        <div id="carousel" class="flex transition-transform duration-500 space-x-8 overflow-hidden ml-5 mr-5 ">
+
+          <!-- CARD TEMPLATE START -->
+          <!-- Repeat for each card -->
+          <div class="group w-80 flex-shrink-0 p-4 transition-all duration-500 sm:hidden md:hidden lg:block  ">
+            <div
+              class="border rounded-2xl border-[#4771CD] p-3 bg-white group-hover:bg-gradient-to-b group-hover:from-[#7EBCF3] group-hover:to-[#006DE8] group-hover:rounded-b-none transition-all duration-500 ease-in-out">
+              <video autoplay loop muted playsinline class="w-full h-64 rounded-xl object-cover">
+                <source src="https://test.infolks.info/techniques/video/polygoncontour-apple.mp4" type="video/mp4">
+              </video>
+              <h3 class="text-[#37508A] group-hover:hidden p-2 text-lg font-semibold">Polygon/Contour</h3>
+            </div>
+            <div
+              class="hidden group-hover:flex flex-col bg-gradient-to-b from-[#7EBCF3] to-[#006DE8] p-5 rounded-b-xl text-white transition-all duration-500 ease-in-out">
+              <h3 class="text-lg font-semibold border-b border-white pb-2">Polygon/Contour</h3>
+              <p class="mt-2 text-lg">A precise contour is drawn around each object to identify it in various
+                applications. Our team is highly skilled in this annotation approach.A precise contour is drawn around
+                each object to identify it in various applications. Our team is highly skilled in this annotation
+                approach.A precise contour is drawn around each object to identify it in various applications. Our team
+                is highly skilled in this annotation approach.</p>
+            </div>
+          </div>
+          <!-- CARD TEMPLATE END -->
+
+          <!-- Duplicate and update for the remaining 4 cards (Semantic Segmentation, 3D Cuboidal, Bounding Box, Keypoint) -->
+          <!-- Just update video src and text content. The structure remains the same. -->
+
+          <!-- CARD 2 -->
+          <div class="group w-80 flex-shrink-0 p-4 transition-all duration-500 sm:hidden md:hidden lg:block ">
+            <div
+              class="border rounded-2xl border-[#547ED8] p-3 bg-white group-hover:bg-gradient-to-b group-hover:from-[#7EBCF3] group-hover:to-[#006DE8] group-hover:rounded-b-none transition-all duration-500 ease-in-out">
+              <video autoplay loop muted playsinline class="w-full h-64 rounded-xl object-cover">
+                <source src="https://test.infolks.info/techniques/video/semantic-segmentation.mp4" type="video/mp4">
+              </video>
+              <h3 class="text-[#37508A] group-hover:hidden p-2 text-lg font-semibold">Semantic Segmentation</h3>
+            </div>
+            <div
+              class="hidden group-hover:flex flex-col bg-gradient-to-b from-[#7EBCF3] to-[#006DE8] p-5 rounded-b-xl text-white transition-all duration-500 ease-in-out">
+              <h3 class="text-lg font-semibold border-b border-white pb-2">Semantic Segmentation</h3>
+              <p class="mt-2 text-lg">We classify every pixel in an image with accuracy. Used in AI to understand full
+                object shapes and contexts.We classify every pixel in an image with accuracy. Used in AI to understand
+                full object shapes and contexts.We classify every pixel in an image with accuracy. Used in AI to
+                understand full object shapes and contexts.</p>
+            </div>
+          </div>
+
+          <!-- CARD 3 -->
+          <div class="group w-80 flex-shrink-0 p-4 transition-all duration-500 min-h-[26rem] sm:hidden md:hidden lg:block">
+            <div
+              class="border rounded-2xl border-[#547ED8] p-3 bg-white group-hover:bg-gradient-to-b group-hover:from-[#7EBCF3] group-hover:to-[#006DE8] group-hover:rounded-b-none transition-all duration-500 ease-in-out">
+              <video autoplay loop muted playsinline class="w-full h-64 rounded-xl object-cover">
+                <source src="https://test.infolks.info/techniques/video/cuboidal.mp4" type="video/mp4">
+              </video>
+              <h3 class="text-[#37508A] group-hover:hidden p-2 text-lg font-semibold">3D Cuboidal</h3>
+            </div>
+            <div
+              class="hidden group-hover:flex flex-col bg-gradient-to-b from-[#7EBCF3] to-[#006DE8] p-5 rounded-b-xl text-white transition-all duration-500 ease-in-out">
+              <h3 class="text-lg font-semibold border-b border-white pb-2">3D Cuboidal</h3>
+              <p class="mt-2 text-lg">Annotating objects using 3D cuboids to capture depth and spatial information
+                across complex scenes.Annotating objects using 3D cuboids to capture depth and spatial information
+                across complex scenes.Annotating objects using 3D cuboids to capture depth and spatial information
+                across complex scenes.</p>
+            </div>
+          </div>
+
+          <!-- CARD 4 -->
+          <div class="group w-80 flex-shrink-0 p-4 transition-all duration-500 min-h-[26rem] sm:hidden md:hidden lg:block">
+            <div
+              class="border rounded-2xl border-[#547ED8] p-3 bg-white group-hover:bg-gradient-to-b group-hover:from-[#7EBCF3] group-hover:to-[#006DE8] group-hover:rounded-b-none transition-all duration-500 ease-in-out">
+              <video autoplay loop muted playsinline class="w-full h-64 rounded-xl object-cover">
+                <source src="https://test.infolks.info/techniques/video/bounding-box.mp4" type="video/mp4">
+              </video>
+              <h3 class="text-[#37508A] group-hover:hidden p-2 text-lg font-semibold">Bounding Box</h3>
+            </div>
+            <div
+              class="hidden group-hover:flex flex-col bg-gradient-to-b from-[#7EBCF3] to-[#006DE8] p-5 rounded-b-xl text-white transition-all duration-500 ease-in-out">
+              <h3 class="text-lg font-semibold border-b border-white pb-2">Bounding Box</h3>
+              <p class="mt-2 text-lg">Draws boxes around objects in images/videos for training AI models. A fundamental
+                computer vision technique.Draws boxes around objects in images/videos for training AI models. A
+                fundamental computer vision technique.Draws boxes around objects in images/videos for training AI
+                models. A fundamental computer vision technique.</p>
+            </div>
+          </div>
+
+          <!-- CARD 5 -->
+          <div class="group w-80 flex-shrink-0 p-4 transition-all duration-500 min-h-[26rem] sm:hidden md:hidden lg:block">
+            <div
+              class="border rounded-2xl border-[#547ED8] p-3 bg-white group-hover:bg-gradient-to-b group-hover:from-[#7EBCF3] group-hover:to-[#006DE8] group-hover:rounded-b-none transition-all duration-500 ease-in-out">
+              <video autoplay loop muted playsinline class="w-full h-64 rounded-xl object-cover">
+                <source src="https://test.infolks.info/techniques/video/keypoint.mp4" type="video/mp4">
+              </video>
+              <h3 class="text-[#37508A] group-hover:hidden p-2 text-lg font-semibold">Keypoint</h3>
+            </div>
+            <div
+              class="hidden group-hover:flex flex-col bg-gradient-to-b from-[#7EBCF3] to-[#006DE8] p-5 rounded-b-xl text-white transition-all duration-500 ease-in-out">
+              <h3 class="text-lg font-semibold border-b border-white pb-2">Keypoint</h3>
+              <p class="mt-2 text-lg">Marks specific points like joints, corners, or eyes for facial/body analysis.
+                Vital for posture and gesture recognition.Marks specific points like joints, corners, or eyes for
+                facial/body analysis. Vital for posture and gesture recognition.Marks specific points like joints,
+                corners, or eyes for facial/body analysis. Vital for posture and gesture recognition.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    </div>
+  
+    <section
+      class="relative  min-h-screen justify-center it em-center m-0 gap-0  flex flex-col items-center justify-center w-full overflow-hidden rounded-4xl">
+      <div class="w-[84.71%] flex   m-0 flex flex-col justify-center item-center rounded-md gap-6 bg-white rounded-b-3xl
+ "style="background-image: url('https://test.infolks.info/techniques/blogbg.png'); background-position: center center; background-size: cover;" >
+        <!-- Main Background Section -->
+
+        <div class="w-full py-10 md:py-16 bg-white pt-3 z--1 gap-10 flex felx-col " 
+          style="background-image: url('https://test.infolks.info/techniques/blogbg.png'); background-position: center center; background-size: cover;">
+          <div class="max-w-7xl mx-auto px-4 items-center justify-center ">
+            <div class="text-center justify-center  text-4xl">
+              <h2 class="text-[#37508A] heading-h2 mb-2 md:mb-10 lg:mb-14 lg:mt-10 uppercase">RELATED BLOGS</h2>
+            </div>
+            <!-- Cards Container -->
+            <div class="flex flex-wrap gap-8 justify-center">
+
+              <!-- Card 1 -->
+              <div class="card-wrapper">
+                <div class="red-border hidden lg:block"></div>
+                <div id="card1"
+                  class="group border-red-500 relative w-full max-w-xs rounded-xl overflow-hidden transition-all duration-300 border-2 border-gray-200 cursor-none group-hover:scale-105 bg-white">
+                  <div class="flex items-center gap-2 justify-between px-4 pt-4 text-[10px]">
+                    <p class="text-black font-semibold">BLOG</p>
+                    <div class="w-full h-0.5 bg-[#04AFC6] mx-2"></div>
+                    <p class="w-16 text-black font-semibold">JAN 2024</p>
+                  </div>
+
+                  <div class="relative p-4">
+                    <img src="https://test.infolks.info/home/blog/blog.png" alt="Blog 1"
+                      class="h-auto md:h-[305px] w-full object-cover rounded-xl transition duration-300" />
+
+                    <div id="hover-circle1"
+                      class="absolute opacity-0 group-hover:opacity-100 transition duration-300 pointer-events-none z-50">
+                      <div
+                        class="bg-[#13B2F5] text-white text-xs font-bold rounded-full w-24 h-24 flex items-center justify-center shadow-lg">
+                        READ MORE
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="border-t-2 border-red-500 p-4">
+                    <p class="text-black text-lg font-semibold">Revolutionizing Industries with AI Solutions</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 2 -->
+              <div class="card-wrapper">
+                <div class="red-border hidden lg:block"></div>
+                <div id="card2"
+                  class="group relative border-red-500 w-full max-w-xs rounded-xl overflow-hidden transition-all duration-300 border-2 border-gray-200 cursor-none group-hover:scale-105 bg-white">
+                  <div class="flex items-center gap-2 justify-between px-4 pt-4 text-[10px]">
+                    <p class="text-black font-semibold">BLOG</p>
+                    <div class="w-full h-0.5 bg-[#04AFC6] mx-2"></div>
+                    <p class="w-16 text-black font-semibold">JAN 2024</p>
+                  </div>
+
+                  <div class="relative p-4">
+                    <img src="https://test.infolks.info/home/blog/blog2.png" alt="Blog 2"
+                      class="h-auto md:h-[305px] w-full object-cover rounded-xl transition duration-300" />
+
+                    <div id="hover-circle2"
+                      class="absolute opacity-0 group-hover:opacity-100 transition duration-300 pointer-events-none z-50">
+                      <div
+                        class="bg-[#13B2F5] text-white text-xs font-bold rounded-full w-24 h-24 flex items-center justify-center shadow-lg">
+                        READ MORE
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="border-t-2 border-red-500 p-4">
+                    <p class="text-black text-lg font-semibold">Unlocking the Power of AI with Expert Annotation</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 3 -->
+              <div class="card-wrapper">
+                <div class="red-border hidden lg:block"></div>
+                <div id="card3"
+                  class="group border-red-500 relative w-full max-w-xs rounded-xl overflow-hidden transition-all duration-300 border-2 border-gray-200 cursor-none group-hover:scale-60 bg-white">
+                  <div class="flex items-center gap-2 justify-between px-4 pt-4 text-[10px]">
+                    <p class="text-black font-semibold">BLOG</p>
+                    <div class="w-full h-0.5 bg-[#04AFC6] mx-2"></div>
+                    <p class="w-16 text-black font-semibold">JAN 2024</p>
+                  </div>
+
+                  <div class="relative p-4">
+                    <img src="https://test.infolks.info/home/blog/blog3.png" alt="Blog 3"
+                      class="h-auto md:h-[305px] w-full object-cover rounded-xl transition duration-300" />
+
+                    <div id="hover-circle3"
+                      class="absolute opacity-0 group-hover:opacity-100 transition duration-300 pointer-events-none z-50">
+                      <div
+                        class="bg-[#13B2F5] text-white text-xs font-bold rounded-full w-24 h-24 flex items-center justify-center shadow-lg">
+                        READ MORE
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="border-t-2 border-red-500 p-4">
+                    <p class="text-black text-lg font-semibold">The Future of Data Labeling and AI Training</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-center items-center py-10">
+              <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 md:gap-x-2.5">
+
+                <!-- Text Button -->
+                <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A] z-20">
+                  <span class="relative z-10 text-sm">VIEW ALL BLOGS</span>
+                </button>
+                <!-- White Background Span WITH BORDER -->
+                <span
+                  class="absolute inset-0 h-full w-full bg-[#FFFBF0] border border-[#13B2F5] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] md:group-hover:w-[calc(100%-3.7rem)]"></span>
+                <!-- Arrow Button -->
+                <div
+                  class="relative z-30 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
+                  style="width: 50px; height: 50px;">
+                  <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+       
+
+
+ <div
+        class="   w-[100%]  flex-wrap max-w-8xl m-0  bg-gradient-to-r from-blue-400 to-blue-500 p-6 p-6 md:p-10 rounded-3xl text-white shadow-xl">
+
+        <!-- Icons Row -->
+        <div class="flex flex-wrap justify-center items-center gap-6 mb-10 item-center">
+
+          <!-- Icon 1 -->
+          <div class="bg-white rounded-full w-16 h-16 flex justify-center items-center shadow-md">
+            <img src="https://test.infolks.info/icons/lets-talk/user.png" alt="User" class="w-8 h-8 md:h-8" />
+          </div>
+
+          <!-- Icon 2 -->
+          <div class="bg-white rounded-full w-16 h-16 flex justify-center items-center shadow-md">
+            <img src="https://test.infolks.info/icons/lets-talk/phone.png" alt="Phone" class="w-8 h-8 md:h-8" />
+          </div>
+
+          <!-- Icon 3 -->
+          <div class="bg-white rounded-full w-16 h-16 flex justify-center items-center shadow-md">
+            <img src="https://test.infolks.info/icons/lets-talk/chat.png" alt="Chat" class="w-7 h-7 md:h-8" />
+          </div>
+
+          <!-- Icon 4 -->
+          <div class="bg-white rounded-full w-20 h-20 flex justify-center items-center shadow-lg">
+            <img src="https://test.infolks.info/icons/lets-talk/user-group.png" alt="Team" class="w-10 h-10 md:h-8" />
+          </div>
+
+          <!-- Icon 5 -->
+          <div class="bg-white rounded-full w-16 h-16 flex justify-center items-center shadow-md">
+            <img src="https://test.infolks.info/icons/lets-talk/open-envelope.png" alt="Mail" class="w-7 h-7 md:h-8" />
+          </div>
+
+          <!-- Icon 6 -->
+          <div class="bg-white rounded-full w-16 h-16 flex justify-center items-center shadow-md">
+            <img src="https://test.infolks.info/icons/lets-talk/printer.png" alt="Printer" class="w-7 h-7 md:h-8" />
+          </div>
+
+        </div>
+
+        <!-- Heading -->
+        <h3 class="font-semibold uppercase text-2xl md:text-3xl w-[80%] mx-auto mb-4 leading-snug tracking-wide item-center">
+          Step Up with Our Annotation Techniques
+        </h3>
+
+
+         <!-- CTA Button -->
+        <div class="flex justify-center mt-6">
+          <div class="flex items-center relative group cursor-pointer gap-x-2">
+
+            <!-- Button Text -->
+            <button class="relative px-4 uppercase tracking-wide text-[#37508A] z-20">
+              <span class="relative z-10 text-sm font-semibold">Contact Us Now</span>
+            </button>
+
+            <!-- Expanding Span Background -->
+            <span
+              class="absolute inset-0 h-full w-full bg-white border border-[#13B2F5] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.5rem)]"></span>
+
+            <!-- Arrow Button -->
+            <div
+              class="relative z-30 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
+              style="width: 50px; height: 50px;">
+              <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6" />
+            </div>
+
+          </div>
+ </div>
+ </div>
+ 
+      </div>
+    </section >
+  </section>
+
+
+
+    <footer class="bg-gradient-to-r from-transparent to-[#021AA1] rounded-t-3xl px-6 py-12 md:px-16 lg:px-24 text-white">
+    <div class="max-w-7xl mx-auto space-y-12">
+
+      <!-- Heading -->
+      <div class="">
+        <h1 class="text-3xl md:text-3xl font-bold uppercase mb-2">CONNECT WITH US</h1>
+        <div class="w-24 border-t border-white/40"></div>
+      </div>
+
+      <!-- Main Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+        <!-- Left: Company Info + Social Icons -->
+        <div class="space-y-6">
+          <!-- Address -->
+          <div class="space-y-4 text-sm md:text-base">
+            <p class="font-medium">Infolks Pvt. Ltd.</p>
+            <p>Infolks Tower, Mannarkkad, Kerala, India, 678583</p>
+            <div>
+              <p><span class="font-semibold">Career:</span> +91 70258 89922</p>
+              <p><span class="font-semibold">Career:</span> recruitment@infolksgroup.com</p>
+            </div>
+            <div>
+              <p><span class="font-semibold">Project:</span> +91 70258 89911</p>
+              <p><span class="font-semibold">Project:</span> info@infolks.in</p>
+            </div>
+          </div>
+
+          <!-- Social Icons -->
+          <div class="flex flex-wrap items-center gap-4">
+            <a href="#" aria-label="LinkedIn" class="bg-white text-[#122987] hover:bg-[#13B2F5] hover:text-white p-2 rounded-md shadow transition-all">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="#" aria-label="Facebook" class="bg-white text-[#122987] hover:bg-[#13B2F5] hover:text-white p-2 rounded-md shadow transition-all">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" aria-label="Instagram" class="bg-white text-[#122987] hover:bg-[#13B2F5] hover:text-white p-2 rounded-md shadow transition-all">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" aria-label="Google" class="bg-white text-[#122987] hover:bg-[#13B2F5] hover:text-white p-2 rounded-md shadow transition-all">
+              <i class="fab fa-google"></i>
+            </a>
+            <a href="#" aria-label="Flickr" class="bg-white text-[#122987] hover:bg-[#13B2F5] hover:text-white p-2 rounded-md shadow transition-all">
+              <i class="fab fa-flickr"></i>
+            </a>
+            <a href="#" aria-label="YouTube" class="bg-white text-[#122987] hover:bg-[#13B2F5] hover:text-white p-2 rounded-md shadow transition-all">
+              <i class="fab fa-youtube"></i>
+            </a>
+            <a href="#" aria-label="Telegram" class="bg-white text-[#122987] hover:bg-[#13B2F5] hover:text-white p-2 rounded-md shadow transition-all">
+              <i class="fab fa-telegram"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Link Groups -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm md:text-base">
+          <div class="space-y-3">
+            <!-- Trigger Wrapper -->
+<div class="relative group inline-block w-full">
+
+  <!-- Trigger Button -->
+  <div class="flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer w-full">
+    <a href="#" class="group-hover:text-[#13B2F5] transition-all">Industries</a>
+    <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300 ml-2"></i>
+  </div>
+
+  <!-- Dropdown -->
+  <div
+    class=" hidden lg:block absolute left-1/2 transform -translate-x-1/2 mt-5 w-[500px] bg-gradient-to-r from-[#138ff5] to-[#03a7ee] text-white rounded-2xl shadow-lg p-8 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 ">
+
+    <!-- Top Arrow -->
+    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 sm:hidden lg:block">
+      <div class="w-4 h-4 bg-gradient-to-r from-[#138ff5] to-[#03a7ee] border-l border-t border-white rotate-45"></div>
+    </div>
+
+    <!-- Grid of Items -->
+    <div class="flex justify-between space-x-12 ">
+
+      <!-- Column 1 -->
+      <div class="space-y-2 w-1/2">
+        <div class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+          <span>Healthcare</span>
+          <i class="fas fa-arrow-up-right"></i>
+        </div>
+        <div class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+          <span>Automotive</span>
+          <i class="fas fa-arrow-up-right"></i>
+        </div>
+        <div class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+          <span>Retail</span>
+          <i class="fas fa-arrow-up-right"></i>
+        </div>
+        <div class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+          <span>Finance & Banking</span>
+          <i class="fas fa-arrow-up-right"></i>
+        </div>
+        <div class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+          <span>Manufacturing</span>
+          <i class="fas fa-arrow-up-right"></i>
+        </div>
+        <div class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+          <span>Agriculture</span>
+          <i class="fas fa-arrow-up-right"></i>
+        </div>
+        <div class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+          <span>Food & Beverages</span>
+          <i class="fas fa-arrow-up-right"></i>
+        </div>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="space-y-2 w-1/2">
+        <div class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+          <span>Livestock</span>
+          <i class="fas fa-arrow-up-right"></i>
+        </div>
+        <div class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+          <span>Security & Surveillance</span>
+          <i class="fas fa-arrow-up-right"></i>
+        </div>
+        <div class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+          <span>Sports</span>
+          <i class="fas fa-arrow-up-right"></i>
+        </div>
+        <div class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+          <span>Waste Management</span>
+          <i class="fas fa-arrow-up-right"></i>
+        </div>
+        <div class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+          <span>Logistics</span>
+          <i class="fas fa-arrow-up-right"></i>
+        </div>
+        <div class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+          <span>Geospatial</span>
+          <i class="fas fa-arrow-up-right"></i>
+        </div>
+        <div class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+          <span>Human Attribution</span>
+          <i class="fas fa-arrow-up-right"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+           <!-- Parent Trigger: Wrap with group for hover -->
+<div class="relative group inline-block w-full">
+
+  <!-- Trigger Button (Solutions + Arrow) -->
+  <div class="flex justify-between items-center border-b border-white pb-1 w-full cursor-pointer">
+    <span class="group-hover:text-[#13B2F5] transition-all">Solutions</span>
+    <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300 ml-2"></i>
+  </div>
+
+  <!-- Hover Modal Dropdown -->
+  <div
+    class=" hidden lg:block absolute left-1/2 transform -translate-x-1/2 mt-4 w-[500px] bg-gradient-to-r from-[#138ff5] to-[#03a7ee] text-white rounded-2xl shadow-lg p-8 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 sm:hidden lg:block">
+
+    <!-- Notch -->
+    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <div class="w-4 h-4 bg-gradient-to-r from-[#138ff5] to-[#03a7ee] border-l border-t border-white rotate-45"></div>
+    </div>
+
+    <!-- Grid Columns -->
+    <div class="flex justify-between space-x-12">
+      <!-- Column 1 -->
+      <div class="space-y-4 w-1/2">
+        <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+          <span>Image Annotation</span>
+          <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+        </div>
+        <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+          <span>Text Annotation</span>
+          <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+        </div>
+        <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+          <span>Video Annotation</span>
+          <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+        </div>
+        <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+          <span>Audio Annotation</span>
+          <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+        </div>
+        <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+          <span>Lidar Annotation</span>
+          <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+        </div>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="space-y-4 w-1/2">
+        <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+          <span>Generative AI</span>
+          <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+        </div>
+        <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+          <span>NLP</span>
+          <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+        </div>
+        <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+          <span>AR & VR</span>
+          <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+        </div>
+        <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+          <span>Outstaffing</span>
+          <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+        </div>
+        <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+          <span>ODC</span>
+          <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+            <div class="flex justify-between items-center border-b border-white/40 pb-1 group">
+              <a href="#" class="group-hover:text-[#13B2F5] transition-all">Techniques</a>
+              <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+            </div>
+            <div class="flex justify-between items-center border-b border-white/40 pb-1 group">
+              <a href="#" class="group-hover:text-[#13B2F5] transition-all">Data Security</a>
+              <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+            </div>
+            <div class="flex justify-between items-center border-b border-white/40 pb-1 group">
+              <a href="#" class="group-hover:text-[#13B2F5] transition-all">Quality</a>
+              <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex justify-between items-center border-b border-white/40 pb-1 group">
+              <a href="#" class="group-hover:text-[#13B2F5] transition-all">Blog</a>
+              <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+            </div>
+            <div class="flex justify-between items-center border-b border-white/40 pb-1 group">
+              <a href="#" class="group-hover:text-[#13B2F5] transition-all">About Us</a>
+              <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+            </div>
+            <div class="flex justify-between items-center border-b border-white/40 pb-1 group">
+              <a href="#" class="group-hover:text-[#13B2F5] transition-all">Careers</a>
+              <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Footer -->
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4 border-t border-white/30 pt-6 text-xs md:text-sm">
+        <div class="flex items-center gap-6">
+          <a href="#" class="group hover:text-[#13B2F5] transition-all">
+            Privacy Policy <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+          </a>
+          <a href="#" class="group hover:text-[#13B2F5] transition-all">
+            Terms & Conditions <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+          </a>
+        </div>
+        <div>
+          INFOLKS©2024 All Rights Reserved | Crafted by webfolks
+        </div>
+      </div>
+
+    </div>
+  </footer>
+ <script>
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuBtn.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.contains('translate-x-0');
+
+    if (isOpen) {
+      mobileMenu.classList.add('-translate-x-full');
+      mobileMenu.classList.remove('translate-x-0');
+      document.body.classList.remove('overflow-hidden');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    } else {
+      mobileMenu.classList.remove('-translate-x-full');
+      mobileMenu.classList.add('translate-x-0');
+      document.body.classList.add('overflow-hidden');
+      menuBtn.setAttribute('aria-expanded', 'true');
+    }
+  });
+</script>
+
+
+  <script>
+    const btn = document.getElementById('read-more-btn');
+    const moreText = document.getElementById('more-text');
+
+    btn.addEventListener('click', () => {
+      if (moreText.classList.contains('hidden')) {
+        moreText.classList.remove('hidden');
+        btn.textContent = 'Read less';
+      } else {
+        moreText.classList.add('hidden');
+        btn.textContent = 'Read more';
+      }
+    });
+    // moushover
+    const cursor = document.getElementById('cursor');
+    window.addEventListener('mousemove', e => {
+      cursor.style.left = `${e.clientX - 48}px`;
+      cursor.style.top = `${e.clientY - 48}px`;
+    });
+
+    const words = document.querySelectorAll('.hovered-word');
+    words.forEach(word => {
+      word.addEventListener('mouseenter', () => {
+        word.style.background = 'linear-gradient(to right, #facc15, #ef4444, #7e22ce)';
+        word.style.webkitBackgroundClip = 'text';
+        word.style.backgroundClip = 'text';
+        word.style.color = 'transparent';
+      });
+      word.addEventListener('mouseleave', () => {
+        word.style.background = '';
+        word.style.color = '';
+      });
+    });
+    // cards
+    const carousel = document.getElementById('carousel');
+    const next = document.getElementById('next');
+    const prev = document.getElementById('prev');
+    let scrollAmount = 0;
+
+    next.addEventListener('click', () => {
+      scrollAmount += 320;
+      carousel.scrollTo({
+        left: scrollAmount,
+        behavior: 'smooth'
+      });
+    });
+
+    prev.addEventListener('click', () => {
+      scrollAmount -= 320;
+      if (scrollAmount < 0) scrollAmount = 0;
+      carousel.scrollTo({
+        left: scrollAmount,
+        behavior: 'smooth'
+      });
+    });
+  </script>
+  <script>
+    // Function to handle mouse movement for each card
+    function setupCardHover(cardId, circleId) {
+      const card = document.getElementById(cardId);
+      const hoverCircle = document.getElementById(circleId);
+
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left - 48; // 48 = half of circle (96px)
+        const y = e.clientY - rect.top - 48;
+
+        hoverCircle.style.left = `${x}px`;
+        hoverCircle.style.top = `${y}px`;
+      });
+    }
+
+    // Set up hover effects for all three cards
+    setupCardHover('card1', 'hover-circle1');
+    setupCardHover('card2', 'hover-circle2');
+    setupCardHover('card3', 'hover-circle3');
+  </script>
+
+  </script>
+
+</body>
+
+</html>
