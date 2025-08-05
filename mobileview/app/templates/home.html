@@ -1,0 +1,3521 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curved Navbar</title>
+  <link rel="stylesheet" href="{% static 'css/input.css'%}">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<style>
+  .gsap-marker-end{
+    display: none !important; 
+
+  }
+  .gsap-marker-scroller-end{
+    display: none !important;
+
+  }
+  .gsap-marker-start{
+   display: none !important;
+
+  }
+  .gsap-marker-scroller-start{
+   display: none !important;
+
+  }
+  /* circlecrosel */
+  .we-card-container {
+      width: 320px;
+      height: 320px;
+      position: relative;
+    }
+
+    .we-card {
+      width: 320px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+
+    .we-card.active {
+      opacity: 1;
+      z-index: 2;
+      padding-left: 20px;
+      transform: translateY(-40px);
+      border-radius: 16px;
+      border: 1px solid #ccdff5;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+      background: linear-gradient(to bottom right, #f4f6fb, #d9e6f2);
+    }
+
+    .we-card.prev-1,
+    .we-card.next-1 {
+      opacity: 0.9;
+      filter: blur(0.3px);
+      z-index: 1;
+    }
+
+    .we-card.prev-2,
+    .we-card.next-2 {
+      opacity: 0.7;
+      filter: blur(0.3px);
+      z-index: 0;
+    }
+
+    .we-card.prev-1 {
+      transform: translateX(-400px) rotate(-10deg) translateY(20px);
+    }
+
+    .we-card.next-1 {
+      transform: translateX(400px) rotate(10deg) translateY(20px);
+    }
+
+    .we-card.prev-2 {
+      transform: translateX(-800px) rotate(-20deg) translateY(200px);
+    }
+
+    .we-card.next-2 {
+      transform: translateX(800px) rotate(20deg) translateY(200px);
+    }
+
+    .we-arrow-controls {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .we-arrow {
+      font-size: 28px;
+      cursor: pointer;
+      user-select: none;
+      color: #fff;
+      padding: 10px 18px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+
+    .we-arrow:hover {
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    /* Small screen horizontal scroll styles */
+    .we-card-horizontal {
+      flex: 0 0 auto;
+      width: 320px;
+    }
+
+    .we-card-container-horizontal::-webkit-scrollbar {
+      display: none;
+    }
+
+    .we-card-container-horizontal {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+     .scroll-hide::-webkit-scrollbar {
+      display: none;
+    }
+
+    .scroll-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  /* stackcarosel */
+  .cards {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+     width:100%;
+    }
+
+    .custom-card {
+      position: absolute;
+      width: 100%;
+      top: 0px;
+      height: 100vh;
+      background-color: transparent;
+      background-position: center;
+      background-size: cover;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+    }
+
+    
+
+    
+  @keyframes marquee-left {
+    0% {
+      transform: translateX(0%);
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes marquee-right {
+    0% {
+      transform: translateX(-50%);
+    }
+
+    100% {
+      transform: translateX(0%);
+    }
+  }
+
+  .animate-marquee-left {
+    animation: marquee-left 20s linear infinite;
+    display: flex;
+    width: max-content;
+  }
+
+  .animate-marquee-right {
+    animation: marquee-right 20s linear infinite;
+    display: flex;
+    width: max-content;
+  }
+
+  .paused {
+    animation-play-state: paused !important;
+  }
+
+  @keyframes card {
+    from {
+      transform: translateX(-20px);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .slide {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index: 0;
+  }
+
+  .slide.active {
+    opacity: 1;
+    z-index: 10;
+  }
+
+  .card-wrapper {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .red-border {
+    position: absolute;
+    top: 10px;
+    left: -10px;
+    right: 20px;
+    bottom: -10px;
+    border: 2px solid red;
+    border-radius: 0.8rem;
+    z-index: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+
+  .card-wrapper:hover .red-border {
+    opacity: 1;
+  }
+
+  @keyframes marqueeY {
+    0% {
+      transform: translateY(0%);
+    }
+
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+
+  .marquee-text-track {
+    animation: marqueeY 5s linear infinite;
+  }
+
+  .gradient-word {
+    background: linear-gradient(90deg, #facc15, #f43f5e, #8b5cf6);
+    /* yellow, red, grape */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+  }
+
+  .gradient-word::before {
+    content: "";
+    position: absolute;
+    top: var(--y);
+    left: var(--x);
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    border-radius: 9999px;
+    pointer-events: none;
+  }
+
+  .hovered-word {
+    transition: all 0.1s ease;
+  }
+  .blob path {
+      fill: #13B2F5;
+    }
+
+    .blob {
+      filter: drop-shadow(0 0 20px rgba(19, 178, 245, 0.6));
+    }
+</style>
+
+<body class="h-full  bg-gradient-to-r from-transparent to-[#021AA1] ">
+  <section class="relative overflow-hidden">
+
+
+    <header class="absolute top-0 left-0 w-full z-40">
+      <!-- Curved background image -->
+      <img src="https://test.infolks.info/navbar/navbar.png" alt="Curved Navbar" class="hidden xl:block w-full" />
+
+      <!-- Navbar container -->
+      <div
+        class=" relative xl:absolute xl:top-0 xl:left-0 xl:right-0 w-full flex items-center justify-between px-2 py-6 lg:bg-blue-800 bg-[#13b1f538] rounded-b-2xl lg:border-0 border-b border-b-[#13B2F5]  xl:bg-transparent">
+        <!-- Logo fixed hard left -->
+        <div class="flex justify-between items-center sticky top-0  z-50 rounded-t-2xl pb-4">
+          <a href="/" class="flex items-center shrink-0">
+            <img src="https://test.infolks.info/home/logo_new.svg" alt="Logo" class="h-10 w-auto" />
+          </a>
+
+        </div>
+        <button id="menu-btn" aria-expanded="false" aria-label="Toggle menu"
+          class="text-white bg-transparent hover:bg-white/10 opacity-80 hover:opacity-100 transition-opacity lg:hidden text-3xl p-2 z-50">
+          &#9776;
+        </button>
+        </nav>
+        <!-- Desktop Menu Right -->
+        <nav class="hidden  lg:flex items-center gap-8 text-white font-medium">
+          <div class="container mx-auto flex justify-between items-center   text-white">
+
+            <ul class="flex space-x-9">
+              <li><a href="#">Home</a></li>
+              <li><a href="#">About</a></li>
+
+              <li class="relative inline-block group">
+                <button spy="true" smooth="true" duration="500"
+                  class="inline-block cursor-default hover:text-[#98FFDD] text-white">Industries</button>
+
+                <!-- Mega Menu -->
+                <div
+                  class="absolute border border-white  left-1/2 transform -translate-x-1/2 mt-4 w-[500px] bg-blue-500 rounded-2xl shadow-lg text-white p-8 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+
+                  <!-- Notch -->
+                  <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <div class="w-4 h-4 bg-blue-500 border-l border-t border-white rotate-45"></div>
+                  </div>
+
+                  <!-- Columns -->
+                  <div class="flex justify-between space-x-12">
+
+                    <!-- Column 1 -->
+                    <div class="flex justify-between space-x-12">
+                      <div class="space-y-4 w-1/2">
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer ">
+                          <span>Image Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Text Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Video Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Audio Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Lidar Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Product Categorisation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+                      </div>
+                      <!-- Column 2 rewritten with <div> instead of <ul><li> -->
+                      <div class="space-y-4 w-1/2">
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>Generative AI</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>NLP</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>AR & VR</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>Outstaffing</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>ODC</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+                      </div>
+
+                      <!-- Dropdown Parent -->
+              <li class="relative inline-block group">
+                <button spy="true" smooth="true" duration="500"
+                  class="inline-block cursor-default hover:text-[#98FFDD] text-white">Solutions</button>
+
+                <!-- Mega Menu -->
+                <div
+                  class="absolute border border-white  left-1/2 transform -translate-x-1/2 mt-4 w-[500px] bg-blue-500 rounded-2xl shadow-lg text-white p-8 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+
+                  <!-- Notch -->
+                  <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <div class="w-4 h-4 bg-blue-500 border-l border-t border-white rotate-45"></div>
+                  </div>
+
+                  <!-- Columns -->
+                  <div class="flex justify-between space-x-12">
+
+                    <!-- Column 1 -->
+                    <div class="flex justify-between space-x-12">
+                      <div class="space-y-4 w-1/2">
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer ">
+                          <span>Image Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Text Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Video Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Audio Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Lidar Annotation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  cursor-pointer">
+                          <span>Product Categorisation</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+                      </div>
+                      <!-- Column 2 rewritten with <div> instead of <ul><li> -->
+                      <div class="space-y-4 w-1/2">
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>Generative AI</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>NLP</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>AR & VR</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>Outstaffing</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+
+                        <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                          <span>ODC</span>
+                          <svg
+                            class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+                      </div>
+
+
+              <li><a href="#">Pricing</a></li>
+
+              <li class="relative inline-block group">
+                <button spy="true" smooth="true" duration="500"
+                  class="inline-block cursor-default hover:text-[#98FFDD] text-white"> Resources</button>
+
+                <!-- Mega Menu -->
+                <div
+                  class="absolute border border-white  left-1/2 transform -translate-x-1/2 mt-4 w-[300px] bg-blue-500 rounded-xl shadow-lg text-white p-8 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+
+                  <!-- Notch -->
+                  <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <div class="w-4 h-4 bg-blue-500 border-l border-t border-white rotate-45"></div>
+                  </div>
+
+                  <!-- Columns -->
+                  <div class="flex flex-col  ">
+
+
+
+                    <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                      <span>certifications</span>
+                      <svg
+                        class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                        fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </div>
+
+                    <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                      <span>blog</span>
+                      <svg
+                        class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                        fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </div>
+
+                    <div class="group flex justify-between items-center border-b border-white  pb-2 cursor-pointer">
+                      <span>careers</span>
+                      <svg
+                        class="w-4 h-4 ml-2 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:rotate-12"
+                        fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M14 3h7v7m0-7L10 14" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </div>
+                  </div>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+
+      </div>
+
+      <!-- Mobile Menu -->
+      <nav id="mobile-menu"
+        class="fixed overflow-hidden  top-0 pt-20 left-0 h-auto w-full max-w-full bg-gradient-to-r from-[#138ff5] to-[#03a7ee] text-white font-medium transform -translate-x-full transition-transform duration-300 p-6 lg:hidden z-40 rounded-b-3xl shadow-2xl">
+
+        <div class="group w-full">
+          <div class="border-b-[1px] mx-10 md:mx-15">
+            <a href="/">
+              <div class="flex justify-between md:py-1">
+                <p class="text-white group-hover:text-[#13B2F5] text-[16px] md:text-[19px] lg:text-[24px]">Home</p>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="mt-2 transform transition-transform duration-300 ease-in-out group-hover:rotate-45">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M7.98429 4.61142L17.1308 4.6054C17.2169 4.63461 17.2765 4.69796 17.3004 4.78572L16.7027 13.8904C16.7266 13.9782 16.628 14.0709 16.5108 14.071L15.5824 14.0716C15.4652 14.0716 15.3781 13.9791 15.3807 13.8571L15.783 6.88358L5.36076 16.6872C5.07544 16.9556 4.61893 16.99 4.36222 16.7171C4.078 16.4149 4.13509 15.9663 4.4256 15.693L14.7545 5.97724L7.95443 5.96221C7.83717 5.96229 7.75007 5.86969 7.75732 5.75265L7.79234 4.79197C7.82709 4.70417 7.92566 4.61146 7.98429 4.61142Z"
+                    fill="white"></path>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="group">
+          <div class="border-b-[1px] mx-10 md:mx-15">
+            <a href="/">
+              <div class="flex justify-between md:py-1">
+                <p class="text-white group-hover:text-[#13B2F5] text-[16px] md:text-[19px] lg:text-[24px]">about</p>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="mt-2 transform transition-transform duration-300 ease-in-out group-hover:rotate-45">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M7.98429 4.61142L17.1308 4.6054C17.2169 4.63461 17.2765 4.69796 17.3004 4.78572L16.7027 13.8904C16.7266 13.9782 16.628 14.0709 16.5108 14.071L15.5824 14.0716C15.4652 14.0716 15.3781 13.9791 15.3807 13.8571L15.783 6.88358L5.36076 16.6872C5.07544 16.9556 4.61893 16.99 4.36222 16.7171C4.078 16.4149 4.13509 15.9663 4.4256 15.693L14.7545 5.97724L7.95443 5.96221C7.83717 5.96229 7.75007 5.86969 7.75732 5.75265L7.79234 4.79197C7.82709 4.70417 7.92566 4.61146 7.98429 4.61142Z"
+                    fill="white"></path>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="group">
+          <div class="border-b-[1px] mx-10 md:mx-15">
+            <a href="/">
+              <div class="flex justify-between md:py-1">
+                <p class="text-white group-hover:text-[#13B2F5] text-[16px] md:text-[19px] lg:text-[24px]">Industries
+                </p>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="mt-2 transform transition-transform duration-300 ease-in-out group-hover:rotate-45">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M7.98429 4.61142L17.1308 4.6054C17.2169 4.63461 17.2765 4.69796 17.3004 4.78572L16.7027 13.8904C16.7266 13.9782 16.628 14.0709 16.5108 14.071L15.5824 14.0716C15.4652 14.0716 15.3781 13.9791 15.3807 13.8571L15.783 6.88358L5.36076 16.6872C5.07544 16.9556 4.61893 16.99 4.36222 16.7171C4.078 16.4149 4.13509 15.9663 4.4256 15.693L14.7545 5.97724L7.95443 5.96221C7.83717 5.96229 7.75007 5.86969 7.75732 5.75265L7.79234 4.79197C7.82709 4.70417 7.92566 4.61146 7.98429 4.61142Z"
+                    fill="white"></path>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="group">
+          <div class="border-b-[1px] mx-10 md:mx-15">
+            <a href="/">
+              <div class="flex justify-between md:py-1">
+                <p class="text-white group-hover:text-[#13B2F5] text-[16px] md:text-[19px] lg:text-[24px]">Solutions</p>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="mt-2 transform transition-transform duration-300 ease-in-out group-hover:rotate-45">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M7.98429 4.61142L17.1308 4.6054C17.2169 4.63461 17.2765 4.69796 17.3004 4.78572L16.7027 13.8904C16.7266 13.9782 16.628 14.0709 16.5108 14.071L15.5824 14.0716C15.4652 14.0716 15.3781 13.9791 15.3807 13.8571L15.783 6.88358L5.36076 16.6872C5.07544 16.9556 4.61893 16.99 4.36222 16.7171C4.078 16.4149 4.13509 15.9663 4.4256 15.693L14.7545 5.97724L7.95443 5.96221C7.83717 5.96229 7.75007 5.86969 7.75732 5.75265L7.79234 4.79197C7.82709 4.70417 7.92566 4.61146 7.98429 4.61142Z"
+                    fill="white"></path>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="group">
+          <div class="border-b-[1px] mx-10 md:mx-15">
+            <a href="/">
+              <div class="flex justify-between md:py-1">
+                <p class="text-white group-hover:text-[#13B2F5] text-[16px] md:text-[19px] lg:text-[24px]">Techniques
+                </p>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="mt-2 transform transition-transform duration-300 ease-in-out group-hover:rotate-45">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M7.98429 4.61142L17.1308 4.6054C17.2169 4.63461 17.2765 4.69796 17.3004 4.78572L16.7027 13.8904C16.7266 13.9782 16.628 14.0709 16.5108 14.071L15.5824 14.0716C15.4652 14.0716 15.3781 13.9791 15.3807 13.8571L15.783 6.88358L5.36076 16.6872C5.07544 16.9556 4.61893 16.99 4.36222 16.7171C4.078 16.4149 4.13509 15.9663 4.4256 15.693L14.7545 5.97724L7.95443 5.96221C7.83717 5.96229 7.75007 5.86969 7.75732 5.75265L7.79234 4.79197C7.82709 4.70417 7.92566 4.61146 7.98429 4.61142Z"
+                    fill="white"></path>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="group">
+          <div class="border-b-[1px] mx-10 md:mx-15">
+            <a href="/">
+              <div class="flex justify-between md:py-1">
+                <p class="text-white group-hover:text-[#13B2F5] text-[16px] md:text-[19px] lg:text-[24px]">Resources</p>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="mt-2 transform transition-transform duration-300 ease-in-out group-hover:rotate-45">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M7.98429 4.61142L17.1308 4.6054C17.2169 4.63461 17.2765 4.69796 17.3004 4.78572L16.7027 13.8904C16.7266 13.9782 16.628 14.0709 16.5108 14.071L15.5824 14.0716C15.4652 14.0716 15.3781 13.9791 15.3807 13.8571L15.783 6.88358L5.36076 16.6872C5.07544 16.9556 4.61893 16.99 4.36222 16.7171C4.078 16.4149 4.13509 15.9663 4.4256 15.693L14.7545 5.97724L7.95443 5.96221C7.83717 5.96229 7.75007 5.86969 7.75732 5.75265L7.79234 4.79197C7.82709 4.70417 7.92566 4.61146 7.98429 4.61142Z"
+                    fill="white"></path>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="border-b-[1px] mx-10 md:mx-15">
+            <a href="/">
+              <div class="flex justify-between md:py-1">
+                <p class="text-white group-hover:text-[#13B2F5] text-[16px] md:text-[19px] lg:text-[24px]">pricing</p>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="mt-2 transform transition-transform duration-300 ease-in-out group-hover:rotate-45">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M7.98429 4.61142L17.1308 4.6054C17.2169 4.63461 17.2765 4.69796 17.3004 4.78572L16.7027 13.8904C16.7266 13.9782 16.628 14.0709 16.5108 14.071L15.5824 14.0716C15.4652 14.0716 15.3781 13.9791 15.3807 13.8571L15.783 6.88358L5.36076 16.6872C5.07544 16.9556 4.61893 16.99 4.36222 16.7171C4.078 16.4149 4.13509 15.9663 4.4256 15.693L14.7545 5.97724L7.95443 5.96221C7.83717 5.96229 7.75007 5.86969 7.75732 5.75265L7.79234 4.79197C7.82709 4.70417 7.92566 4.61146 7.98429 4.61142Z"
+                    fill="white"></path>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="group">
+          <div class="border-b-[1px] mx-10 md:mx-15">
+            <a href="/">
+              <div class="flex justify-between md:py-1">
+                <p class="text-white group-hover:text-[#13B2F5] text-[16px] md:text-[19px] lg:text-[24px]">Contact Us
+                </p>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="mt-2 transform transition-transform duration-300 ease-in-out group-hover:rotate-45">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M7.98429 4.61142L17.1308 4.6054C17.2169 4.63461 17.2765 4.69796 17.3004 4.78572L16.7027 13.8904C16.7266 13.9782 16.628 14.0709 16.5108 14.071L15.5824 14.0716C15.4652 14.0716 15.3781 13.9791 15.3807 13.8571L15.783 6.88358L5.36076 16.6872C5.07544 16.9556 4.61893 16.99 4.36222 16.7171C4.078 16.4149 4.13509 15.9663 4.4256 15.693L14.7545 5.97724L7.95443 5.96221C7.83717 5.96229 7.75007 5.86969 7.75732 5.75265L7.79234 4.79197C7.82709 4.70417 7.92566 4.61146 7.98429 4.61142Z"
+                    fill="white"></path>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+
+
+
+
+      </nav>
+    </header>
+
+
+    <div class="relative w-full h-screen overflow-hidden">
+
+      <!-- SLIDES -->
+      <div id="videoSlides" class="relative w-full h-screen">
+
+        <!-- Slide 1 -->
+        <div class="slide active absolute inset-0">
+          <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover">
+            <source src="https://test.infolks.info/home/hero/videos/banner1.mp4" type="video/mp4">
+          </video>
+          <div class="absolute inset-0 bg-blue-900 opacity-40"></div>
+          <div
+            class="absolute inset-0 flex flex-col justify-center items-center mx-auto container lg:items-start lg:left-[6%] gap-4">
+            <h1 class="text-[#FFFBF0] text-5xl text-center lg:text-left leading-tight font-bold">
+              CHOOSE THE<br />RIGHT ANNOTATION TECHNIQUE TO<br />ENHANCE YOUR AI INITIATIVES
+            </h1>
+            <p class="hidden lg:flex text-left text-[#FFFBF0] text-[20px] leading-8 mt-3 w-[90%] lg:w-[70%]">
+              We specialize in data annotation, offering extensive expertise and a wide range of services.
+              Our commitment is to deliver precise datasets through diverse annotation techniques.
+            </p>
+            <div class="flex flex-col lg:hidden text-center justify-center items-center mt-3 w-[90%]">
+              <p class="text-[#FFFBF0] text-[16px] md:text-[20px] leading-8">
+                We specialize in data annotation...
+                <span class="more-text hidden">delivering datasets through diverse annotation techniques.</span>
+              </p>
+              <button class="read-more-btn text-[#20B3F1] mt-2 cursor-pointer">Read more</button>
+            </div>
+            <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 mt-4">
+              <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A]">
+                <span class="relative z-10 text-sm">CONNECT US</span>
+              </button>
+              <span
+                class="absolute inset-0 h-full w-full bg-[#FFFBF0] transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] rounded-full"></span>
+              <div
+                class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
+                style="width: 50px; height: 50px;">
+                <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide absolute inset-0">
+          <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover">
+            <source src="https://test.infolks.info/home/hero/videos/banner3.mp4" type="video/mp4">
+          </video>
+          <div class="absolute inset-0 bg-blue-900 opacity-40"></div>
+          <div
+            class="absolute inset-0 flex flex-col justify-center items-center mx-auto container lg:items-start lg:left-[6%] gap-4">
+            <h1 class="text-[#FFFBF0] text-5xl text-center lg:text-left leading-tight font-bold">
+              DATA LABELING FOR<br />YOUR MACHINE LEARNING MODELS
+            </h1>
+            <p class="hidden lg:flex text-left text-[#FFFBF0] text-[20px] leading-8 mt-3 w-[90%] lg:w-[70%]">
+              Our services are designed to empower AI with reliable, annotated data.
+            </p>
+            <div class="flex flex-col lg:hidden text-center justify-center items-center mt-3 w-[90%]">
+              <p class="text-[#FFFBF0] text-[16px] md:text-[20px] leading-8">
+                Empower AI with annotated data...
+                <span class="more-text hidden">using precise and scalable solutions.</span>
+              </p>
+              <button class="read-more-btn text-[#20B3F1] mt-2 cursor-pointer">Read more</button>
+            </div>
+            <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 mt-4">
+              <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A]">
+                <span class="relative z-10 text-sm">CONNECT US</span>
+              </button>
+              <span
+                class="absolute inset-0 h-full w-full bg-[#FFFBF0] transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] rounded-full"></span>
+              <div
+                class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
+                style="width: 50px; height: 50px;">
+                <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide absolute inset-0">
+          <img class="w-full h-screen object-cover" src="https://test.infolks.info/home/hero/videos/banner.gif"
+            alt="Background Image">
+          <div class="absolute inset-0 bg-blue-900 opacity-40"></div>
+          <div
+            class="absolute inset-0 flex flex-col justify-center items-center mx-auto container lg:items-start lg:left-[6%] gap-4">
+            <h1 class="text-[#FFFBF0] text-5xl text-center lg:text-left leading-tight font-bold">
+              IMAGE & VIDEO ANNOTATION<br />FOR COMPUTER VISION
+            </h1>
+            <p class="hidden lg:flex text-left text-[#FFFBF0] text-[20px] leading-8 mt-3 w-[90%] lg:w-[70%]">
+              Boost computer vision models with precise annotation of images and videos.
+            </p>
+            <div class="flex flex-col lg:hidden text-center justify-center items-center mt-3 w-[90%]">
+              <p class="text-[#FFFBF0] text-[16px] md:text-[20px] leading-8">
+                Annotate visual data efficiently...
+                <span class="more-text hidden">with quality control and expert workforce.</span>
+              </p>
+              <button class="read-more-btn text-[#20B3F1] mt-2 cursor-pointer">Read more</button>
+            </div>
+            <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 mt-4">
+              <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A]">
+                <span class="relative z-10 text-sm">CONNECT US</span>
+              </button>
+              <span
+                class="absolute inset-0 h-full w-full bg-[#FFFBF0] transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] rounded-full"></span>
+              <div
+                class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
+                style="width: 50px; height: 50px;">
+                <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide absolute inset-0">
+          <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover">
+            <source src="https://test.infolks.info/home/hero/videos/banner1.mp4" type="video/mp4">
+          </video>
+          <div class="absolute inset-0 bg-blue-900 opacity-40"></div>
+          <div
+            class="absolute inset-0 flex flex-col justify-center items-center mx-auto container lg:items-start lg:left-[6%] gap-4">
+            <h1 class="text-[#FFFBF0] text-5xl text-center lg:text-left leading-tight font-bold">
+              SCALABLE TEXT ANNOTATION SERVICES
+            </h1>
+            <p class="hidden lg:flex text-left text-[#FFFBF0] text-[20px] leading-8 mt-3 w-[90%] lg:w-[70%]">
+              Structure your natural language data with scalable text labeling techniques.
+            </p>
+            <div class="flex flex-col lg:hidden text-center justify-center items-center mt-3 w-[90%]">
+              <p class="text-[#FFFBF0] text-[16px] md:text-[20px] leading-8">
+                Text annotation at scale...
+                <span class="more-text hidden">to support NLP and chatbot systems.</span>
+              </p>
+              <button class="read-more-btn text-[#20B3F1] mt-2 cursor-pointer">Read more</button>
+            </div>
+            <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 mt-4">
+              <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A]">
+                <span class="relative z-10 text-sm">CONNECT US</span>
+              </button>
+              <span
+                class="absolute inset-0 h-full w-full bg-[#FFFBF0] transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] rounded-full"></span>
+              <div
+                class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
+                style="width: 50px; height: 50px;">
+                <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+  <div
+    class="w-full bg-gradient-to-r from-[#414278] to-[#021AA1] min-h-screen flex flex-col items-center justify-center ">
+
+    <div class=" flex flex-col justify-center  w- w-[84%] bg-white rounded-b-3xl">
+
+    <section class="rounded-t-[40px] font-primary-regular transform z-[9999]">
+    <div class="rounded-[16px] lg:rounded-[35px] w-full bg-[#0B9FFD] flex flex-col-reverse lg:flex-row font-primary-regular lg:h-[35rem] p-2 md:p-4 lg:p-0 -translate-y-20">
+
+      <!-- Text Section -->
+      <div class="flex lg:w-[40%] justify-center items-center flex-col text-white lg:p-10 2xl:p-20 mb-2">
+        <h2 class="text-3xl lg:text-4xl font-bold text-center lg:text-left">OUR SERVICE OFFERINGS</h2>
+        <p class="lg:mt-6 text-[#FFFBF0] text-base text-center md:text-left">
+          Utilize your data's full potential with our knowledgeable services. We are committed to enhancing machine
+          learning and AI applications. With dedication to precision, quality, and effectiveness, we empower
+          businesses and researchers to make informed choices and develop groundbreaking solutions.
+        </p>
+      </div>
+
+      <!-- Video Section (Animated) -->
+      <div class="video-section flex rounded-[16px] lg:rounded-[35px] overflow-hidden xl:w-[60%] w-full opacity-0 translate-x-10 transition-all duration-1000">
+        <div class="w-full">
+          <video autoplay loop playsinline muted
+            class="w-full rounded-[16px] lg:rounded-[35px] h-60 md:h-80 lg:h-full object-cover">
+            <source src="https://test.infolks.info/home/services/videos/our-service-offering.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+
+    </div>
+  </section>
+<div class="-mt-[7rem]  ">
+    <div class="row">
+      <section class=" flex justify-center flex-col items-center py-20 lg:hidden">
+  <div class="service-card-body bg-[#E9EAE2] flex flex-col items-center w-full max-w-[1200px] shadow-lg  lg:px-10 py-10">
+
+    <!-- ✅ IMAGE COMPARISON SLIDER (TOP) -->
+    <div class="w-full flex justify-center mb-10">
+      <div class="comparison-card relative w-[90%] h-[326px] rounded-[10px] overflow-hidden ">
+        <!-- Before Image -->
+        <img
+          src="https://test.infolks.info/home/services/images/image-annotations/image-annotation-before.jpg"
+          class="absolute top-0 left-0 w-full h-full object-cover rounded-[35px]"
+          alt="Before Image"
+        />
+
+        <!-- After Image -->
+        <div
+          class="afterContainer absolute top-0 left-0 h-full overflow-hidden rounded-[35px] z-10"
+          style="width: 50%;"
+        >
+          <img
+            src="https://test.infolks.info/home/services/images/image-annotations/image-annotation-after.jpg"
+            class="w-full h-full object-cover opacity-40"
+            alt="After Image"
+          />
+        </div>
+
+        <!-- Slider Handle -->
+        <div
+          class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize"
+          style="left: 50%;"
+        >
+          <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ TEXT CONTENT (BOTTOM) -->
+    <div class="w-full px-4 2xl:px-10 max-w-3xl">
+      <!-- Button -->
+      <div class="mb-4">
+  <button class="text-[#13B2F5] border border-[#13B2F5] text-md font-medium rounded-full px-5 py-1">
+    Our Services
+  </button>
+</div>
+
+
+      <!-- Heading -->
+      <h3 class="text-2xl lg:text-3xl font-semibold text-[#37508A] mb-4">
+        Image Annotation
+      </h3>
+
+      <!-- Paragraph -->
+      <p class="text-[#37508A] text-base leading-relaxed">
+        The accuracy and richness of image annotations play a pivotal role in enhancing the performance of AI and ML models. We enable the training of machine learning and computer vision models to detect and analyse objects, regions, and other features within images through precise image labeling.
+      </p>
+
+      
+    </div>
+
+  </div>
+  <!-- Explore More Button -->
+      <div class="mt-7">
+        <a href="#">
+          <div class="flex items-center relative group cursor-pointer gap-3 w-fit">
+            <!-- Button Label -->
+            <button class="relative uppercase tracking-wide text-[#37508A] px-4 py-2 text-sm font-medium z-10">
+              EXPLORE MORE
+            </button>
+
+            <!-- Hover Background -->
+            <span class="absolute inset-0 bg-[#FFFBF0] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] z-0"></span>
+
+            <!-- Icon Circle -->
+            <div class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0 w-[50px] h-[50px]">
+              <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6" />
+            </div>
+          </div>
+        </a>
+      </div>
+</section>
+
+      <div class="col-12 hidden lg:block"> 
+        
+        <div class="cards ">
+          <!-- 8 Cards -->
+          <div class="custom-card card1" id="1">
+            <section class="slider_content flex justify-center items-center py-20">
+  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%] shadow-lg">
+    
+    <!-- Left Content -->
+    <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
+      
+      <!-- Dot Bar -->
+      <div class="flex flex-col justify-center items-center gap-1 mr-6">
+        <div class="w-2 h-8 rounded-md bg-[#BDBDBD]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+      </div>
+
+      <!-- Text Content -->
+      <div class="px-4 2xl:px-10 max-w-xl">
+        <!-- Button -->
+        <div class="mb-4">
+          <button class="text-[#13B2F5] border border-[#13B2F5] text-sm font-medium rounded-full px-5 py-1">
+            Our Services
+          </button>
+        </div>
+
+        <!-- Heading -->
+        <h3 class="text-2xl lg:text-3xl font-semibold text-[#37508A] mb-4">
+          Image Annotation
+        </h3>
+
+        <!-- Paragraph -->
+        <p class="text-[#37508A] text-base leading-relaxed">
+          The accuracy and richness of image annotations play a pivotal role in enhancing the performance of AI and ML models. We enable the training of machine learning and computer vision models to detect and analyse objects, regions, and other features within images through precise image labeling.
+        </p>
+
+        <div class="mt-7">
+  <a href="#">
+    <div class="flex items-center relative group cursor-pointer gap-3 w-fit">
+      <!-- Button Label -->
+      <button class="relative uppercase tracking-wide text-[#37508A] px-4 py-2 text-sm font-medium z-10">
+        EXPLORE MORE
+      </button>
+
+      <!-- Hover Background -->
+      <span class="absolute inset-0 bg-[#FFFBF0] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] z-0"></span>
+
+      <!-- Icon Circle -->
+      <div class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0 w-[50px] h-[50px]">
+        <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6" />
+      </div>
+    </div>
+  </a>
+</div>
+
+      </div>
+    </div>
+
+ <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
+  <div class="comparison-card relative w-[465px] h-[326px] rounded-[35px] overflow-hidden shadow-xl">
+  <!-- Before Image -->
+  <img
+    src="https://test.infolks.info/home/services/images/image-annotations/image-annotation-before.jpg"
+    class="absolute top-0 left-0 w-full h-full object-cover rounded-[35px]"
+    alt="Before Image"
+  />
+
+  <!-- After Image -->
+  <div
+    class="afterContainer absolute top-0 left-0 h-full overflow-hidden rounded-[35px] z-10"
+    style="width: 50%;"
+  >
+    <img
+      src="https://test.infolks.info/home/services/images/image-annotations/image-annotation-after.jpg"
+      class="w-full h-full object-cover opacity-40"
+      alt="After Image"
+    />
+  </div>
+
+  <!-- Slider Handle -->
+  <div
+    class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize"
+    style="left: 50%;"
+  >
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
+      </svg>
+    </div>
+  </div>
+</div>
+
+</section>
+
+
+
+          </div>
+ </section>
+
+
+          </div>
+
+          <div class="custom-card card2" id="2">
+            <section class="slider_content flex justify-center items-center py-20">
+  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%] shadow-lg">
+    
+    <!-- Left Content -->
+    <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
+      
+      <!-- Dot Bar -->
+      <div class="flex flex-col justify-center items-center gap-1 mr-6">
+       
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+         <div class="w-2 h-8 rounded-md bg-[#BDBDBD]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+      </div>
+
+      <!-- Text Content -->
+      <div class="px-4 2xl:px-10 max-w-xl">
+        <!-- Button -->
+        <div class="mb-4">
+          <button class="text-[#13B2F5] border border-[#13B2F5] text-sm font-medium rounded-full px-5 py-1">
+            Our Services
+          </button>
+        </div>
+
+        <!-- Heading -->
+        <h3 class="text-2xl lg:text-3xl font-semibold text-[#37508A] mb-4">
+          Video Annotation
+        </h3>
+
+        <!-- Paragraph -->
+        <p class="text-[#37508A] text-base leading-relaxed">
+         Accurate video annotation is essential for training AI models. Our video annotation solutions enable machine learning and computer vision models to interpret and analyse video contents accurately. We help you effectively launch your AI initiatives by providing high-quality video training data.
+        </p>
+
+        <div class="mt-7">
+  <a href="#">
+    <div class="flex items-center relative group cursor-pointer gap-3 w-fit">
+      <!-- Button Label -->
+      <button class="relative uppercase tracking-wide text-[#37508A] px-4 py-2 text-sm font-medium z-10">
+        EXPLORE MORE
+      </button>
+
+      <!-- Hover Background -->
+      <span class="absolute inset-0 bg-[#FFFBF0] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] z-0"></span>
+
+      <!-- Icon Circle -->
+      <div class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0 w-[50px] h-[50px]">
+        <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6" />
+      </div>
+    </div>
+  </a>
+</div>
+
+      </div>
+    </div>
+
+ <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
+  <div class="comparison-card relative w-[465px] h-[326px] rounded-[35px] overflow-hidden shadow-xl">
+  <!-- Before Image -->
+  <img
+    src="https://test.infolks.info/home/services/videos/video-annotation.gif"
+    class="absolute top-0 left-0 w-full h-full object-cover rounded-[35px]"
+    alt="Before Image"
+  />
+
+  
+</div>
+
+</section>
+
+
+
+          </div>
+ </section>
+
+
+          </div>
+
+          <div class="custom-card card3" id="3">
+             <section class="slider_content flex justify-center items-center py-20">
+  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%] shadow-lg">
+    
+    <!-- Left Content -->
+    <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
+      
+      <!-- Dot Bar -->
+      <div class="flex flex-col justify-center items-center gap-1 mr-6">
+        
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+         <div class="w-2 h-8 rounded-md bg-[#BDBDBD]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+      </div>
+
+      <!-- Text Content -->
+      <div class="px-4 2xl:px-10 max-w-xl">
+        <!-- Button -->
+        <div class="mb-4">
+          <button class="text-[#13B2F5] border border-[#13B2F5] text-sm font-medium rounded-full px-5 py-1">
+            Our Services
+          </button>
+        </div>
+
+        <!-- Heading -->
+        <h3 class="text-2xl lg:text-3xl font-semibold text-[#37508A] mb-4">
+          Text Annotation
+        </h3>
+
+        <!-- Paragraph -->
+        <p class="text-[#37508A] text-base leading-relaxed">
+          High-quality annotations are crucial for training and evaluating NLP models. Our text annotation solutions aim to improve machine learning, natural language processing, and data analysis by making text comprehensible and machine-readable.
+        </p>
+
+        <div class="mt-7">
+  <a href="#">
+    <div class="flex items-center relative group cursor-pointer gap-3 w-fit">
+      <!-- Button Label -->
+      <button class="relative uppercase tracking-wide text-[#37508A] px-4 py-2 text-sm font-medium z-10">
+        EXPLORE MORE
+      </button>
+
+      <!-- Hover Background -->
+      <span class="absolute inset-0 bg-[#FFFBF0] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] z-0"></span>
+
+      <!-- Icon Circle -->
+      <div class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0 w-[50px] h-[50px]">
+        <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6" />
+      </div>
+    </div>
+  </a>
+</div>
+
+      </div>
+    </div>
+
+ <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
+  <div class="relative w-[465px] h-[326px] rounded-[35px] overflow-hidden shadow-xl">
+    <!-- Before Image (Visible full width) -->
+    <img
+      src="https://test.infolks.info/home/services/images/text-annotations/text-annotation-before.jpg"
+      class="absolute top-0 left-0 w-full h-full object-cover rounded-[35px]"
+      alt="Before Image"
+    />
+
+    <!-- After Image (Revealed by slider) -->
+    <div
+      id="afterContainer"
+      class="absolute top-0 left-0 h-full overflow-hidden rounded-[35px] z-10"
+      style="width: 50%;"
+    >
+      <img
+        src="https://test.infolks.info/home/services/images/text-annotations/text-annotation-after.jpg"
+        class="w-full h-full object-cover opacity-40"
+        alt="After Image"
+      />
+    </div>
+
+    <!-- Slider Handle -->
+    <div
+      id="sliderHandle"
+      class="absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize"
+      style="left: 50%;"
+    >
+      <!-- Arrow Icon -->
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
+  </svg>
+</div>
+
+    </div>
+  </div>
+</section>
+
+
+
+          </div>
+ </section>
+
+
+          </div>
+
+          <div class="custom-card card4" id="4">
+            <section class="slider_content flex justify-center items-center py-20">
+  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%] shadow-lg">
+    
+    <!-- Left Content -->
+    <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
+      
+      <!-- Dot Bar -->
+      <div class="flex flex-col justify-center items-center gap-1 mr-6">
+        
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+         <div class="w-2 h-8 rounded-md bg-[#BDBDBD]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+      </div>
+
+      <!-- Text Content -->
+      <div class="px-4 2xl:px-10 max-w-xl">
+        <!-- Button -->
+        <div class="mb-4">
+          <button class="text-[#13B2F5] border border-[#13B2F5] text-sm font-medium rounded-full px-5 py-1">
+            Our Services
+          </button>
+        </div>
+
+        <!-- Heading -->
+        <h3 class="text-2xl lg:text-3xl font-semibold text-[#37508A] mb-4">
+         Audio Annotation
+        </h3>
+
+        <!-- Paragraph -->
+        <p class="text-[#37508A] text-base leading-relaxed">
+          Audio annotation is essential for various applications requiring audio data conversion into machine-readable format. Our audio annotation services add metadata to your recorded sounds or speech to enhance the relevance of human-bot interaction. We assist organisations in efficiently and accurately annotating audio files.
+        </p>
+
+        <div class="mt-7">
+  <a href="#">
+    <div class="flex items-center relative group cursor-pointer gap-3 w-fit">
+      <!-- Button Label -->
+      <button class="relative uppercase tracking-wide text-[#37508A] px-4 py-2 text-sm font-medium z-10">
+        EXPLORE MORE
+      </button>
+
+      <!-- Hover Background -->
+      <span class="absolute inset-0 bg-[#FFFBF0] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] z-0"></span>
+
+      <!-- Icon Circle -->
+      <div class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0 w-[50px] h-[50px]">
+        <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6" />
+      </div>
+    </div>
+  </a>
+</div>
+
+      </div>
+    </div>
+     <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
+  <div class="comparison-card relative w-[465px] h-[326px] rounded-[35px] overflow-hidden shadow-xl">
+  <!-- Before Image -->
+  <img
+    src="https://test.infolks.info/home/services/images/audio-annotations/audio-annotation-before.jpg"
+    class="absolute top-0 left-0 w-full h-full object-cover rounded-[35px]"
+    alt="Before Image"
+  />
+
+  <!-- After Image -->
+  <div
+    class="afterContainer absolute top-0 left-0 h-full overflow-hidden rounded-[35px] z-10"
+    style="width: 50%;"
+  >
+    <img
+      src="https://test.infolks.info/home/services/images/audio-annotations/audio-annotation-after.jpg"
+      class="w-full h-full object-cover opacity-40"
+      alt="After Image"
+    />
+  </div>
+
+  <!-- Slider Handle -->
+  <div
+    class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize"
+    style="left: 50%;"
+  >
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
+      </svg>
+    </div>
+  </div>
+</div>
+
+</section>
+
+
+
+
+
+          </div>
+ </section>
+
+
+          </div>
+
+          <div class="custom-card card5" id="5">
+             <section class="slider_content flex justify-center items-center py-20">
+  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%] shadow-lg">
+    
+    <!-- Left Content -->
+    <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
+      
+      <!-- Dot Bar -->
+      <div class="flex flex-col justify-center items-center gap-1 mr-6">
+        
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+         <div class="w-2 h-8 rounded-md bg-[#BDBDBD]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+      </div>
+
+      <!-- Text Content -->
+      <div class="px-4 2xl:px-10 max-w-xl">
+        <!-- Button -->
+        <div class="mb-4">
+          <button class="text-[#13B2F5] border border-[#13B2F5] text-sm font-medium rounded-full px-5 py-1">
+            Our Services
+          </button>
+        </div>
+
+        <!-- Heading -->
+        <h3 class="text-2xl lg:text-3xl font-semibold text-[#37508A] mb-4">
+          LiDAR Annotation
+        </h3>
+
+        <!-- Paragraph -->
+        <p class="text-[#37508A] text-base leading-relaxed">
+          Our LiDAR annotation solutions aim to improve machine learning and computer vision by making 3D LiDAR data interpretable and actionable. Our professional annotators have a thorough understanding of LiDAR technology and 3D perception, ensuring the highest annotation quality.
+        </p>
+
+        <div class="mt-7">
+  <a href="#">
+    <div class="flex items-center relative group cursor-pointer gap-3 w-fit">
+      <!-- Button Label -->
+      <button class="relative uppercase tracking-wide text-[#37508A] px-4 py-2 text-sm font-medium z-10">
+        EXPLORE MORE
+      </button>
+
+      <!-- Hover Background -->
+      <span class="absolute inset-0 bg-[#FFFBF0] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] z-0"></span>
+
+      <!-- Icon Circle -->
+      <div class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0 w-[50px] h-[50px]">
+        <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6" />
+      </div>
+    </div>
+  </a>
+</div>
+
+      </div>
+    </div>
+
+ <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
+  <div class="comparison-card relative w-[465px] h-[326px] rounded-[35px] overflow-hidden shadow-xl">
+  <!-- Before Image -->
+  <img
+    src="https://test.infolks.info/home/services/images/lidar-annotations/lidar-annotation.jpg"
+    class="absolute top-0 left-0 w-full h-full object-cover rounded-[35px]"
+    alt="Before Image"
+  />
+
+  
+</div>
+
+</section>
+
+
+
+          </div>
+ </section>
+
+
+          </div>
+
+          <div class="custom-card card6" id="6">
+             <section class="slider_content flex justify-center items-center py-20">
+  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%] shadow-lg">
+    
+    <!-- Left Content -->
+    <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
+      
+      <!-- Dot Bar -->
+      <div class="flex flex-col justify-center items-center gap-1 mr-6">
+        
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+         <div class="w-2 h-8 rounded-md bg-[#BDBDBD]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+      </div>
+
+      <!-- Text Content -->
+      <div class="px-4 2xl:px-10 max-w-xl">
+        <!-- Button -->
+        <div class="mb-4">
+          <button class="text-[#13B2F5] border border-[#13B2F5] text-sm font-medium rounded-full px-5 py-1">
+            Our Services
+          </button>
+        </div>
+
+        <!-- Heading -->
+        <h3 class="text-2xl lg:text-3xl font-semibold text-[#37508A] mb-4">
+          Product Categorization
+        </h3>
+
+        <!-- Paragraph -->
+        <p class="text-[#37508A] text-base leading-relaxed">
+         Data annotation enables precise product categorization by systematically sorting items based on specific attributes. By leveraging human labeling, this methodology streamlines navigation and enriches user experience by effectively grouping similar products, thereby facilitating easier discovery across industries.
+        </p>
+
+        <div class="mt-7">
+  <a href="#">
+    <div class="flex items-center relative group cursor-pointer gap-3 w-fit">
+      <!-- Button Label -->
+      <button class="relative uppercase tracking-wide text-[#37508A] px-4 py-2 text-sm font-medium z-10">
+        EXPLORE MORE
+      </button>
+
+      <!-- Hover Background -->
+      <span class="absolute inset-0 bg-[#FFFBF0] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] z-0"></span>
+
+      <!-- Icon Circle -->
+      <div class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0 w-[50px] h-[50px]">
+        <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6" />
+      </div>
+    </div>
+  </a>
+</div>
+
+      </div>
+    </div>
+<section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
+  <div class="relative w-[465px] h-[326px] rounded-[35px] overflow-hidden shadow-xl">
+    <!-- Before Image (Visible full width) -->
+    <img
+      src="https://test.infolks.info/home/services/images/product-categorizations/product-categorization-before.jpg"
+      class="absolute top-0 left-0 w-full h-full object-cover rounded-[35px]"
+      alt="Before Image"
+    />
+
+    <!-- After Image (Revealed by slider) -->
+    <div
+      id="afterContainer"
+      class="absolute top-0 left-0 h-full overflow-hidden rounded-[35px] z-10"
+      style="width: 50%;"
+    >
+      <img
+       src="https://test.infolks.info/home/services/images/product-categorizations/product-categorization-after.jpg"
+        class="w-full h-full object-cover opacity-40"
+        alt="After Image"
+      />
+    </div>
+
+    <!-- Slider Handle -->
+    <div
+      id="sliderHandle"
+      class="absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize"
+      style="left: 50%;"
+    >
+      <!-- Arrow Icon -->
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
+  </svg>
+</div>
+
+    </div>
+  </div>
+</section>
+ 
+ 
+
+
+
+          </div>
+ </section>
+
+
+          </div>
+
+          <div class="custom-card card7" id="7">
+           <section class="slider_content flex justify-center items-center py-20">
+  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%] shadow-lg">
+    
+    <!-- Left Content -->
+    <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
+      
+      <!-- Dot Bar -->
+      <div class="flex flex-col justify-center items-center gap-1 mr-6">
+        
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+         <div class="w-2 h-8 rounded-md bg-[#BDBDBD]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+      </div>
+
+      <!-- Text Content -->
+      <div class="px-4 2xl:px-10 max-w-xl">
+        <!-- Button -->
+        <div class="mb-4">
+          <button class="text-[#13B2F5] border border-[#13B2F5] text-sm font-medium rounded-full px-5 py-1">
+            Our Services
+          </button>
+        </div>
+
+        <!-- Heading -->
+        <h3 class="text-2xl lg:text-3xl font-semibold text-[#37508A] mb-4">
+          Generative AI
+        </h3>
+
+        <!-- Paragraph -->
+        <p class="text-[#37508A] text-base leading-relaxed">
+          In generative AI, precise data labeling is crucial for refining model accuracy. Accurate labels form the foundation for effective model training, enabling a deeper understanding of context and semantics. Our services cover labeling tasks for processing various generative AI datasets, including images, videos, audio, text, and tabular data.
+        </p>
+
+        <div class="mt-7">
+  <a href="#">
+    <div class="flex items-center relative group cursor-pointer gap-3 w-fit">
+      <!-- Button Label -->
+      <button class="relative uppercase tracking-wide text-[#37508A] px-4 py-2 text-sm font-medium z-10">
+        EXPLORE MORE
+      </button>
+
+      <!-- Hover Background -->
+      <span class="absolute inset-0 bg-[#FFFBF0] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] z-0"></span>
+
+      <!-- Icon Circle -->
+      <div class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0 w-[50px] h-[50px]">
+        <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6" />
+      </div>
+    </div>
+  </a>
+</div>
+
+      </div>
+    </div>
+
+ <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
+  <div class="comparison-card relative w-[465px] h-[326px] rounded-[35px] overflow-hidden shadow-xl">
+  <!-- Before Image -->
+  <img
+    src="https://test.infolks.info/home/services/images/generative-ai/generative-ai.jpg"
+    class="absolute top-0 left-0 w-full h-full object-cover rounded-[35px]"
+    alt="Before Image "
+  />
+
+  
+</div>
+
+</section>
+
+
+
+          </div>
+ </section>
+
+
+          </div>
+
+          <div class="custom-card card8" id="8">
+            <section class="slider_content flex justify-center items-center py-20">
+  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%] shadow-lg">
+    
+    <!-- Left Content -->
+    <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
+      
+      <!-- Dot Bar -->
+      <div class="flex flex-col justify-center items-center gap-1 mr-6">
+      
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+         <div class="w-2 h-8 rounded-md bg-[#BDBDBD]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+      </div>
+
+      <!-- Text Content -->
+      <div class="px-4 2xl:px-10 max-w-xl">
+        <!-- Button -->
+        <div class="mb-4">
+          <button class="text-[#13B2F5] border border-[#13B2F5] text-sm font-medium rounded-full px-5 py-1">
+            Our Services
+          </button>
+        </div>
+
+        <!-- Heading -->
+        <h3 class="text-2xl lg:text-3xl font-semibold text-[#37508A] mb-4">
+        NLP
+        </h3>
+
+        <!-- Paragraph -->
+        <p class="text-[#37508A] text-base leading-relaxed">
+          Natural language processing applications have broad uses across various industries and domains. Our NLP labeling service specialises in labeling textual data to support various language-related tasks and applications.
+        </p>
+
+        <div class="mt-7">
+  <a href="#">
+    <div class="flex items-center relative group cursor-pointer gap-3 w-fit">
+      <!-- Button Label -->
+      <button class="relative uppercase tracking-wide text-[#37508A] px-4 py-2 text-sm font-medium z-10">
+        EXPLORE MORE
+      </button>
+
+      <!-- Hover Background -->
+      <span class="absolute inset-0 bg-[#FFFBF0] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] z-0"></span>
+
+      <!-- Icon Circle -->
+      <div class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0 w-[50px] h-[50px]">
+        <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6" />
+      </div>
+    </div>
+  </a>
+</div>
+
+      </div>
+    </div>
+
+ <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
+  <div class="comparison-card relative w-[465px] h-[326px] rounded-[35px] overflow-hidden shadow-xl">
+  <!-- Before Image -->
+  <img
+    src="https://test.infolks.info/home/services/images/nlp/nlp-before.jpg"
+    class="absolute top-0 left-0 w-full h-full object-cover rounded-[35px]"
+    alt="Before Image"
+  />
+
+  <!-- After Image -->
+  <div
+    class="afterContainer absolute top-0 left-0 h-full overflow-hidden rounded-[35px] z-10"
+    style="width: 50%;"
+  >
+    <img
+      src="https://test.infolks.info/home/services/images/nlp/nlp-after.jpg"
+      class="w-full h-full object-cover opacity-40"
+      alt="After Image"
+    />
+  </div>
+
+  <!-- Slider Handle -->
+  <div
+    class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize"
+    style="left: 50%;"
+  >
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
+      </svg>
+    </div>
+  </div>
+</div>
+
+</section>
+
+
+
+          </div>
+ </section>
+
+        </div>
+        <div class="custom-card card9" id="9">
+            <section class="slider_content flex justify-center items-center py-20">
+  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%]  shadow-lg">
+    
+    <!-- Left Content -->
+    <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
+      
+      <!-- Dot Bar -->
+      <div class="flex flex-col justify-center items-center gap-1 mr-6">
+      
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+         
+        <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
+        <div class="w-2 h-8 rounded-md bg-[#BDBDBD]"></div>
+      </div>
+
+      <!-- Text Content -->
+      <div class="px-4 2xl:px-10 max-w-xl">
+        <!-- Button -->
+        <div class="mb-4">
+          <button class="text-[#13B2F5] border border-[#13B2F5] text-sm font-medium rounded-full px-5 py-1">
+            Our Services
+          </button>
+        </div>
+
+        <!-- Heading -->
+        <h3 class="text-2xl lg:text-3xl font-semibold text-[#37508A] mb-4">
+         VR and AR
+        </h3>
+
+        <!-- Paragraph -->
+        <p class="text-[#37508A] text-base leading-relaxed">
+          Integrating virtual reality (VR) and augmented reality (AR) into data annotation processes dramatically improves efficiency and precision. VR immerses annotators in simulated environments, enhancing their capacity to interact with and annotate intricate data like 3D objects and spatial information with heightened accuracy.
+        </p>
+
+        <div class="mt-7">
+  <a href="#">
+    <div class="flex items-center relative group cursor-pointer gap-3 w-fit">
+      <!-- Button Label -->
+      <button class="relative uppercase tracking-wide text-[#37508A] px-4 py-2 text-sm font-medium z-10">
+        EXPLORE MORE
+      </button>
+
+      <!-- Hover Background -->
+      <span class="absolute inset-0 bg-[#FFFBF0] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] z-0"></span>
+
+      <!-- Icon Circle -->
+      <div class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0 w-[50px] h-[50px]">
+        <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6" />
+      </div>
+    </div>
+  </a>
+</div>
+
+      </div>
+    </div>
+
+ <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
+  <div class="comparison-card relative w-[465px] h-[326px] rounded-[35px] overflow-hidden shadow-xl">
+  <!-- Before Image -->
+  <img
+    src="https://test.infolks.info/home/services/images/vr-ar/vr-ar.jpg"
+    class="absolute top-0 left-0 w-full h-full object-cover rounded-[35px]"
+    alt="Before Image"
+  />
+
+  
+</div>
+
+</section>
+
+
+
+          </div>
+ </section>
+
+        </div>
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+
+     <div
+        class="  grid grid-cols-1 gap-3 md:gap10 justify-center items-center text-white z-20 text-center bg-gradient-to-r from-[#0B9FFD] to-[#0066cc] rounded-3xl w-full p-5  md:px-[20px] md:py-[60px] ">
+
+        <!-- Icon Grid -->
+        <div class="grid grid-cols-7  justify-center  mt-[80px] ">
+          <!-- Icon 1 -->
+          <div class="bg-white rounded-full w-[50px] h-[50px] 
+  md:w-[80px] 
+  
+  lg:w-[128px] lg:h-[128px] flex items-center justify-center transform -translate-y-10 translate-x-20 ">
+            <img src="https://test.infolks.info/icons/lets-talk/user.png" alt="User" class=" md:object-contain w-10 h-10" />
+          </div>
+
+          <!-- Icon 2 -->
+          <div class="bg-white rounded-full w-[50px] h-[50px] 
+  md:w-[80px] 
+   
+  lg:w-[120px] lg:h-[120px] flex items-center justify-center transform translate-y-10 translate-x-10 md:translate-x-20">
+            <img src="https://test.infolks.info/icons/lets-talk/phone.png" alt="Phone" class=" md:object-contain w-10 h-10" />
+          </div>
+
+          <!-- Icon 3 -->
+          <div class="bg-white rounded-full  w-[40px] h-[40px] 
+  md:w-[70px]  
+  
+  lg:w-[96px] lg:h-[96px]  flex items-center justify-center transform -translate-y-10 translate-x-10">
+            <img src="https://test.infolks.info/icons/lets-talk/chat.png" alt="Chat" class=" md:object-contain w-10 h-10" />
+          </div>
+
+          <!-- Icon 4 -->
+          <div class="bg-white rounded-full w-[60px] h-[60px] 
+  md:w-[90px]  
+  
+  lg:w-[136px] lg:h-[136px]  flex items-center justify-center transform translate-y-10  translate-x-5 md:translate-x-5">
+            <img src="https://test.infolks.info/icons/lets-talk/user-group.png" alt="Group" class=" md:object-contain w-10 h-10" />
+          </div>
+
+          <!-- Icon 5 -->
+          <div class="bg-white rounded-full w-[44px] h-[44px] 
+  md:w-[70px]  
+  
+  lg:w-[96px] lg:h-[96px] flex items-center justify-center transform -translate-y-10 ">
+            <img src="https://test.infolks.info/icons/lets-talk/open-envelope.png" alt="Envelope"
+              class=" object-contain sm:w-10 sm:h-7" />
+          </div>
+
+          <!-- Icon 6 -->
+          <div class="bg-white rounded-full w-[50px] h-[50px] 
+  md:w-[80px]  
+  
+  lg:w-[120px] lg:h-[120px] flex items-center justify-center transform translate-y-6  sm:translate-x-10 md:-translate-x-10  ">
+            <img src="https://test.infolks.info/icons/lets-talk/printer.png" alt="Printer" class=" md:object-contain w-10 h-10" />
+          </div>
+
+          <!-- Icon 7 -->
+          <div class="bg-white rounded-full  w-[50px] h-[50px] 
+  
+ 
+  lg:w-[104px] lg:h-[104px]  flex items-center justify-center transform -translate-y-10  -translate-x-10">
+            <img src="https://test.infolks.info/icons/lets-talk/envelope.png" alt="Envelope" class=" md:object-contain w-10 h-10" />
+          </div>
+        </div>
+        <div class="text-center mt-10">
+          <!-- Text Content -->
+          <h5 class="text-[16px] md:text-[20px] mb-2">Tie up with our hands to power a better AI initiative.</h5>
+          <h1 class="text-[16px] font-primary-medium uppercase w-[80%] mx-auto">LET’S KNOW HOW WE CAN HELP YOU</h1>
+        </div>
+        <!-- CTA Button -->
+        <div class="flex justify-center items-center py-10">
+      <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 md:gap-x-2.5">
+        <!-- Text Button -->
+        <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A] z-20">
+          <span class="relative z-10 text-sm">LET’S TALK</span>
+        </button>
+        <!-- White Background Span WITH BORDER -->
+        <span
+          class="absolute inset-0 h-full w-full bg-[#FFFBF0] border border-[#13B2F5] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] md:group-hover:w-[calc(100%-3.7rem)]"></span>
+        <!-- Arrow Button -->
+        <div
+          class="relative z-30 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
+          style="width: 50px; height: 50px;">
+          <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
+        </div>
+      </div>
+    </div>
+      </div>
+
+
+
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 w-full p-3 lg:p-20  gap-3 lg:gap-10 items-center">
+
+        <!-- LEFT SECTION -->
+        <div class="flex flex-col w-[85] xl:w-[90%] 2xl:flex-1">
+          <!-- Heading -->
+          <h2
+            class="text-3xl lg:text-3xl font-bold text-[#37508A] text-center lg:text-left w-full 2xl:w-[600px] lg:leading-[63px]">
+            FROM HEALTHCARE TO RETAIL: OUR SERVICES EMPOWER INDUSTRY-SPECIFIC SOLUTIONS
+          </h2>
+
+          <!-- Paragraph -->
+          <p class="text-base text-[#37508A] text-center lg:text-left lg:mt-5 md:px-4 lg:px-0 py-3">
+            In training AI or machine learning algorithms, accurate labeling of data is crucial. This is where our
+            annotation service plays a pivotal role in revolutionising data labeling across diverse industries.
+            We provide customised solutions tailored to meet the unique needs of each sector.
+          </p>
+
+          <!-- Animated Circle Section -->
+          <div class="hidden lg:flex justify-center items-center flex-col mt-4">
+            <div
+              class="w-[497px] h-[558px] bg-gradient-to-r from-[#BEC6F5] to-[#021AA1] rounded-full relative overflow-hidden">
+              <div
+                class="w-full h-full pt-5 bg-gradient-to-r from-[#57cae49c] to-[#0396FF] rounded-full flex flex-col justify-center items-center relative">
+
+                <!-- Animation Image -->
+                <div class="w-full h-full">
+                  <img src="https://test.infolks.info/home/solutions/animation/solution-animation.gif"
+                    alt="AI animation" class="-mt-16" />
+                </div>
+
+                <!-- Explore More Button -->
+                <div class="absolute top-96 flex flex-col justify-center items-center">
+                  <h2 class="text-white text-4xl mb-3">Explore More</h2>
+                  <a href="/industries">
+                    <button
+                      class="w-[60px] h-[60px] bg-[#13B2F5] rounded-full flex justify-center items-center hover:bg-white transition-colors">
+                      <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="Arrow" class="w-6" />
+                    </button>
+                  </a>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT SECTION (Industry List) -->
+        <div class="hidden lg:flex flex-col gap-1.5 space-y-1">
+          <!-- Repeat for each item -->
+          <div class="relative group border-b hover:border-blue-500">
+            <a href="/industries/healthcare">
+              <div class="flex items-center gap-4 text-[#37508A]  border-[#E2E8F0] cursor-pointer py-3">
+                <div class="w-9 h-9">
+                  <img src="https://test.infolks.info/home/icons/healthcare-icon.svg" alt="Healthcare"
+                    class="w-full h-full" />
+                </div>
+                <h5 class="  group-hover:text-blue-500">Healthcare</h5>
+              </div>
+            </a>
+            <div
+              class="absolute top-full right-0 mt-1 w-[250px] h-[150px] hidden group-hover:flex rounded-xl overflow-hidden shadow-xl z-20">
+              <img src="https://test.infolks.info/home/solutions/mobile/healthcare.jpg" alt="Preview"
+                class="w-full h-full object-cover" />
+            </div>
+          </div>
+
+          <div class="relative group border-b hover:border-blue-500">
+            <a href="/industries/automotive">
+              <div class="flex items-center gap-4 text-[#37508A]  border-[#E2E8F0] cursor-pointer py-3">
+                <div class="w-9 h-9">
+                  <img src="https://test.infolks.info/home/icons/automotive-icon.svg" alt="Automotive"
+                    class="w-full h-full" />
+                </div>
+                <h5 class="  group-hover:text-blue-500">Automotive</h5>
+              </div>
+            </a>
+            <div
+              class="absolute top-full right-0 mt-1 w-[250px] h-[150px] hidden group-hover:flex rounded-xl overflow-hidden shadow-xl z-20">
+              <img src="https://test.infolks.info/home/solutions/mobile/healthcare.jpg" alt="Preview"
+                class="w-full h-full object-cover" />
+            </div>
+          </div>
+
+          <div class="relative group border-b hover:border-blue-500">
+            <a href="/industries/retail">
+              <div class="flex items-center gap-4 text-[#37508A]  border-[#E2E8F0] cursor-pointer py-3">
+                <div class="w-9 h-9  ">
+                  <img src="https://test.infolks.info/home/icons/retail-icon.svg" alt="Retail"
+                    class="w-full h-full group-hover:text-blue-500 transition-colors duration-300" />
+                </div>
+                <h5 class=" group-hover:text-blue-500">Retail</h5>
+              </div>
+            </a>
+            <div
+              class="absolute top-full right-0 mt-1 w-[250px] h-[150px] hidden group-hover:flex rounded-xl overflow-hidden shadow-xl z-20">
+              <img src="https://test.infolks.info/home/solutions/mobile/healthcare.jpg" alt="Preview"
+                class="w-full h-full object-cover" />
+            </div>
+          </div>
+
+          <!-- Finance & Banking -->
+          <div class="relative group border-b hover:border-blue-500">
+            <a href="/industries/finance-banking">
+              <div class="flex items-center gap-4 text-[#37508A]  border-[#E2E8F0] cursor-pointer py-3">
+                <div class="w-9 h-9">
+                  <img src="https://test.infolks.info/home/icons/finance-banking-icon.svg" alt="Finance & Banking"
+                    class="w-full h-full" />
+                </div>
+                <h5 class=" group-hover:text-blue-500">Finance &amp; Banking</h5>
+              </div>
+            </a>
+            <div
+              class="absolute top-full right-0 mt-1 w-[250px] h-[150px] hidden group-hover:flex rounded-xl overflow-hidden shadow-xl z-20">
+              <img src="https://test.infolks.info/home/solutions/mobile/healthcare.jpg" alt="Preview"
+                class="w-full h-full object-cover" />
+            </div>
+          </div>
+
+          <!-- Manufacturing -->
+          <div class="relative  group border-b hover:border-blue-500">
+            <a href="/industries/manufacturing">
+              <div class="flex items-center gap-4 text-[#37508A]  border-[#E2E8F0] cursor-pointer py-3">
+                <div class="w-9 h-9">
+                  <img src="https://test.infolks.info/home/icons/manufacturing-icon.svg" alt="Manufacturing"
+                    class="w-full h-full" />
+                </div>
+                <h5 class=" group-hover:text-blue-500">Manufacturing</h5>
+              </div>
+            </a>
+            <div
+              class="absolute top-full right-0 mt-1 w-[250px] h-[150px] hidden group-hover:flex rounded-xl overflow-hidden shadow-xl z-20">
+              <img src="https://test.infolks.info/home/solutions/mobile/healthcare.jpg" alt="Preview"
+                class="w-full h-full object-cover" />
+            </div>
+          </div>
+
+          <!-- Agriculture -->
+          <div class="relative group border-b hover:border-blue-500">
+            <a href="/industries/agriculture">
+              <div class="flex items-center gap-4 text-[#37508A]  border-[#E2E8F0] cursor-pointer py-3">
+                <div class="w-9 h-9">
+                  <img src="https://test.infolks.info/home/icons/agriculture-icon.svg" alt="Agriculture"
+                    class="w-full h-full" />
+                </div>
+                <h5 class=" group-hover:text-blue-500">Agriculture</h5>
+              </div>
+            </a>
+            <div
+              class="absolute top-full right-0 mt-1 w-[250px] h-[150px] hidden group-hover:flex rounded-xl overflow-hidden shadow-xl z-20">
+              <img src="https://test.infolks.info/home/solutions/mobile/healthcare.jpg" alt="Preview"
+                class="w-full h-full object-cover" />
+            </div>
+          </div>
+
+          <!-- Food & Beverages -->
+          <div class="relative group border-b hover:border-blue-500">
+            <a href="/industries/food-beverages">
+              <div class="flex items-center gap-4 text-[#37508A]  border-[#E2E8F0] cursor-pointer py-3">
+                <div class="w-9 h-9">
+                  <img src="https://test.infolks.info/home/icons/food-beverages-icon.svg" alt="Food & Beverages"
+                    class="w-full h-full" />
+                </div>
+                <h5 class=" group-hover:text-blue-500">Food &amp; Beverages</h5>
+              </div>
+            </a>
+            <div
+              class="absolute top-full right-0 mt-1 w-[250px] h-[150px] hidden group-hover:flex rounded-xl overflow-hidden shadow-xl z-20">
+              <img src="https://test.infolks.info/home/solutions/mobile/healthcare.jpg" alt="Preview"
+                class="w-full h-full object-cover" />
+            </div>
+          </div>
+
+          <!-- Livestock -->
+          <div class="relative group border-b hover:border-blue-500">
+            <a href="/industries/livestock">
+              <div class="flex items-center gap-4 text-[#37508A]  border-[#E2E8F0] cursor-pointer py-3">
+                <div class="w-9 h-9">
+                  <img src="https://test.infolks.info/home/icons/livestock-icon.svg" alt="Livestock"
+                    class="w-full h-full" />
+                </div>
+                <h5 class=" group-hover:text-blue-500">Livestock</h5>
+              </div>
+            </a>
+            <div
+              class="absolute top-full right-0 mt-1 w-[250px] h-[150px] hidden group-hover:flex rounded-xl overflow-hidden shadow-xl z-20">
+              <img src="https://test.infolks.info/home/solutions/mobile/healthcare.jpg" alt="Preview"
+                class="w-full h-full object-cover" />
+            </div>
+          </div>
+
+          <!-- Security & Surveillance -->
+          <div class="relative group border-b hover:border-blue-500">
+            <a href="/industries/security-survilance">
+              <div class="flex items-center gap-4 text-[#37508A]  border-[#E2E8F0] cursor-pointer py-3">
+                <div class="w-9 h-9">
+                  <img src="https://test.infolks.info/home/icons/security-surveillance-icon.svg"
+                    alt="Security & Surveillance" class="w-full h-full" />
+                </div>
+                <h5 class=" group-hover:text-blue-500">Security &amp; Surveillance</h5>
+              </div>
+            </a>
+            <div
+              class="absolute top-full right-0 mt-1 w-[250px] h-[150px] hidden group-hover:flex rounded-xl overflow-hidden shadow-xl z-20">
+              <img src="https://test.infolks.info/home/solutions/mobile/healthcare.jpg" alt="Preview"
+                class="w-full h-full object-cover" />
+            </div>
+          </div>
+
+          <!-- Sports -->
+          <div class="relative group border-b hover:border-blue-500">
+            <a href="/industries/sports">
+              <div class="flex items-center gap-4 text-[#37508A]  border-[#E2E8F0] cursor-pointer py-3">
+                <div class="w-9 h-9">
+                  <img src="https://test.infolks.info/home/icons/sports-icon.svg" alt="Sports" class="w-full h-full" />
+                </div>
+                <h5 class=" group-hover:text-blue-500">Sports</h5>
+              </div>
+            </a>
+            <div
+              class="absolute top-full right-0 mt-1 w-[250px] h-[150px] hidden group-hover:flex rounded-xl overflow-hidden shadow-xl z-20">
+              <img src="https://test.infolks.info/home/solutions/mobile/healthcare.jpg" alt="Preview"
+                class="w-full h-full object-cover" />
+            </div>
+          </div>
+
+          <!-- Human Attribution -->
+          <div class="relative group border-b hover:border-blue-500">
+            <a href="/industries/human-attribution">
+              <div class="flex items-center gap-4 text-[#37508A]  border-[#E2E8F0] cursor-pointer py-3">
+                <div class="w-9 h-9">
+                  <img src="https://test.infolks.info/home/icons/human-attribution-icon.svg" alt="Human Attribution"
+                    class="w-full h-full" />
+                </div>
+                <h5 class=" group-hover:text-blue-500">Human Attribution</h5>
+              </div>
+            </a>
+            <div
+              class="absolute top-full right-0 mt-1 w-[250px] h-[150px] hidden group-hover:flex rounded-xl overflow-hidden shadow-xl z-20">
+              <img src="https://test.infolks.info/home/solutions/mobile/healthcare.jpg" alt="Preview"
+                class="w-full h-full object-cover" />
+            </div>
+          </div>
+
+          <!-- Waste Management -->
+          <div class="relative group border-b hover:border-blue-500">
+            <a href="/industries/waste-management">
+              <div class="flex items-center gap-4 text-[#37508A]  border-[#E2E8F0] cursor-pointer py-3">
+                <div class="w-9 h-9">
+                  <img src="https://test.infolks.info/home/icons/waste-management-icon.svg" alt="Waste Management"
+                    class="w-full h-full" />
+                </div>
+                <h5 class=" group-hover:text-blue-500">Waste Management</h5>
+              </div>
+            </a>
+            <div
+              class="absolute top-full right-0 transform -translate-y-40 w-[250px] h-[150px] hidden group-hover:flex rounded-xl overflow-hidden shadow-xl z-20">
+              <img src="https://test.infolks.info/home/solutions/mobile/healthcare.jpg" alt="Preview"
+                class="w-full h-full object-cover" />
+            </div>
+          </div>
+
+          <!-- Logistic -->
+          <div class="relative group border-b hover:border-blue-500">
+            <a href="/industries/logistic">
+              <div class="flex items-center gap-4 text-[#37508A]  border-[#E2E8F0] cursor-pointer py-3">
+                <div class="w-9 h-9">
+                  <img src="https://test.infolks.info/home/icons/logistic-icon.svg" alt="Logistic"
+                    class="w-full h-full" />
+                </div>
+                <h5 class=" group-hover:text-blue-500">Logistic</h5>
+              </div>
+            </a>
+            <div
+              class="absolute top-full right-0 transform -translate-y-40 w-[250px] h-[150px] hidden group-hover:flex rounded-xl overflow-hidden shadow-xl z-20">
+              <img src="https://test.infolks.info/home/solutions/mobile/healthcare.jpg" alt="Preview"
+                class="w-full h-full object-cover" />
+            </div>
+          </div>
+
+          <!-- Geospatial -->
+          <div class="relative group border-b hover:border-blue-500">
+            <a href="/industries/geospatial">
+              <div class="flex items-center gap-4 text-[#37508A] border-[#E2E8F0] cursor-pointer py-3">
+                <div class="w-9 h-9">
+                  <img src="https://test.infolks.info/home/icons/geospatial-icon.svg" alt="Geospatial"
+                    class="w-full h-full" />
+                </div>
+                <h5 class=" group-hover:text-blue-500">Geospatial</h5>
+              </div>
+            </a>
+            <div
+              class="absolute top-full right-0 transform -translate-y-40 w-[250px] h-[150px] hidden group-hover:flex rounded-xl overflow-hidden shadow-xl z-20">
+              <img src="https://test.infolks.info/home/solutions/mobile/healthcare.jpg" alt="Preview"
+                class="w-full h-full object-cover" />
+            </div>
+          </div>
+        </div>
+        <!-- Add more industries as needed -->
+        <div class="hidden md:flex lg:hidden justify-center items-center min-h-screen flex-col space-y-6 p-5">
+
+          <!-- Carousel Container -->
+          <div id="carousel" class="flex justify-center items-center gap-2 transition-all duration-500  w-[100%] ">
+            <!-- Cards injected by JS -->
+          </div>
+
+          <!-- Buttons -->
+          <div class="flex space-x-4 ml-6 justify-end">
+            <button onclick="prevCard()"
+              class="w-10 h-10 bg-sky-200 rounded-full flex items-center justify-center text-xl hover:bg-sky-300">←</button>
+            <button onclick="nextCard()"
+              class="w-10 h-10 bg-sky-200 rounded-full flex items-center justify-center text-xl hover:bg-sky-300">→</button>
+          </div>
+        </div>
+
+        <!-- Static Grid (only for sm screens) -->
+        <div class="md:hidden p-5">
+          <div id="staticGrid" class="grid grid-cols-1 gap-6">
+            <!-- Static cards injected by JS -->
+          </div>
+
+          <!-- VIEW ALL Button -->
+          <div class="flex justify-center items-center py-10">
+            <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 md:gap-x-2.5">
+              <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A] z-20">
+                <span class="relative z-10 text-sm">VIEW ALL</span>
+              </button>
+              <span
+                class="absolute inset-0 h-full w-full bg-[#FFFBF0] border border-[#13B2F5] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)]"></span>
+              <div
+                class="relative z-30 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
+                style="width: 50px; height: 50px;">
+                <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        </div>
+        <div class="w-full grid grid-cols-1 tex-blue-500 p-3 lg:p-20 lg:15 gap-5">
+          <div class="justify center border-b border-blue-400 text-blue-800 text-3xl pb-5">
+            <h1>TRUSTED BY</h1>
+          </div>
+          <div class="justify-center item-center text-blue-600 w-[54%]  ">
+            <p>We support our clients in achieving their goals and maintaining a competitive edge. Infolks is trusted by
+              several companies across various industries.</p>
+          </div>
+        </div>
+
+        <div class="space-y-6 overflow-hidden bg-white   justify-center item-center grid grid-cols-1 gap-5 ">
+
+          <!-- 🔹 Marquee Row 1 -->
+          <div class="overflow-hidden group  ">
+            <div class="flex items-center gap-10 animate-marquee-left group-hover:paused w-max">
+              <img src="https://test.infolks.info/home/clients/university-of-california-berkeley.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 1">
+              <img src="https://test.infolks.info/home/clients/carnegie-mellon-university.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 2">
+              <img src="https://test.infolks.info/home/clients/eth-zurich.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 3">
+              <img src="https://test.infolks.info/home/clients/godrej_new.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 4">
+              <img src="https://test.infolks.info/home/clients/gentex-corporation.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 5">
+              <img src="https://test.infolks.info/home/clients/ifm-electronic-new.png"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 6">
+              <img src="https://test.infolks.info/home/clients/jcl-new.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 7">
+              <img src="https://test.infolks.info/home/clients/siemens-gamesa.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 8">
+              <img src="https://test.infolks.info/home/clients/sony.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 9">
+              <img src="https://test.infolks.info/home/clients/stryker.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 10">
+              <img src="https://test.infolks.info/home/clients/university-of-ottawa.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 11">
+            </div>
+
+          </div>
+          <div class="w-[80%] h-[1px] bg-[#00BFFF] mb-4 mx-auto"></div>
+
+          <!-- 🔹 Marquee Row 2 -->
+          <div class="overflow-hidden group ">
+            <div class="flex items-center gap-10  animate-marquee-right  group-hover:paused w-max">
+              <img src="https://test.infolks.info/home/clients/schwarz.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 12">
+              <img src="https://test.infolks.info/home/clients/avi-systems-gmbh.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 13">
+              <img src="https://test.infolks.info/home/clients/aware-group.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 14">
+              <img src="https://test.infolks.info/home/clients/university-of-auckland.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 15">
+              <img src="https://test.infolks.info/home/clients/zuehlke.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 16">
+              <img src="https://test.infolks.info/home/clients/cms-computers-ltd.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 17">
+              <img src="https://test.infolks.info/home/clients/gong.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 18">
+              <img src="https://test.infolks.info/home/clients/rapiscan-systems.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 19">
+              <img src="https://test.infolks.info/home/clients/quantiphi-new.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 20">
+              <img src="https://test.infolks.info/home/clients/srijin-new.svg"
+                class="object-contain w-32 h-32 grayscale hover:grayscale-0 transition duration-300 md:w-40"
+                alt="Client 21">
+            </div>
+          </div>
+          <div class="w-[80%] h-[1px] bg-[#00BFFF] mb-4 mx-auto"></div>
+        </div>
+
+         <section class="we-carousel flex flex-col items-center w-[100%] overflow-hidden lg:h-[600px] lg:pt-[100px]  ">
+    <!-- Large screen carousel -->
+    <div class="we-card-container hidden lg:block">
+      <!-- Cards for 3D carousel -->
+      <div class="we-card">
+        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+          <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+          <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
+          <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+          <div class="absolute text-sm font-semibold text-gray-800 bottom-8">John Smith, AI Innovations</div>
+        </div>
+      </div>
+      <div class="we-card">
+        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+          <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+          <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
+          <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+          <div class="absolute text-sm font-semibold text-gray-800 bottom-8">John Smith, AI Innovations</div>
+        </div>
+      </div>
+      <div class="we-card">
+        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+          <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+          <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
+          <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+          <div class="absolute text-sm font-semibold text-gray-800 bottom-8">John Smith, AI Innovations</div>
+        </div>
+      </div>
+      <div class="we-card">
+        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+          <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+          <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
+          <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+          <div class="absolute text-sm font-semibold text-gray-800 bottom-8">John Smith, AI Innovations</div>
+        </div>
+      </div>
+      <div class="we-card">
+        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+          <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+          <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
+          <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+          <div class="absolute text-sm font-semibold text-gray-800 bottom-8">John Smith, AI Innovations</div>
+        </div>
+      </div>
+      <div class="we-card">
+        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+          <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+          <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
+          <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+          <div class="absolute text-sm font-semibold text-gray-800 bottom-8">John Smith, AI Innovations</div>
+        </div>
+      </div>
+      <div class="we-card">
+        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+          <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+          <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
+          <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+          <div class="absolute text-sm font-semibold text-gray-800 bottom-8">John Smith, AI Innovations</div>
+        </div>
+      </div>
+      <div class="we-card">
+        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+          <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+          <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
+          <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+          <div class="absolute text-sm font-semibold text-gray-800 bottom-8">John Smith, AI Innovations</div>
+        </div>
+      </div>
+      <div class="we-card">
+        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+          <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+          <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
+          <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+          <div class="absolute text-sm font-semibold text-gray-800 bottom-8">John Smith, AI Innovations</div>
+        </div>
+      </div>
+      <div class="we-card">
+        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+          <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+          <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
+          <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+          <div class="absolute text-sm font-semibold text-gray-800 bottom-8">John Smith, AI Innovations</div>
+        </div>
+      </div>
+      <!-- Repeat as needed (use JS duplication or paste manually) -->
+      <!-- You can paste more .we-card here for the full carousel -->
+    </div>
+
+      <div class="relative w-full lg:hidden ">
+    
+    <!-- Scrollable Container -->
+    <div id="carousell" class="overflow-x-auto scroll-hide snap-x snap-mandatory flex gap-6 py-12 px-2 scroll-smooth">
+      
+      <!-- Card 1 -->
+     
+      <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+      <div class="flex-shrink-0 w-[320px] h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
+        <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+        <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
+        <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+        <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
+      </div>
+    </div>
+
+      <!-- Card 2 -->
+      <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+      <div class="flex-shrink-0 w-[320px] h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
+        <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+        <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
+        <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+        <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
+      </div>
+    </div>
+ <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+      <div class="flex-shrink-0 w-[320px] h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
+        <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+        <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
+        <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+        <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
+      </div>
+    </div>
+       <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+      <div class="flex-shrink-0 w-[320px] h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
+        <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+        <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
+        <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+        <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
+      </div>
+    </div>
+       <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+      <div class="flex-shrink-0 w-[320px] h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
+        <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+        <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
+        <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+        <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
+      </div>
+    </div>
+       <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+      <div class="flex-shrink-0 w-[320px] h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
+        <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+        <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
+        <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+        <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
+      </div>
+    </div>
+       <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+      <div class="flex-shrink-0 w-[320px] h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
+        <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+        <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
+        <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+        <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
+      </div>
+    </div>
+       <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+      <div class="flex-shrink-0 w-[320px] h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
+        <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+        <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
+        <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+        <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
+      </div>
+    </div>
+       <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+      <div class="flex-shrink-0 w-[320px] h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
+        <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+        <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
+        <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+        <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
+      </div>
+    </div>ass="flex-shrink-0 w-[320px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
+        <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+      <div class="flex-shrink-0 w-[320px] h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
+        <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+        <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
+        <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+        <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
+      </div>
+    </div>
+       <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+      <div class="flex-shrink-0 w-[320px] h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
+        <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
+        <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
+        <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
+        <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
+      </div>
+    </div>
+      <!-- Add more cards as needed... -->
+
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="flex justify-center gap-6 ">
+      <button id="prevvvBtn" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition">&#10094;</button>
+      <button id="nextttBtn" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition">&#10095;</button>
+    </div>
+  </div>
+    
+    <!-- Navigation Arrows (only visible on large screens) -->
+    <div class="we-arrow-controls hidden lg:flex">
+      <div class="we-arrow left">&#10094;</div>
+      <div class="we-arrow right">&#10095;</div>
+    </div>
+  </section>
+        <section class="flex flex-col justify-center items-center pt-5 md:pt-10 lg:pt-20 pb-10 container mx-auto">
+          <h2 class="text-[#37508A] font-primary-regular text-center heading-h2 lg:pb-10 text-3xl">WORKFLOW</h2>
+          <img src="https://test.infolks.info/home/work-flow/workflow.svg" alt="Workflow Diagram"
+            class="w-[95%] lg:w-[75%] object-cover" />
+
+
+
+        </section>
+       <section>
+  <div class="max-w-7xl mx-auto px-4 items-center justify-center">
+    <!-- Heading -->
+    <div class="text-center text-4xl">
+      <h2 class="text-[#37508A] heading-h2 mb-2 md:mb-10 lg:mb-14 lg:mt-10 uppercase">RELATED BLOGS</h2>
+    </div>
+
+    <!-- Cards Container -->
+    <div class="flex flex-wrap gap-8 justify-center w-full cursor-none">
+      <!-- Card 1 -->
+      <div class="card-wrapper flex justify-center w-full sm:w-full md:w-full lg:w-auto">
+        <div class="red-border hidden lg:block"></div>
+        <div id="card1"
+          class="group cursor-none relative w-full sm:w-full md:w-full lg:max-w-xs rounded-xl overflow-hidden transition-all duration-300 border-2 border-gray-200 bg-white">
+          <div class="flex items-center gap-2 justify-between px-4 pt-4 text-[10px] transform transition-transform duration-300 ease-in-out 
+sm:hover:scale-105 md:hover:scale-105 
+lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
+">
+            <p class="text-black font-semibold">BLOG</p>
+            <div class="w-full h-0.5 bg-[#04AFC6] mx-2"></div>
+            <p class="w-16 text-black font-semibold">JAN 2024</p>
+          </div>
+
+          <div class="relative p-4">
+            <img src="https://test.infolks.info/home/blog/blog.png" alt="Blog 1"
+              class="h-auto md:h-[305px] w-full object-cover rounded-xl transition duration-300" />
+            <div id="circle1"
+        class="absolute w-[20vmin] h-[20vmin] flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition duration-300 z-50">
+        
+        <!-- SVG Blob -->
+        <svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" class="absolute w-full h-full blob z-10">
+          <g transform="translate(0, 0)">
+            <path d="M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z">
+              <animate attributeName="d" dur="6s" repeatCount="indefinite" keyTimes="0;0.5;1" values="
+                M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z;
+                M62.7,-37C74.8,-15.3,73.6,13.3,60.9,35.4C48.3,57.4,24.1,73.1,4.1,70.7C-15.9,68.3,-31.8,47.9,-44.4,25.8C-57,3.8,-66.4,-20,-58.4,-39.3C-50.5,-58.7,-25.2,-73.6,0,-73.6C25.3,-73.6,50.6,-58.7,62.7,-37Z;
+                M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z" />
+            </path>
+          </g>
+        </svg>
+
+        <!-- Centered Text -->
+        <div class="relative z-20 text-white text-sm  tracking-wide">
+          READ MORE
+        </div>
+      </div>
+          </div>
+          
+
+          <div class="border-t-2 border-red-500 p-4 flex items-center justify-between gap-3">
+  <p class="text-black text-lg font-semibold">Revolutionizing Industries with AI Solutions</p>
+  <div class="md:hidden z-30 w-10 cursor-none lg:hidden">
+    <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g clip-path="url(#clip0_649_2556)">
+        <path d="M32.969 14.0537H27.4862C26.3096 14.0537 25.1593 14.4131 24.1696 15.0911L23.0002 15.8889L21.8308 15.0911C20.8421 14.4132 19.6906 14.053 18.5143 14.0537H13.0315C12.6073 14.0537 12.2646 14.4182 12.2646 14.8693V29.3467C12.2646 29.7978 12.6073 30.1623 13.0315 30.1623H18.5143C19.6909 30.1623 20.8411 30.5217 21.8308 31.1997L22.8948 31.9286C22.9259 31.949 22.9619 31.9618 22.9978 31.9618C23.0338 31.9618 23.0697 31.9516 23.1009 31.9286L24.1648 31.1997C25.1569 30.5217 26.3096 30.1623 27.4862 30.1623H32.969C33.3931 30.1623 33.7358 29.7978 33.7358 29.3467V14.8693C33.7358 14.4182 33.3931 14.0537 32.969 14.0537ZM18.5143 28.3272H13.99V15.8889H18.5143C19.3626 15.8889 20.1869 16.1463 20.8986 16.6331L22.0681 17.4309L22.2334 17.5456V29.3212C21.0927 28.6687 19.8179 28.3272 18.5143 28.3272ZM32.0104 28.3272H27.4862C26.1826 28.3272 24.9077 28.6687 23.7671 29.3212V17.5456L23.9324 17.4309L25.1018 16.6331C25.8135 16.1463 26.6379 15.8889 27.4862 15.8889H32.0104V28.3272ZM20.242 19.1514H15.7897C15.6962 19.1514 15.6195 19.238 15.6195 19.3425V20.4895C15.6195 20.594 15.6962 20.6807 15.7897 20.6807H20.2396C20.3331 20.6807 20.4098 20.594 20.4098 20.4895V19.3425C20.4122 19.238 20.3355 19.1514 20.242 19.1514ZM25.5883 19.3425V20.4895C25.5883 20.594 25.6649 20.6807 25.7584 20.6807H30.2084C30.3019 20.6807 30.3785 20.594 30.3785 20.4895V19.3425C30.3785 19.238 30.3019 19.1514 30.2084 19.1514H25.7584C25.6649 19.1514 25.5883 19.238 25.5883 19.3425ZM20.242 22.7197H15.7897C15.6962 22.7197 15.6195 22.8064 15.6195 22.9109V24.0579C15.6195 24.1624 15.6962 24.249 15.7897 24.249H20.2396C20.3331 24.249 20.4098 24.1624 20.4098 24.0579V22.9109C20.4122 22.8064 20.3355 22.7197 20.242 22.7197ZM30.2108 22.7197H25.7584C25.6649 22.7197 25.5883 22.8064 25.5883 22.9109V24.0579C25.5883 24.1624 25.6649 24.249 25.7584 24.249H30.2084C30.3019 24.249 30.3785 24.1624 30.3785 24.0579V22.9109C30.3809 22.8064 30.3043 22.7197 30.2108 22.7197Z" fill="#FF8E90" />
+      </g>
+      <circle cx="23" cy="23" r="22.5" stroke="#FF8E90" />
+      <defs>
+        <clipPath id="clip0_649_2556">
+          <rect width="22" height="18" fill="white" transform="translate(12 14)" />
+        </clipPath>
+      </defs>
+    </svg>
+  </div>
+</div>
+
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card-wrapper flex justify-center w-full sm:w-full md:w-full lg:w-auto">
+        <div class="red-border hidden lg:block"></div>
+        <div id="card2"
+          class="group cursor-none relative w-full sm:w-full md:w-full lg:max-w-xs rounded-xl overflow-hidden transition-all duration-300 border-2 border-gray-200 bg-white">
+          <div class="flex items-center gap-2 justify-between px-4 pt-4 text-[10px] transform transition-transform duration-300 ease-in-out 
+sm:hover:scale-105 md:hover:scale-105 
+lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
+">
+            <p class="text-black font-semibold">BLOG</p>
+            <div class="w-full h-0.5 bg-[#04AFC6] mx-2"></div>
+            <p class="w-16 text-black font-semibold">JAN 2024</p>
+          </div>
+
+          <div class="relative p-4">
+            <img src="https://test.infolks.info/home/blog/blog2.png" alt="Blog 2"
+              class="h-auto md:h-[305px] w-full object-cover rounded-xl transition duration-300" />
+           <div id="circle2"
+        class="absolute w-[20vmin] h-[20vmin] flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition duration-300 z-50">
+        
+        <!-- SVG Blob -->
+        <svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" class="absolute w-full h-full blob z-10">
+          <g transform="translate(0, 0)">
+            <path d="M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z">
+              <animate attributeName="d" dur="6s" repeatCount="indefinite" keyTimes="0;0.5;1" values="
+                M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z;
+                M62.7,-37C74.8,-15.3,73.6,13.3,60.9,35.4C48.3,57.4,24.1,73.1,4.1,70.7C-15.9,68.3,-31.8,47.9,-44.4,25.8C-57,3.8,-66.4,-20,-58.4,-39.3C-50.5,-58.7,-25.2,-73.6,0,-73.6C25.3,-73.6,50.6,-58.7,62.7,-37Z;
+                M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z" />
+            </path>
+          </g>
+        </svg>
+
+        <!-- Centered Text -->
+       <div class="relative z-20 text-white text-sm  tracking-wide">
+          READ MORE
+        </div>
+      </div>
+          </div>
+
+         
+          <div class="border-t-2 border-red-500 p-4 flex items-center justify-between gap-3">
+  <p class="text-black text-lg font-semibold">Unlocking the Power of AI with Expert Annotation</p>
+  <div class="md:hidden z-30 w-10 cursor-none lg:hidden" >
+    <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g clip-path="url(#clip0_649_2556)">
+        <path d="M32.969 14.0537H27.4862C26.3096 14.0537 25.1593 14.4131 24.1696 15.0911L23.0002 15.8889L21.8308 15.0911C20.8421 14.4132 19.6906 14.053 18.5143 14.0537H13.0315C12.6073 14.0537 12.2646 14.4182 12.2646 14.8693V29.3467C12.2646 29.7978 12.6073 30.1623 13.0315 30.1623H18.5143C19.6909 30.1623 20.8411 30.5217 21.8308 31.1997L22.8948 31.9286C22.9259 31.949 22.9619 31.9618 22.9978 31.9618C23.0338 31.9618 23.0697 31.9516 23.1009 31.9286L24.1648 31.1997C25.1569 30.5217 26.3096 30.1623 27.4862 30.1623H32.969C33.3931 30.1623 33.7358 29.7978 33.7358 29.3467V14.8693C33.7358 14.4182 33.3931 14.0537 32.969 14.0537ZM18.5143 28.3272H13.99V15.8889H18.5143C19.3626 15.8889 20.1869 16.1463 20.8986 16.6331L22.0681 17.4309L22.2334 17.5456V29.3212C21.0927 28.6687 19.8179 28.3272 18.5143 28.3272ZM32.0104 28.3272H27.4862C26.1826 28.3272 24.9077 28.6687 23.7671 29.3212V17.5456L23.9324 17.4309L25.1018 16.6331C25.8135 16.1463 26.6379 15.8889 27.4862 15.8889H32.0104V28.3272ZM20.242 19.1514H15.7897C15.6962 19.1514 15.6195 19.238 15.6195 19.3425V20.4895C15.6195 20.594 15.6962 20.6807 15.7897 20.6807H20.2396C20.3331 20.6807 20.4098 20.594 20.4098 20.4895V19.3425C20.4122 19.238 20.3355 19.1514 20.242 19.1514ZM25.5883 19.3425V20.4895C25.5883 20.594 25.6649 20.6807 25.7584 20.6807H30.2084C30.3019 20.6807 30.3785 20.594 30.3785 20.4895V19.3425C30.3785 19.238 30.3019 19.1514 30.2084 19.1514H25.7584C25.6649 19.1514 25.5883 19.238 25.5883 19.3425ZM20.242 22.7197H15.7897C15.6962 22.7197 15.6195 22.8064 15.6195 22.9109V24.0579C15.6195 24.1624 15.6962 24.249 15.7897 24.249H20.2396C20.3331 24.249 20.4098 24.1624 20.4098 24.0579V22.9109C20.4122 22.8064 20.3355 22.7197 20.242 22.7197ZM30.2108 22.7197H25.7584C25.6649 22.7197 25.5883 22.8064 25.5883 22.9109V24.0579C25.5883 24.1624 25.6649 24.249 25.7584 24.249H30.2084C30.3019 24.249 30.3785 24.1624 30.3785 24.0579V22.9109C30.3809 22.8064 30.3043 22.7197 30.2108 22.7197Z" fill="#FF8E90" />
+      </g>
+      <circle cx="23" cy="23" r="22.5" stroke="#FF8E90" />
+      <defs>
+        <clipPath id="clip0_649_2556">
+          <rect width="22" height="18" fill="white" transform="translate(12 14)" />
+        </clipPath>
+      </defs>
+    </svg>
+  </div>
+</div>
+
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card-wrapper flex justify-center w-full sm:w-full md:w-full lg:w-auto">
+        <div class="red-border hidden lg:block"></div>
+        <div id="card3"
+          class="group cursor-none relative w-full sm:w-full md:w-full lg:max-w-xs rounded-xl overflow-hidden transition-all duration-300 border-2 border-gray-200 bg-white">
+          <div class="flex items-center gap-2 justify-between px-4 pt-4 text-[10px] ">
+            <p class="text-black font-semibold">BLOG</p>
+            <div class="w-full h-0.5 bg-[#04AFC6] mx-2"></div>
+            <p class="w-16 text-black font-semibold">JAN 2024</p>
+          </div>
+
+          <div class="relative p-4">
+            <img src="https://test.infolks.info/home/blog/blog3.png" alt="Blog 3"
+              class="h-auto md:h-[305px] w-full object-cover rounded-xl transition duration-300" />
+            <div id="circle3"
+        class="absolute w-[20vmin] h-[20vmin] flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition duration-300 z-50">
+        
+        <!-- SVG Blob -->
+        <svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" class="absolute w-full h-full blob z-10">
+          <g transform="translate(0, 0)">
+            <path d="M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z">
+              <animate attributeName="d" dur="6s" repeatCount="indefinite" keyTimes="0;0.5;1" values="
+                M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z;
+                M62.7,-37C74.8,-15.3,73.6,13.3,60.9,35.4C48.3,57.4,24.1,73.1,4.1,70.7C-15.9,68.3,-31.8,47.9,-44.4,25.8C-57,3.8,-66.4,-20,-58.4,-39.3C-50.5,-58.7,-25.2,-73.6,0,-73.6C25.3,-73.6,50.6,-58.7,62.7,-37Z;
+                M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z" />
+            </path>
+          </g>
+        </svg>
+
+        <!-- Centered Text -->
+        <div class="relative z-20 text-white text-sm  tracking-wide">
+          READ MORE
+        </div>
+      </div>
+          </div>
+
+          
+          <div class="border-t-2 border-red-500 p-4 flex items-center justify-between gap-3">
+  <p class="text-black text-lg font-semibold">The Future of Data Labeling and AI Training</p>
+  <div class="md:hidden z-30 w-10 cursor-none lg:hidden">
+    <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g clip-path="url(#clip0_649_2556)">
+        <path d="M32.969 14.0537H27.4862C26.3096 14.0537 25.1593 14.4131 24.1696 15.0911L23.0002 15.8889L21.8308 15.0911C20.8421 14.4132 19.6906 14.053 18.5143 14.0537H13.0315C12.6073 14.0537 12.2646 14.4182 12.2646 14.8693V29.3467C12.2646 29.7978 12.6073 30.1623 13.0315 30.1623H18.5143C19.6909 30.1623 20.8411 30.5217 21.8308 31.1997L22.8948 31.9286C22.9259 31.949 22.9619 31.9618 22.9978 31.9618C23.0338 31.9618 23.0697 31.9516 23.1009 31.9286L24.1648 31.1997C25.1569 30.5217 26.3096 30.1623 27.4862 30.1623H32.969C33.3931 30.1623 33.7358 29.7978 33.7358 29.3467V14.8693C33.7358 14.4182 33.3931 14.0537 32.969 14.0537ZM18.5143 28.3272H13.99V15.8889H18.5143C19.3626 15.8889 20.1869 16.1463 20.8986 16.6331L22.0681 17.4309L22.2334 17.5456V29.3212C21.0927 28.6687 19.8179 28.3272 18.5143 28.3272ZM32.0104 28.3272H27.4862C26.1826 28.3272 24.9077 28.6687 23.7671 29.3212V17.5456L23.9324 17.4309L25.1018 16.6331C25.8135 16.1463 26.6379 15.8889 27.4862 15.8889H32.0104V28.3272ZM20.242 19.1514H15.7897C15.6962 19.1514 15.6195 19.238 15.6195 19.3425V20.4895C15.6195 20.594 15.6962 20.6807 15.7897 20.6807H20.2396C20.3331 20.6807 20.4098 20.594 20.4098 20.4895V19.3425C20.4122 19.238 20.3355 19.1514 20.242 19.1514ZM25.5883 19.3425V20.4895C25.5883 20.594 25.6649 20.6807 25.7584 20.6807H30.2084C30.3019 20.6807 30.3785 20.594 30.3785 20.4895V19.3425C30.3785 19.238 30.3019 19.1514 30.2084 19.1514H25.7584C25.6649 19.1514 25.5883 19.238 25.5883 19.3425ZM20.242 22.7197H15.7897C15.6962 22.7197 15.6195 22.8064 15.6195 22.9109V24.0579C15.6195 24.1624 15.6962 24.249 15.7897 24.249H20.2396C20.3331 24.249 20.4098 24.1624 20.4098 24.0579V22.9109C20.4122 22.8064 20.3355 22.7197 20.242 22.7197ZM30.2108 22.7197H25.7584C25.6649 22.7197 25.5883 22.8064 25.5883 22.9109V24.0579C25.5883 24.1624 25.6649 24.249 25.7584 24.249H30.2084C30.3019 24.249 30.3785 24.1624 30.3785 24.0579V22.9109C30.3809 22.8064 30.3043 22.7197 30.2108 22.7197Z" fill="#FF8E90" />
+      </g>
+      <circle cx="23" cy="23" r="22.5" stroke="#FF8E90" />
+      <defs>
+        <clipPath id="clip0_649_2556">
+          <rect width="22" height="18" fill="white" transform="translate(12 14)" />
+        </clipPath>
+      </defs>
+    </svg>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- View All Blogs Button -->
+    <div class="flex justify-center items-center py-10">
+      <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 md:gap-x-2.5">
+        <!-- Text Button -->
+        <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A] z-20">
+          <span class="relative z-10 text-sm">VIEW ALL BLOGS</span>
+        </button>
+        <!-- White Background Span WITH BORDER -->
+        <span
+          class="absolute inset-0 h-full w-full bg-[#FFFBF0] border border-[#13B2F5] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] md:group-hover:w-[calc(100%-3.7rem)]"></span>
+        <!-- Arrow Button -->
+        <div
+          class="relative z-30 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
+          style="width: 50px; height: 50px;">
+          <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+        <div
+          class=" z-20 flex flex-col items-center justify-center text-center text-white gap-4 p-5 bg-[#00BFFF] rounded-3xl">
+          <h3 class="text-2xl md:text-3xl lg:text-4xl font-primary-medium leading-tight md:mb-2 lg:mb-8">
+            GET IN TOUCH TODAY
+          </h3>
+          <a href="/contact" aria-label="Contact Us">
+            <button
+              class="mt-2 md:mt-0 size-10 xl:size-16 bg-[#13B2F5] hover:bg-white rounded-full flex items-center justify-center transition-colors duration-300 group">
+              <img src="https://test.infolks.info/home/icons/arrow.svg" alt="Arrow Icon"
+                class="w-6 transition-transform duration-300 group-hover:translate-x-1" />
+            </button>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+    <footer class="bg-gradient-to-r from-[#414278] to-[#021AA1]  px-6 py-12 md:px-16 lg:px-24 text-white">
+      <div class="max-w-7xl mx-auto space-y-12">
+
+        <!-- Heading -->
+        <div class="">
+          <h1 class="text-3xl md:text-3xl font-bold uppercase mb-2">CONNECT WITH US</h1>
+          <div class="w-24 border-t border-white/40"></div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+          <!-- Left: Company Info + Social Icons -->
+          <div class="space-y-6">
+            <!-- Address -->
+            <div class="space-y-4 text-sm md:text-base">
+              <p class="font-medium">Infolks Pvt. Ltd.</p>
+              <p>Infolks Tower, Mannarkkad, Kerala, India, 678583</p>
+              <div>
+                <p><span class="font-semibold">Career:</span> +91 70258 89922</p>
+                <p><span class="font-semibold">Career:</span> recruitment@infolksgroup.com</p>
+              </div>
+              <div>
+                <p><span class="font-semibold">Project:</span> +91 70258 89911</p>
+                <p><span class="font-semibold">Project:</span> info@infolks.in</p>
+              </div>
+            </div>
+
+            <!-- Social Icons -->
+            <div class="flex flex-wrap items-center gap-4">
+              <a href="#" aria-label="LinkedIn"
+                class="bg-white text-[#122987] hover:bg-[#13B2F5] hover:text-white p-2 rounded-md shadow transition-all">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a href="#" aria-label="Facebook"
+                class="bg-white text-[#122987] hover:bg-[#13B2F5] hover:text-white p-2 rounded-md shadow transition-all">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" aria-label="Instagram"
+                class="bg-white text-[#122987] hover:bg-[#13B2F5] hover:text-white p-2 rounded-md shadow transition-all">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="#" aria-label="Google"
+                class="bg-white text-[#122987] hover:bg-[#13B2F5] hover:text-white p-2 rounded-md shadow transition-all">
+                <i class="fab fa-google"></i>
+              </a>
+              <a href="#" aria-label="Flickr"
+                class="bg-white text-[#122987] hover:bg-[#13B2F5] hover:text-white p-2 rounded-md shadow transition-all">
+                <i class="fab fa-flickr"></i>
+              </a>
+              <a href="#" aria-label="YouTube"
+                class="bg-white text-[#122987] hover:bg-[#13B2F5] hover:text-white p-2 rounded-md shadow transition-all">
+                <i class="fab fa-youtube"></i>
+              </a>
+              <a href="#" aria-label="Telegram"
+                class="bg-white text-[#122987] hover:bg-[#13B2F5] hover:text-white p-2 rounded-md shadow transition-all">
+                <i class="fab fa-telegram"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: Link Groups -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm md:text-base">
+            <div class="space-y-3">
+              <!-- Trigger Wrapper -->
+              <div class="relative group inline-block w-full">
+
+                <!-- Trigger Button -->
+                <div class="flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer w-full">
+                  <a href="#" class="group-hover:text-[#13B2F5] transition-all">Industries</a>
+                  <i
+                    class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300 ml-2"></i>
+                </div>
+
+                <!-- Dropdown -->
+                <div
+                  class=" hidden lg:block absolute left-1/2 transform -translate-x-1/2 mt-5 w-[500px] bg-gradient-to-r from-[#138ff5] to-[#03a7ee] text-white rounded-2xl shadow-lg p-8 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 ">
+
+                  <!-- Top Arrow -->
+                  <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 sm:hidden lg:block">
+                    <div
+                      class="w-4 h-4 bg-gradient-to-r from-[#138ff5] to-[#03a7ee] border-l border-t border-white rotate-45">
+                    </div>
+                  </div>
+
+                  <!-- Grid of Items -->
+                  <div class="flex justify-between space-x-12 ">
+
+                    <!-- Column 1 -->
+                    <div class="space-y-2 w-1/2">
+                      <div
+                        class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+                        <span>Healthcare</span>
+                        <i class="fas fa-arrow-up-right"></i>
+                      </div>
+                      <div
+                        class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+                        <span>Automotive</span>
+                        <i class="fas fa-arrow-up-right"></i>
+                      </div>
+                      <div
+                        class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+                        <span>Retail</span>
+                        <i class="fas fa-arrow-up-right"></i>
+                      </div>
+                      <div
+                        class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+                        <span>Finance & Banking</span>
+                        <i class="fas fa-arrow-up-right"></i>
+                      </div>
+                      <div
+                        class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+                        <span>Manufacturing</span>
+                        <i class="fas fa-arrow-up-right"></i>
+                      </div>
+                      <div
+                        class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+                        <span>Agriculture</span>
+                        <i class="fas fa-arrow-up-right"></i>
+                      </div>
+                      <div
+                        class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+                        <span>Food & Beverages</span>
+                        <i class="fas fa-arrow-up-right"></i>
+                      </div>
+                    </div>
+
+                    <!-- Column 2 -->
+                    <div class="space-y-2 w-1/2">
+                      <div
+                        class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+                        <span>Livestock</span>
+                        <i class="fas fa-arrow-up-right"></i>
+                      </div>
+                      <div
+                        class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+                        <span>Security & Surveillance</span>
+                        <i class="fas fa-arrow-up-right"></i>
+                      </div>
+                      <div
+                        class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+                        <span>Sports</span>
+                        <i class="fas fa-arrow-up-right"></i>
+                      </div>
+                      <div
+                        class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+                        <span>Waste Management</span>
+                        <i class="fas fa-arrow-up-right"></i>
+                      </div>
+                      <div
+                        class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+                        <span>Logistics</span>
+                        <i class="fas fa-arrow-up-right"></i>
+                      </div>
+                      <div
+                        class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+                        <span>Geospatial</span>
+                        <i class="fas fa-arrow-up-right"></i>
+                      </div>
+                      <div
+                        class="w-full flex justify-between items-center border-b border-white/40 pb-1 cursor-pointer">
+                        <span>Human Attribution</span>
+                        <i class="fas fa-arrow-up-right"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Parent Trigger: Wrap with group for hover -->
+              <div class="relative group inline-block w-full">
+
+                <!-- Trigger Button (Solutions + Arrow) -->
+                <div class="flex justify-between items-center border-b border-white pb-1 w-full cursor-pointer">
+                  <span class="group-hover:text-[#13B2F5] transition-all">Solutions</span>
+                  <i
+                    class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300 ml-2"></i>
+                </div>
+
+                <!-- Hover Modal Dropdown -->
+                <div
+                  class=" hidden lg:block absolute left-1/2 transform -translate-x-1/2 mt-4 w-[500px] bg-gradient-to-r from-[#138ff5] to-[#03a7ee] text-white rounded-2xl shadow-lg p-8 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 sm:hidden lg:block">
+
+                  <!-- Notch -->
+                  <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <div
+                      class="w-4 h-4 bg-gradient-to-r from-[#138ff5] to-[#03a7ee] border-l border-t border-white rotate-45">
+                    </div>
+                  </div>
+
+                  <!-- Grid Columns -->
+                  <div class="flex justify-between space-x-12">
+                    <!-- Column 1 -->
+                    <div class="space-y-4 w-1/2">
+                      <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+                        <span>Image Annotation</span>
+                        <i
+                          class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+                      </div>
+                      <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+                        <span>Text Annotation</span>
+                        <i
+                          class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+                      </div>
+                      <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+                        <span>Video Annotation</span>
+                        <i
+                          class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+                      </div>
+                      <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+                        <span>Audio Annotation</span>
+                        <i
+                          class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+                      </div>
+                      <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+                        <span>Lidar Annotation</span>
+                        <i
+                          class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+                      </div>
+                    </div>
+
+                    <!-- Column 2 -->
+                    <div class="space-y-4 w-1/2">
+                      <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+                        <span>Generative AI</span>
+                        <i
+                          class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+                      </div>
+                      <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+                        <span>NLP</span>
+                        <i
+                          class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+                      </div>
+                      <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+                        <span>AR & VR</span>
+                        <i
+                          class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+                      </div>
+                      <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+                        <span>Outstaffing</span>
+                        <i
+                          class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+                      </div>
+                      <div class="group flex justify-between items-center border-b border-white cursor-pointer">
+                        <span>ODC</span>
+                        <i
+                          class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex justify-between items-center border-b border-white/40 pb-1 group">
+                <a href="#" class="group-hover:text-[#13B2F5] transition-all">Techniques</a>
+                <i
+                  class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+              </div>
+              <div class="flex justify-between items-center border-b border-white/40 pb-1 group">
+                <a href="#" class="group-hover:text-[#13B2F5] transition-all">Data Security</a>
+                <i
+                  class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+              </div>
+              <div class="flex justify-between items-center border-b border-white/40 pb-1 group">
+                <a href="#" class="group-hover:text-[#13B2F5] transition-all">Quality</a>
+                <i
+                  class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <div class="flex justify-between items-center border-b border-white/40 pb-1 group">
+                <a href="#" class="group-hover:text-[#13B2F5] transition-all">Blog</a>
+                <i
+                  class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+              </div>
+              <div class="flex justify-between items-center border-b border-white/40 pb-1 group">
+                <a href="#" class="group-hover:text-[#13B2F5] transition-all">About Us</a>
+                <i
+                  class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+              </div>
+              <div class="flex justify-between items-center border-b border-white/40 pb-1 group">
+                <a href="#" class="group-hover:text-[#13B2F5] transition-all">Careers</a>
+                <i
+                  class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Footer -->
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-4 border-t border-white/30 pt-6 text-xs md:text-sm">
+          <div class="flex items-center gap-6">
+            <a href="#" class="group hover:text-[#13B2F5] transition-all">
+              Privacy Policy <i
+                class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+            </a>
+            <a href="#" class="group hover:text-[#13B2F5] transition-all">
+              Terms & Conditions <i
+                class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+            </a>
+          </div>
+          <div>
+            INFOLKS©2024 All Rights Reserved | Crafted by webfolks
+          </div>
+        </div>
+
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuBtn.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.contains('translate-x-0');
+
+      if (isOpen) {
+        mobileMenu.classList.add('-translate-x-full');
+        mobileMenu.classList.remove('translate-x-0');
+        document.body.classList.remove('overflow-hidden');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      } else {
+        mobileMenu.classList.remove('-translate-x-full');
+        mobileMenu.classList.add('translate-x-0');
+        document.body.classList.add('overflow-hidden');
+        menuBtn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  </script>
+  <script>
+    const btn = document.getElementById('read-more-btn');
+    const moreText = document.getElementById('more-text');
+
+    btn.addEventListener('click', () => {
+      if (moreText.classList.contains('hidden')) {
+        moreText.classList.remove('hidden');
+        btn.textContent = 'Read less';
+      } else {
+        moreText.classList.add('hidden');
+        btn.textContent = 'Read more';
+      }
+    });
+  </script>
+  <script>
+    const slides = document.querySelectorAll(".slide");
+    let current = 0;
+    setInterval(() => {
+      slides[current].classList.remove("active");
+      current = (current + 1) % slides.length;
+      slides[current].classList.add("active");
+    }, 8000); // 8 seconds per slide
+
+    document.querySelectorAll(".read-more-btn").forEach((btn, i) => {
+      btn.addEventListener("click", () => {
+        const moreText = btn.previousElementSibling.querySelector(".more-text");
+        if (moreText.classList.contains("hidden")) {
+          moreText.classList.remove("hidden");
+          btn.textContent = "Read less";
+        } else {
+          moreText.classList.add("hidden");
+          btn.textContent = "Read more";
+        }
+      });
+    });
+  </script>
+  <!-- 🔧 JS to pause marquee on hover -->
+  <script>
+    document.querySelectorAll('.group').forEach(group => {
+      const marquee = group.querySelector('.animate-marquee-left, .animate-marquee-right');
+      group.addEventListener('mouseenter', () => marquee?.classList.add('paused'));
+      group.addEventListener('mouseleave', () => marquee?.classList.remove('paused'));
+    });
+
+  </script>
+  <script>
+  function setupCardHover(cardId, circleId) {
+    const card = document.getElementById(cardId);
+    const hoverCircle = document.getElementById(circleId);
+
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - hoverCircle.offsetWidth / 2;
+      const y = e.clientY - rect.top - hoverCircle.offsetHeight / 2;
+
+      hoverCircle.style.left = `${x}px`;
+      hoverCircle.style.top = `${y}px`;
+    });
+  }
+
+  // Setup for 3 cards
+  setupCardHover('card1', 'circle1');
+  setupCardHover('card2', 'circle2');
+  setupCardHover('card3', 'circle3');
+</script>
+
+  <!-- caroselhoverimage -->
+  <script>
+    const data = [
+      {
+        image: 'https://test.infolks.info/home/solutions/waste.jpg',
+        icon: 'https://test.infolks.info/home/icons/waste-icon.svg',
+        title: 'Waste Management',
+      },
+      {
+        image: 'https://test.infolks.info/home/solutions/logistic.jpg',
+        icon: 'https://test.infolks.info/home/icons/logistic-icon.svg',
+        title: 'Logistic',
+      },
+      {
+        image: 'https://test.infolks.info/home/solutions/geospatial.jpg',
+        icon: 'https://test.infolks.info/home/icons/geospatial-icon.svg',
+        title: 'Geospatial',
+      },
+      {
+        image: 'https://test.infolks.info/home/solutions/retail.jpg',
+        icon: 'https://test.infolks.info/home/icons/retail-icon.svg',
+        title: 'Retail',
+      },
+      {
+        image: 'https://test.infolks.info/home/solutions/healthcare.jpg',
+        icon: 'https://test.infolks.info/home/icons/healthcare-icon.svg',
+        title: 'Healthcare',
+      },
+    ];
+
+    let currentIndex = 1;
+
+    function renderCarousel() {
+      const carousel = document.getElementById("carousel");
+      if (!carousel) return;
+      carousel.innerHTML = "";
+
+      const prev = data[(currentIndex - 1 + data.length) % data.length];
+      const current = data[currentIndex % data.length];
+      const next = data[(currentIndex + 1) % data.length];
+
+      [prev, current, next].forEach((item, i) => {
+        const isActive = i === 1;
+
+        const card = document.createElement("div");
+        card.className = `transition-all duration-500 rounded-xl overflow-hidden shadow-lg text-center ${isActive
+            ? "w-[420px] h-[360px] scale-100 opacity-100"
+            : "w-48 h-64 scale-90 opacity-70"
+          }`;
+
+        card.innerHTML = `
+          <img src="${item.image}" alt="${item.title}" class="w-full h-4/5 object-cover">
+          <div class="flex flex-col items-center mt-2">
+            <img src="${item.icon}" class="w-8 h-8" alt="">
+            <p class="mt-1 text-sm">${item.title}</p>
+          </div>
+        `;
+
+        carousel.appendChild(card);
+      });
+    }
+
+    function prevCard() {
+      currentIndex = (currentIndex - 1 + data.length) % data.length;
+      renderCarousel();
+    }
+
+    function nextCard() {
+      currentIndex = (currentIndex + 1) % data.length;
+      renderCarousel();
+    }
+
+    // Initial render for carousel
+    renderCarousel();
+
+    // Render static cards (for sm screens)
+    document.addEventListener('DOMContentLoaded', () => {
+      const staticContainer = document.getElementById('staticGrid');
+      if (!staticContainer) return;
+      data.slice(0, 3).forEach((item) => {
+        const card = document.createElement("div");
+        card.className = "rounded-xl overflow-hidden shadow-lg text-center w-full";
+
+        card.innerHTML = `
+          <img src="${item.image}" alt="${item.title}" class="w-full h-52 object-cover">
+          <div class="flex flex-col items-center mt-2">
+            <img src="${item.icon}" class="w-8 h-8" alt="">
+            <p class="mt-1 text-sm">${item.title}</p>
+          </div>
+        `;
+
+        staticContainer.appendChild(card);
+      });
+    });
+  </script>
+
+  <!-- stackcarosel -->
+   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+     <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    const totalCards = 9;
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".cards",
+        pin: true,
+        scrub: 1,
+        start: "top top",
+        end: `+=${totalCards * 500}`,
+        markers: true,
+      }
+    });
+
+    for (let i = 1; i < totalCards; i++) {
+      const current = `.card${i}`;
+      const next = `.card${i + 1}`;
+
+      tl.from(next, { yPercent: 75, opacity: 0 });
+      tl.to(current, {
+        scale: 0.95,
+        yPercent: -0.5,
+        opacity: 1,
+        ease: "power2.out"
+      }, "-=0.3");
+      tl.to(next, { yPercent: 0, opacity: 1 });
+    }
+
+    // Refresh on load/resize
+    window.addEventListener("load", () => {
+      ScrollTrigger.refresh();
+      ScrollTrigger.clearScrollMemory();
+      window.history.scrollRestoration = "manual";
+    });
+    window.addEventListener("resize", () => ScrollTrigger.refresh());
+  </script>
+ 
+<script>
+  const afterContainer = document.getElementById("afterContainer");
+  const sliderHandle = document.getElementById("sliderHandle");
+  const container = sliderHandle.parentElement;
+
+  let isDragging = false;
+
+  sliderHandle.addEventListener("mousedown", () => {
+    isDragging = true;
+  });
+
+  window.addEventListener("mouseup", () => {
+    isDragging = false;
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    const rect = container.getBoundingClientRect();
+    let offsetX = e.clientX - rect.left; // <-- from left
+    offsetX = Math.max(0, Math.min(offsetX, rect.width)); // clamp
+    const percent = (offsetX / rect.width) * 100;
+    afterContainer.style.width = `${percent}%`;
+    sliderHandle.style.left = `${percent}%`;
+  });
+</script>
+
+<script>
+  const cards = document.querySelectorAll(".comparison-card");
+
+  cards.forEach(card => {
+    const afterContainer = card.querySelector(".afterContainer");
+    const sliderHandle = card.querySelector(".sliderHandle");
+
+    let isDragging = false;
+
+    const onMouseMove = (e) => {
+      if (!isDragging) return;
+
+      const rect = card.getBoundingClientRect();
+      let offsetX = e.clientX - rect.left;
+      offsetX = Math.max(0, Math.min(offsetX, rect.width));
+      const percent = (offsetX / rect.width) * 100;
+
+      afterContainer.style.width = `${percent}%`;
+      sliderHandle.style.left = `${percent}%`;
+    };
+
+    sliderHandle.addEventListener("mousedown", () => {
+      isDragging = true;
+    });
+
+    window.addEventListener("mouseup", () => {
+      isDragging = false;
+    });
+
+    window.addEventListener("mousemove", onMouseMove);
+  });
+  </script>
+ <!-- circlecrosel -->
+  <script>
+    const carousel = document.getElementById('carousell');
+    const nextBtn = document.getElementById('nextttBtn');
+    const prevBtn = document.getElementById('prevvvBtn');
+
+    const cardWidth = 340; // card width (320px) + gap (20px)
+
+    nextBtn.addEventListener('click', () => {
+      carousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
+    });
+
+    prevBtn.addEventListener('click', () => {
+      carousel.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+    });
+  
+    $(document).ready(function () {
+      let currentCardIndex = 0;
+      const cards = $('.we-card');
+      const totalCards = cards.length;
+
+      function updateCarousel() {
+        cards.removeClass('active prev-1 next-1 prev-2 next-2');
+        $(cards[currentCardIndex]).addClass('active');
+
+        const prevIndex_1 = (currentCardIndex - 1 + totalCards) % totalCards;
+        const nextIndex_1 = (currentCardIndex + 1) % totalCards;
+        const prevIndex_2 = (currentCardIndex - 2 + totalCards) % totalCards;
+        const nextIndex_2 = (currentCardIndex + 2) % totalCards;
+
+        $(cards[prevIndex_1]).addClass('prev-1');
+        $(cards[nextIndex_1]).addClass('next-1');
+        $(cards[prevIndex_2]).addClass('prev-2');
+        $(cards[nextIndex_2]).addClass('next-2');
+      }
+
+      updateCarousel();
+
+      $('.right').click(function () {
+        currentCardIndex = (currentCardIndex + 1) % totalCards;
+        updateCarousel();
+      });
+
+      $('.left').click(function () {
+        currentCardIndex = (currentCardIndex - 1 + totalCards) % totalCards;
+        updateCarousel();
+      });
+    });
+    // vedio anmination
+     gsap.registerPlugin(ScrollTrigger);
+
+    gsap.to(".video-section", {
+      scrollTrigger: {
+        trigger: ".video-section",
+        start: "top 80%",
+        toggleActions: "play none none none"
+      },
+      opacity: 1,
+      x: 0,
+      duration: 1.2,
+      ease: "power3.out"
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en" class="h-full">
 
@@ -5,6 +6,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Curved Navbar</title>
+  <link rel="stylesheet" href="{% static 'css/input.css'%}">
   <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
@@ -102,7 +104,7 @@
           <div class="container mx-auto flex justify-between items-center   text-white">
 
             <ul class="flex space-x-9">
-              <li><a href="#">Home</a></li>
+              <li><a href="{% url 'home_nav' %}">Home </a></li>
               <li><a href="#">About</a></li>
 
               <li class="relative inline-block group">
@@ -733,7 +735,7 @@
           <!-- Just update video src and text content. The structure remains the same. -->
 
           <!-- CARD 2 -->
-          <div class="group w-80 flex-shrink-0 p-4 transition-all duration-500 sm:hidden md:hidden lg:block ">
+          <div class="group w-80 flex-shrink-0 p-4 transition-all duration-500 sm:hidden md:hidden lg:block  ">
             <div
               class="border rounded-2xl border-[#547ED8] p-3 bg-white group-hover:bg-gradient-to-b group-hover:from-[#7EBCF3] group-hover:to-[#006DE8] group-hover:rounded-b-none transition-all duration-500 ease-in-out">
               <video autoplay loop muted playsinline class="w-full h-64 rounded-xl object-cover">
