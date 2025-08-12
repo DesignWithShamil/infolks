@@ -16,6 +16,37 @@
 </head>
 
 <style>
+
+.nav-slide .link {
+  display: flex;
+  flex-direction: column;
+  height: 1.5rem; /* exactly matches one line of text */
+  line-height: 1.5rem;
+  overflow: hidden;
+}
+
+.nav-slide .link span {
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+/* Initial positions */
+.nav-slide .link span:first-child {
+  transform: translateY(0%);
+}
+.nav-slide .link span:last-child {
+  transform: translateY(0%); /* <-- change from 100% so it's stacked directly under */
+  margin-top: 1.5rem; /* push it visually below first span */
+}
+
+/* Hover animation */
+.nav-slide .link:hover span:first-child {
+  transform: translateY(-150%);
+}
+.nav-slide .link:hover span:last-child {
+  transform: translateY(-200%);
+}
+
   .gsap-marker-end{
     display: none !important; 
 
@@ -68,8 +99,8 @@
 
     .we-card.prev-2,
     .we-card.next-2 {
-      opacity: 0.7;
-      filter: blur(0.3px);
+      opacity: 0.1.5;
+      
       z-index: 0;
     }
 
@@ -225,7 +256,7 @@
     transition: all 0.3s ease;
   }
 
-  .red-border {
+   .red-borderone {
     position: absolute;
     top: 10px;
     left: -10px;
@@ -237,11 +268,40 @@
     opacity: 0;
     transition: all 0.3s ease;
   }
-
-  .card-wrapper:hover .red-border {
-    opacity: 1;
+  .red-bordertwo {
+    position: absolute;
+    top: 10px;
+    left: -10px;
+    right: 20px;
+    bottom: -10px;
+    border: 2px solid rgb(25, 0, 255);
+    border-radius: 0.8rem;
+    z-index: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+  .red-borderthree {
+    position: absolute;
+    top: 10px;
+    left: -10px;
+    right: 20px;
+    bottom: -10px;
+    border: 2px solid rgb(0, 162, 255);
+    border-radius: 0.8rem;
+    z-index: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
   }
 
+  .card-wrapper:hover .red-borderone {
+    opacity: 1;
+  }
+  .card-wrapper:hover .red-bordertwo {
+    opacity: 1;
+  }
+  .card-wrapper:hover .red-borderthree {
+    opacity: 1;
+  }
   @keyframes marqueeY {
     0% {
       transform: translateY(0%);
@@ -316,10 +376,19 @@
         <nav class="hidden  lg:flex items-center gap-8 text-white font-medium">
           <div class="container mx-auto flex justify-between items-center   text-white">
 
-            <ul class="flex space-x-9">
-              <li><a href="#">Home</a></li>
-              <li><a href="#">About</a></li>
-
+            <ul class="flex space-x-9 nav-slide">
+  <li class="flex flex-col items-center w-16">
+    <div class="link">
+      <span class="text-white">Home</span>
+      <span class="text-[#98FFDD]">Home</span>
+    </div>
+  </li>
+  <li class="flex flex-col items-center w-16">
+    <div class="link">
+      <span class="text-white">About</span>
+      <span class="text-[#98FFDD]">About</span>
+    </div>
+  </li>
               <li class="relative inline-block group">
                 <button spy="true" smooth="true" duration="500"
                   class="inline-block cursor-default hover:text-[#98FFDD] text-white">Industries</button>
@@ -564,7 +633,12 @@
                       </div>
 
 
-              <li><a href="#">Pricing</a></li>
+              <li class="flex flex-col items-center xl:h-8 h-6 w-16 overflow-hidden">
+    <div class="link">
+      <span class="text-white">Pricing</span>
+      <span class="text-[#98FFDD]">Pricing</span>
+    </div>
+  </li>
 
               <li class="relative inline-block group">
                 <button spy="true" smooth="true" duration="500"
@@ -611,7 +685,12 @@
                       </svg>
                     </div>
                   </div>
-              <li><a href="#">Contact</a></li>
+              <li class="flex flex-col items-center w-16">
+    <div class="link">
+      <span class="text-white">Contact</span>
+      <span class="text-[#98FFDD]">Contact</span>
+    </div>
+  </li>
             </ul>
           </div>
 
@@ -925,9 +1004,10 @@
       </div>
 
       <!-- Video Section (Animated) -->
-      <div class="video-section flex rounded-[16px] lg:rounded-[35px] overflow-hidden xl:w-[60%] w-full opacity-0 translate-x-10 transition-all duration-1000">
+      <div class="video-sectionn flex rounded-[16px] lg:rounded-[35px] overflow-hidden xl:w-[60%] w-full opacity-0 translate-x-10 transition-all duration-500 ">
         <div class="w-full">
-          <video autoplay loop playsinline muted
+          
+         <video autoplay loop playsinline muted
             class="w-full rounded-[16px] lg:rounded-[35px] h-60 md:h-80 lg:h-full object-cover">
             <source src="https://test.infolks.info/home/services/videos/our-service-offering.mp4" type="video/mp4" />
             Your browser does not support the video tag.
@@ -943,40 +1023,35 @@
   <div class="service-card-body bg-[#E9EAE2] flex flex-col items-center w-full max-w-[1200px] shadow-lg  lg:px-10 py-10">
 
     <!-- ✅ IMAGE COMPARISON SLIDER (TOP) -->
-    <div class="w-full flex justify-center mb-10">
-      <div class="comparison-card relative w-[90%] h-[326px] rounded-[10px] overflow-hidden ">
-        <!-- Before Image -->
-        <img
-          src="https://test.infolks.info/home/services/images/image-annotations/image-annotation-before.jpg"
-          class="absolute top-0 left-0 w-full h-full object-cover rounded-[35px]"
-          alt="Before Image"
-        />
+    <div class="comparison-card relative w-[90%] aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
+    
+    <!-- Before Image -->
+    <img
+       src="https://test.infolks.info/home/services/images/image-annotations/image-annotation-before.jpg"
+      class="absolute top-0 left-0 w-full h-full object-cover"
+      alt="Before Image"
+    />
 
-        <!-- After Image -->
-        <div
-          class="afterContainer absolute top-0 left-0 h-full overflow-hidden rounded-[35px] z-10"
-          style="width: 50%;"
-        >
-          <img
-            src="https://test.infolks.info/home/services/images/image-annotations/image-annotation-after.jpg"
-            class="w-full h-full object-cover opacity-40"
-            alt="After Image"
-          />
-        </div>
+    <!-- After Image (fixed right side) -->
+    <div class="afterContainer absolute top-0 right-0 h-full overflow-hidden z-10" style="width: 50%;">
+      <img
+       src="https://test.infolks.info/home/services/images/image-annotations/image-annotation-after.jpg"
+        class="absolute top-0 right-0 h-full object-cover"
+        style="width: 100%; object-position: right;"
+        alt="After Image"
+      />
+    </div>
 
-        <!-- Slider Handle -->
-        <div
-          class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize"
-          style="left: 50%;"
-        >
-          <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
-            </svg>
-          </div>
-        </div>
+    <!-- Slider Handle -->
+    <div class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize" style="left: 50%;">
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
+        </svg>
       </div>
     </div>
+  </div>
+   
 
     <!-- ✅ TEXT CONTENT (BOTTOM) -->
     <div class="w-full px-4 2xl:px-10 max-w-3xl">
@@ -1088,41 +1163,37 @@
       </div>
     </div>
 
- <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
-  <div class="comparison-card relative w-[465px] h-[326px] rounded-[35px] overflow-hidden shadow-xl">
-  <!-- Before Image -->
-  <img
-    src="https://test.infolks.info/home/services/images/image-annotations/image-annotation-before.jpg"
-    class="absolute top-0 left-0 w-full h-full object-cover rounded-[35px]"
-    alt="Before Image"
-  />
-
-  <!-- After Image -->
-  <div
-    class="afterContainer absolute top-0 left-0 h-full overflow-hidden rounded-[35px] z-10"
-    style="width: 50%;"
-  >
+<section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
+  <div class="comparison-card relative w-[500px] aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
+    
+    <!-- Before Image -->
     <img
-      src="https://test.infolks.info/home/services/images/image-annotations/image-annotation-after.jpg"
-      class="w-full h-full object-cover opacity-40"
-      alt="After Image"
+       src="https://test.infolks.info/home/services/images/image-annotations/image-annotation-before.jpg"
+      class="absolute top-0 left-0 w-full h-full object-cover"
+      alt="Before Image"
     />
-  </div>
 
-  <!-- Slider Handle -->
-  <div
-    class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize"
-    style="left: 50%;"
-  >
-    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
-      </svg>
+    <!-- After Image (fixed right side) -->
+    <div class="afterContainer absolute top-0 right-0 h-full overflow-hidden z-10" style="width: 50%;">
+      <img
+       src="https://test.infolks.info/home/services/images/image-annotations/image-annotation-after.jpg"
+        class="absolute top-0 right-0 h-full object-cover"
+        style="width: 100%; object-position: right;"
+        alt="After Image"
+      />
+    </div>
+
+    <!-- Slider Handle -->
+    <div class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize" style="left: 50%;">
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
+        </svg>
+      </div>
     </div>
   </div>
-</div>
-
 </section>
+
 
 
 
@@ -1278,45 +1349,38 @@
       </div>
     </div>
 
- <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
-  <div class="relative w-[465px] h-[326px] rounded-[35px] overflow-hidden shadow-xl">
-    <!-- Before Image (Visible full width) -->
+
+
+<section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
+  <div class="comparison-card relative w-[500px] aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
+    
+    <!-- Before Image -->
     <img
       src="https://test.infolks.info/home/services/images/text-annotations/text-annotation-before.jpg"
-      class="absolute top-0 left-0 w-full h-full object-cover rounded-[35px]"
+      class="absolute top-0 left-0 w-full h-full object-cover"
       alt="Before Image"
     />
 
-    <!-- After Image (Revealed by slider) -->
-    <div
-      id="afterContainer"
-      class="absolute top-0 left-0 h-full overflow-hidden rounded-[35px] z-10"
-      style="width: 50%;"
-    >
+    <!-- After Image (fixed right side) -->
+    <div class="afterContainer absolute top-0 right-0 h-full overflow-hidden z-10 " style="width: 50%;">
       <img
-        src="https://test.infolks.info/home/services/images/text-annotations/text-annotation-after.jpg"
-        class="w-full h-full object-cover opacity-40"
+       src="https://test.infolks.info/home/services/images/text-annotations/text-annotation-after.jpg"
+        class="absolute top-0 right-0 h-full object-cover"
+        style="width: 100%; object-position: right;"
         alt="After Image"
       />
     </div>
 
     <!-- Slider Handle -->
-    <div
-      id="sliderHandle"
-      class="absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize"
-      style="left: 50%;"
-    >
-      <!-- Arrow Icon -->
+    <div class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize" style="left: 50%;">
       <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
-  </svg>
-</div>
-
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
+        </svg>
+      </div>
     </div>
   </div>
 </section>
-
 
 
           </div>
@@ -1386,43 +1450,38 @@
 
       </div>
     </div>
-     <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
-  <div class="comparison-card relative w-[465px] h-[326px] rounded-[35px] overflow-hidden shadow-xl">
-  <!-- Before Image -->
-  <img
-    src="https://test.infolks.info/home/services/images/audio-annotations/audio-annotation-before.jpg"
-    class="absolute top-0 left-0 w-full h-full object-cover rounded-[35px]"
-    alt="Before Image"
-  />
+    
 
-  <!-- After Image -->
-  <div
-    class="afterContainer absolute top-0 left-0 h-full overflow-hidden rounded-[35px] z-10"
-    style="width: 50%;"
-  >
+<section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
+  <div class="comparison-card relative w-[500px] aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
+    
+    <!-- Before Image -->
     <img
-      src="https://test.infolks.info/home/services/images/audio-annotations/audio-annotation-after.jpg"
-      class="w-full h-full object-cover opacity-40"
-      alt="After Image"
+      src="https://test.infolks.info/home/services/images/audio-annotations/audio-annotation-before.jpg"
+      class="absolute top-0 left-0 w-full h-full object-cover"
+      alt="Before Image"
     />
-  </div>
 
-  <!-- Slider Handle -->
-  <div
-    class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize"
-    style="left: 50%;"
-  >
-    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
-      </svg>
+    <!-- After Image (fixed right side) -->
+    <div class="afterContainer absolute top-0 right-0 h-full overflow-hidden z-10" style="width: 50%;">
+      <img
+       src="https://test.infolks.info/home/services/images/audio-annotations/audio-annotation-after.jpg"
+        class="absolute top-0 right-0 h-full object-cover"
+        style="width: 100%; object-position: right;"
+        alt="After Image"
+      />
+    </div>
+
+    <!-- Slider Handle -->
+    <div class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize" style="left: 50%;">
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
+        </svg>
+      </div>
     </div>
   </div>
-</div>
-
 </section>
-
-
 
 
 
@@ -1516,15 +1575,15 @@
 
           </div>
 
-          <div class="custom-card card6" id="6">
-             <section class="slider_content flex justify-center items-center py-20">
+<div class="custom-card card6" id="6">
+            <section class="slider_content flex justify-center items-center py-20">
   <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%] shadow-lg">
     
     <!-- Left Content -->
     <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
       
       <!-- Dot Bar -->
-      <div class="flex flex-col justify-center items-center gap-1 mr-6">
+     <div class="flex flex-col justify-center items-center gap-1 mr-6">
         
         <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
         <div class="w-2 h-3 rounded-md bg-[#D9D9D9]"></div>
@@ -1548,12 +1607,12 @@
 
         <!-- Heading -->
         <h3 class="text-2xl lg:text-3xl font-semibold text-[#37508A] mb-4">
-          Product Categorization
+       Product Categorization
         </h3>
 
         <!-- Paragraph -->
         <p class="text-[#37508A] text-base leading-relaxed">
-         Data annotation enables precise product categorization by systematically sorting items based on specific attributes. By leveraging human labeling, this methodology streamlines navigation and enriches user experience by effectively grouping similar products, thereby facilitating easier discovery across industries.
+          Data annotation enables precise product categorization by systematically sorting items based on specific attributes. By leveraging human labeling, this methodology streamlines navigation and enriches user experience by effectively grouping similar products, thereby facilitating easier discovery across industries.
         </p>
 
         <div class="mt-7">
@@ -1577,54 +1636,45 @@
 
       </div>
     </div>
+
+
 <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
-  <div class="relative w-[465px] h-[326px] rounded-[35px] overflow-hidden shadow-xl">
-    <!-- Before Image (Visible full width) -->
+  <div class="comparison-card relative w-[500px] aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
+    
+    <!-- Before Image -->
     <img
       src="https://test.infolks.info/home/services/images/product-categorizations/product-categorization-before.jpg"
-      class="absolute top-0 left-0 w-full h-full object-cover rounded-[35px]"
+      class="absolute top-0 left-0 w-full h-full object-cover"
       alt="Before Image"
     />
 
-    <!-- After Image (Revealed by slider) -->
-    <div
-      id="afterContainer"
-      class="absolute top-0 left-0 h-full overflow-hidden rounded-[35px] z-10"
-      style="width: 50%;"
-    >
+    <!-- After Image (fixed right side) -->
+    <div class="afterContainer absolute top-0 right-0 h-full overflow-hidden z-10" style="width: 50%;">
       <img
        src="https://test.infolks.info/home/services/images/product-categorizations/product-categorization-after.jpg"
-        class="w-full h-full object-cover opacity-40"
+        class="absolute top-0 right-0 h-full object-cover"
+        style="width: 100%; object-position: right;"
         alt="After Image"
       />
     </div>
 
     <!-- Slider Handle -->
-    <div
-      id="sliderHandle"
-      class="absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize"
-      style="left: 50%;"
-    >
-      <!-- Arrow Icon -->
+    <div class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize" style="left: 50%;">
       <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
-  </svg>
-</div>
-
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
+        </svg>
+      </div>
     </div>
   </div>
 </section>
- 
- 
 
 
 
           </div>
  </section>
 
-
-          </div>
+        </div>
 
           <div class="custom-card card7" id="7">
            <section class="slider_content flex justify-center items-center py-20">
@@ -1773,39 +1823,34 @@
     </div>
 
  <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
-  <div class="comparison-card relative w-[465px] h-[326px] rounded-[35px] overflow-hidden shadow-xl">
-  <!-- Before Image -->
-  <img
-    src="https://test.infolks.info/home/services/images/nlp/nlp-before.jpg"
-    class="absolute top-0 left-0 w-full h-full object-cover rounded-[35px]"
-    alt="Before Image"
-  />
-
-  <!-- After Image -->
-  <div
-    class="afterContainer absolute top-0 left-0 h-full overflow-hidden rounded-[35px] z-10"
-    style="width: 50%;"
-  >
+  <div class="comparison-card relative w-[500px] aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
+    
+    <!-- Before Image -->
     <img
-      src="https://test.infolks.info/home/services/images/nlp/nlp-after.jpg"
-      class="w-full h-full object-cover opacity-40"
-      alt="After Image"
+       src="https://test.infolks.info/home/services/images/nlp/nlp-before.jpg"
+      class="absolute top-0 left-0 w-full h-full object-cover"
+      alt="Before Image"
     />
-  </div>
 
-  <!-- Slider Handle -->
-  <div
-    class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize"
-    style="left: 50%;"
-  >
-    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
-      </svg>
+    <!-- After Image (fixed right side) -->
+    <div class="afterContainer absolute top-0 right-0 h-full overflow-hidden z-10" style="width: 50%;">
+      <img
+        src="https://test.infolks.info/home/services/images/nlp/nlp-after.jpg"
+        class="absolute top-0 right-0 h-full object-cover"
+        style="width: 100%; object-position: right;"
+        alt="After Image"
+      />
+    </div>
+
+    <!-- Slider Handle -->
+    <div class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize" style="left: 50%;">
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
+        </svg>
+      </div>
     </div>
   </div>
-</div>
-
 </section>
 
 
@@ -1904,93 +1949,63 @@
 </div>
 
 
-     <div
-        class="  grid grid-cols-1 gap-3 md:gap10 justify-center items-center text-white z-20 text-center bg-gradient-to-r from-[#0B9FFD] to-[#0066cc] rounded-3xl w-full p-5  md:px-[20px] md:py-[60px] ">
+      <div class="flex flex-col justify-center text-white z-20 text-center bg-gradient-to-r from-[#0B9FFD] to-[#0066cc] rounded-3xl w-full p-5 md:px-[20px] md:py-[60px]">
+  <div class="flex flex-col justify-center items-center gap-3 pt-10">
+    
+    <!-- First Row of Icons -->
+    <div class="grid grid-cols-4 gap-1 justify-items-center w-[70%] md:w-[90%]">
+      <div class="bg-white rounded-full w-[50px] h-[50px] md:w-[80px] lg:w-[128px] lg:h-[128px] flex items-center justify-center">
+        <img src="https://test.infolks.info/icons/lets-talk/user.png" alt="User" class="object-contain w-5 h-5 md:w-[35px] md:h-[35px] lg:w-20 lg:h-20" />
+      </div>
+      <div class="bg-white rounded-full w-[40px] h-[40px] md:w-[70px] lg:w-[96px] lg:h-[96px] flex items-center justify-center">
+        <img src="https://test.infolks.info/icons/lets-talk/chat.png" alt="Chat" class="object-contain w-5 h-5 md:w-[35px] md:h-[35px] lg:w-20 lg:h-20" />
+      </div>
+      <div class="bg-white rounded-full w-[44px] h-[44px] md:w-[70px] lg:w-[96px] lg:h-[96px] flex items-center justify-center">
+        <img src="https://test.infolks.info/icons/lets-talk/open-envelope.png" alt="Envelope" class="object-contain w-5 h-5 md:w-[35px] md:h-[35px] lg:w-[72px] lg:h-[72px]" />
+      </div>
+      <div class="bg-white rounded-full w-[50px] h-[50px] lg:w-[104px] lg:h-[104px] flex items-center justify-center">
+        <img src="https://test.infolks.info/icons/lets-talk/envelope.png" alt="Envelope" class="object-contain w-5 h-5 md:w-[35px] md:h-[35px] lg:w-[72px] lg:h-[72px]" />
+      </div>
+    </div>
 
-        <!-- Icon Grid -->
-        <div class="grid grid-cols-7  justify-center  mt-[80px] ">
-          <!-- Icon 1 -->
-          <div class="bg-white rounded-full w-[50px] h-[50px] 
-  md:w-[80px] 
-  
-  lg:w-[128px] lg:h-[128px] flex items-center justify-center transform -translate-y-10 translate-x-20 ">
-            <img src="https://test.infolks.info/icons/lets-talk/user.png" alt="User" class=" md:object-contain w-10 h-10" />
-          </div>
+    <!-- Second Row of Icons -->
+    <div class="grid grid-cols-3 gap-3 justify-items-center w-[50%] md:w-[70%] lg:w-[80%]">
+      <div class="bg-white rounded-full w-[50px] h-[50px] md:w-[80px] lg:w-[120px] lg:h-[120px] flex items-center justify-center">
+        <img src="https://test.infolks.info/icons/lets-talk/phone.png" alt="Phone" class="object-contain w-5 h-5 md:w-[35px] md:h-[35px] lg:w-20 lg:h-20" />
+      </div>
+      <div class="bg-white rounded-full w-[60px] h-[60px] md:w-[90px] lg:w-[136px] lg:h-[136px] flex items-center justify-center">
+        <img src="https://test.infolks.info/icons/lets-talk/user-group.png" alt="Group" class="object-contain w-5 h-5 md:w-[35px] md:h-[35px] lg:w-20 lg:h-20" />
+      </div>
+      <div class="bg-white rounded-full w-[50px] h-[50px] md:w-[80px] lg:w-[120px] lg:h-[120px] flex items-center justify-center">
+        <img src="https://test.infolks.info/icons/lets-talk/printer.png" alt="Printer" class="object-contain w-5 h-5 md:w-[35px] md:h-[35px] lg:w-20 lg:h-20" />
+      </div>
+    </div>
+  </div>
 
-          <!-- Icon 2 -->
-          <div class="bg-white rounded-full w-[50px] h-[50px] 
-  md:w-[80px] 
+  <!-- Text Content -->
+  <div class="flex flex-col">
+    <div class="text-center mt-10">
    
-  lg:w-[120px] lg:h-[120px] flex items-center justify-center transform translate-y-10 translate-x-10 md:translate-x-20">
-            <img src="https://test.infolks.info/icons/lets-talk/phone.png" alt="Phone" class=" md:object-contain w-10 h-10" />
-          </div>
-
-          <!-- Icon 3 -->
-          <div class="bg-white rounded-full  w-[40px] h-[40px] 
-  md:w-[70px]  
-  
-  lg:w-[96px] lg:h-[96px]  flex items-center justify-center transform -translate-y-10 translate-x-10">
-            <img src="https://test.infolks.info/icons/lets-talk/chat.png" alt="Chat" class=" md:object-contain w-10 h-10" />
-          </div>
-
-          <!-- Icon 4 -->
-          <div class="bg-white rounded-full w-[60px] h-[60px] 
-  md:w-[90px]  
-  
-  lg:w-[136px] lg:h-[136px]  flex items-center justify-center transform translate-y-10  translate-x-5 md:translate-x-5">
-            <img src="https://test.infolks.info/icons/lets-talk/user-group.png" alt="Group" class=" md:object-contain w-10 h-10" />
-          </div>
-
-          <!-- Icon 5 -->
-          <div class="bg-white rounded-full w-[44px] h-[44px] 
-  md:w-[70px]  
-  
-  lg:w-[96px] lg:h-[96px] flex items-center justify-center transform -translate-y-10 ">
-            <img src="https://test.infolks.info/icons/lets-talk/open-envelope.png" alt="Envelope"
-              class=" object-contain sm:w-10 sm:h-7" />
-          </div>
-
-          <!-- Icon 6 -->
-          <div class="bg-white rounded-full w-[50px] h-[50px] 
-  md:w-[80px]  
-  
-  lg:w-[120px] lg:h-[120px] flex items-center justify-center transform translate-y-6  sm:translate-x-10 md:-translate-x-10  ">
-            <img src="https://test.infolks.info/icons/lets-talk/printer.png" alt="Printer" class=" md:object-contain w-10 h-10" />
-          </div>
-
-          <!-- Icon 7 -->
-          <div class="bg-white rounded-full  w-[50px] h-[50px] 
-  
- 
-  lg:w-[104px] lg:h-[104px]  flex items-center justify-center transform -translate-y-10  -translate-x-10">
-            <img src="https://test.infolks.info/icons/lets-talk/envelope.png" alt="Envelope" class=" md:object-contain w-10 h-10" />
-          </div>
-        </div>
-        <div class="text-center mt-10">
           <!-- Text Content -->
           <h5 class="text-[16px] md:text-[20px] mb-2">Tie up with our hands to power a better AI initiative.</h5>
           <h1 class="text-[16px] font-primary-medium uppercase w-[80%] mx-auto">LET’S KNOW HOW WE CAN HELP YOU</h1>
-        </div>
-        <!-- CTA Button -->
-        <div class="flex justify-center items-center py-10">
+   
+    </div>
+
+    <!-- CTA Button -->
+    <div class="flex justify-center items-center py-10">
       <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 md:gap-x-2.5">
-        <!-- Text Button -->
         <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A] z-20">
           <span class="relative z-10 text-sm">LET’S TALK</span>
         </button>
-        <!-- White Background Span WITH BORDER -->
-        <span
-          class="absolute inset-0 h-full w-full bg-[#FFFBF0] border border-[#13B2F5] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] md:group-hover:w-[calc(100%-3.7rem)]"></span>
-        <!-- Arrow Button -->
-        <div
-          class="relative z-30 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
-          style="width: 50px; height: 50px;">
+        <span class="absolute inset-0 h-full w-full bg-[#FFFBF0] border border-[#13B2F5] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] md:group-hover:w-[calc(100%-3.7rem)]"></span>
+        <div class="relative z-30 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0" style="width: 50px; height: 50px;">
           <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
         </div>
       </div>
     </div>
-      </div>
-
+  </div>
+</div>
 
 
 
@@ -2642,16 +2657,17 @@
     </div>
 
     <!-- Cards Container -->
-    <div class="flex flex-wrap gap-8 justify-center w-full cursor-none">
+    <div class="flex flex-wrap gap-8 justify-center w-full lg:cursor-none">
       <!-- Card 1 -->
       <div class="card-wrapper flex justify-center w-full sm:w-full md:w-full lg:w-auto">
-        <div class="red-border hidden lg:block"></div>
+        <div class="red-borderone hidden lg:block "></div>
         <div id="card1"
-          class="group cursor-none relative w-full sm:w-full md:w-full lg:max-w-xs rounded-xl overflow-hidden transition-all duration-300 border-2 border-gray-200 bg-white">
-          <div class="flex items-center gap-2 justify-between px-4 pt-4 text-[10px] transform transition-transform duration-300 ease-in-out 
-sm:hover:scale-105 md:hover:scale-105 
-lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
-">
+  class="group lg:cursor-none relative w-full sm:w-full md:w-full lg:max-w-xs rounded-xl overflow-hidden border-2 border-gray-200 bg-white">
+  
+  <div class="flex items-center gap-2 justify-between px-4 pt-4 text-[10px]
+      transform transition-transform duration-300 ease-in-out
+      sm:hover:scale-105 md:hover:scale-105
+  ">
             <p class="text-black font-semibold">BLOG</p>
             <div class="w-full h-0.5 bg-[#04AFC6] mx-2"></div>
             <p class="w-16 text-black font-semibold">JAN 2024</p>
@@ -2660,8 +2676,8 @@ lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
           <div class="relative p-4">
             <img src="https://test.infolks.info/home/blog/blog.png" alt="Blog 1"
               class="h-auto md:h-[305px] w-full object-cover rounded-xl transition duration-300" />
-            <div id="circle1"
-        class="absolute w-[20vmin] h-[20vmin] flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition duration-300 z-50">
+            <div id="circle1" 
+        class="absolute w-[20vmin] h-[20vmin] flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition duration-300 z-50 hidden lg:flex">
         
         <!-- SVG Blob -->
         <svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" class="absolute w-full h-full blob z-10">
@@ -2685,7 +2701,7 @@ lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
 
           <div class="border-t-2 border-red-500 p-4 flex items-center justify-between gap-3">
   <p class="text-black text-lg font-semibold">Revolutionizing Industries with AI Solutions</p>
-  <div class="md:hidden z-30 w-10 cursor-none lg:hidden">
+  <div class="md:hidden z-30 w-10 cursor-pointer lg:hidden">
     <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clip-path="url(#clip0_649_2556)">
         <path d="M32.969 14.0537H27.4862C26.3096 14.0537 25.1593 14.4131 24.1696 15.0911L23.0002 15.8889L21.8308 15.0911C20.8421 14.4132 19.6906 14.053 18.5143 14.0537H13.0315C12.6073 14.0537 12.2646 14.4182 12.2646 14.8693V29.3467C12.2646 29.7978 12.6073 30.1623 13.0315 30.1623H18.5143C19.6909 30.1623 20.8411 30.5217 21.8308 31.1997L22.8948 31.9286C22.9259 31.949 22.9619 31.9618 22.9978 31.9618C23.0338 31.9618 23.0697 31.9516 23.1009 31.9286L24.1648 31.1997C25.1569 30.5217 26.3096 30.1623 27.4862 30.1623H32.969C33.3931 30.1623 33.7358 29.7978 33.7358 29.3467V14.8693C33.7358 14.4182 33.3931 14.0537 32.969 14.0537ZM18.5143 28.3272H13.99V15.8889H18.5143C19.3626 15.8889 20.1869 16.1463 20.8986 16.6331L22.0681 17.4309L22.2334 17.5456V29.3212C21.0927 28.6687 19.8179 28.3272 18.5143 28.3272ZM32.0104 28.3272H27.4862C26.1826 28.3272 24.9077 28.6687 23.7671 29.3212V17.5456L23.9324 17.4309L25.1018 16.6331C25.8135 16.1463 26.6379 15.8889 27.4862 15.8889H32.0104V28.3272ZM20.242 19.1514H15.7897C15.6962 19.1514 15.6195 19.238 15.6195 19.3425V20.4895C15.6195 20.594 15.6962 20.6807 15.7897 20.6807H20.2396C20.3331 20.6807 20.4098 20.594 20.4098 20.4895V19.3425C20.4122 19.238 20.3355 19.1514 20.242 19.1514ZM25.5883 19.3425V20.4895C25.5883 20.594 25.6649 20.6807 25.7584 20.6807H30.2084C30.3019 20.6807 30.3785 20.594 30.3785 20.4895V19.3425C30.3785 19.238 30.3019 19.1514 30.2084 19.1514H25.7584C25.6649 19.1514 25.5883 19.238 25.5883 19.3425ZM20.242 22.7197H15.7897C15.6962 22.7197 15.6195 22.8064 15.6195 22.9109V24.0579C15.6195 24.1624 15.6962 24.249 15.7897 24.249H20.2396C20.3331 24.249 20.4098 24.1624 20.4098 24.0579V22.9109C20.4122 22.8064 20.3355 22.7197 20.242 22.7197ZM30.2108 22.7197H25.7584C25.6649 22.7197 25.5883 22.8064 25.5883 22.9109V24.0579C25.5883 24.1624 25.6649 24.249 25.7584 24.249H30.2084C30.3019 24.249 30.3785 24.1624 30.3785 24.0579V22.9109C30.3809 22.8064 30.3043 22.7197 30.2108 22.7197Z" fill="#FF8E90" />
@@ -2705,9 +2721,9 @@ lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
 
       <!-- Card 2 -->
       <div class="card-wrapper flex justify-center w-full sm:w-full md:w-full lg:w-auto">
-        <div class="red-border hidden lg:block"></div>
+        <div class="red-bordertwo hidden lg:block"></div>
         <div id="card2"
-          class="group cursor-none relative w-full sm:w-full md:w-full lg:max-w-xs rounded-xl overflow-hidden transition-all duration-300 border-2 border-gray-200 bg-white">
+          class="group lg:cursor-none relative w-full sm:w-full md:w-full lg:max-w-xs rounded-xl overflow-hidden transition-all duration-300 border-2 border-gray-200 bg-white">
           <div class="flex items-center gap-2 justify-between px-4 pt-4 text-[10px] transform transition-transform duration-300 ease-in-out 
 sm:hover:scale-105 md:hover:scale-105 
 lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
@@ -2721,7 +2737,7 @@ lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
             <img src="https://test.infolks.info/home/blog/blog2.png" alt="Blog 2"
               class="h-auto md:h-[305px] w-full object-cover rounded-xl transition duration-300" />
            <div id="circle2"
-        class="absolute w-[20vmin] h-[20vmin] flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition duration-300 z-50">
+        class="absolute w-[20vmin] h-[20vmin] flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition duration-300 z-50 hidden lg:flex">
         
         <!-- SVG Blob -->
         <svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" class="absolute w-full h-full blob z-10">
@@ -2745,7 +2761,7 @@ lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
          
           <div class="border-t-2 border-red-500 p-4 flex items-center justify-between gap-3">
   <p class="text-black text-lg font-semibold">Unlocking the Power of AI with Expert Annotation</p>
-  <div class="md:hidden z-30 w-10 cursor-none lg:hidden" >
+  <div class="md:hidden z-30 w-10 cursor-pointer lg:hidden" >
     <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clip-path="url(#clip0_649_2556)">
         <path d="M32.969 14.0537H27.4862C26.3096 14.0537 25.1593 14.4131 24.1696 15.0911L23.0002 15.8889L21.8308 15.0911C20.8421 14.4132 19.6906 14.053 18.5143 14.0537H13.0315C12.6073 14.0537 12.2646 14.4182 12.2646 14.8693V29.3467C12.2646 29.7978 12.6073 30.1623 13.0315 30.1623H18.5143C19.6909 30.1623 20.8411 30.5217 21.8308 31.1997L22.8948 31.9286C22.9259 31.949 22.9619 31.9618 22.9978 31.9618C23.0338 31.9618 23.0697 31.9516 23.1009 31.9286L24.1648 31.1997C25.1569 30.5217 26.3096 30.1623 27.4862 30.1623H32.969C33.3931 30.1623 33.7358 29.7978 33.7358 29.3467V14.8693C33.7358 14.4182 33.3931 14.0537 32.969 14.0537ZM18.5143 28.3272H13.99V15.8889H18.5143C19.3626 15.8889 20.1869 16.1463 20.8986 16.6331L22.0681 17.4309L22.2334 17.5456V29.3212C21.0927 28.6687 19.8179 28.3272 18.5143 28.3272ZM32.0104 28.3272H27.4862C26.1826 28.3272 24.9077 28.6687 23.7671 29.3212V17.5456L23.9324 17.4309L25.1018 16.6331C25.8135 16.1463 26.6379 15.8889 27.4862 15.8889H32.0104V28.3272ZM20.242 19.1514H15.7897C15.6962 19.1514 15.6195 19.238 15.6195 19.3425V20.4895C15.6195 20.594 15.6962 20.6807 15.7897 20.6807H20.2396C20.3331 20.6807 20.4098 20.594 20.4098 20.4895V19.3425C20.4122 19.238 20.3355 19.1514 20.242 19.1514ZM25.5883 19.3425V20.4895C25.5883 20.594 25.6649 20.6807 25.7584 20.6807H30.2084C30.3019 20.6807 30.3785 20.594 30.3785 20.4895V19.3425C30.3785 19.238 30.3019 19.1514 30.2084 19.1514H25.7584C25.6649 19.1514 25.5883 19.238 25.5883 19.3425ZM20.242 22.7197H15.7897C15.6962 22.7197 15.6195 22.8064 15.6195 22.9109V24.0579C15.6195 24.1624 15.6962 24.249 15.7897 24.249H20.2396C20.3331 24.249 20.4098 24.1624 20.4098 24.0579V22.9109C20.4122 22.8064 20.3355 22.7197 20.242 22.7197ZM30.2108 22.7197H25.7584C25.6649 22.7197 25.5883 22.8064 25.5883 22.9109V24.0579C25.5883 24.1624 25.6649 24.249 25.7584 24.249H30.2084C30.3019 24.249 30.3785 24.1624 30.3785 24.0579V22.9109C30.3809 22.8064 30.3043 22.7197 30.2108 22.7197Z" fill="#FF8E90" />
@@ -2765,9 +2781,9 @@ lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
 
       <!-- Card 3 -->
       <div class="card-wrapper flex justify-center w-full sm:w-full md:w-full lg:w-auto">
-        <div class="red-border hidden lg:block"></div>
+        <div class="red-borderthree hidden lg:block"></div>
         <div id="card3"
-          class="group cursor-none relative w-full sm:w-full md:w-full lg:max-w-xs rounded-xl overflow-hidden transition-all duration-300 border-2 border-gray-200 bg-white">
+          class="group lg:cursor-none relative w-full sm:w-full md:w-full lg:max-w-xs rounded-xl overflow-hidden transition-all duration-300 border-2 border-gray-200 bg-white">
           <div class="flex items-center gap-2 justify-between px-4 pt-4 text-[10px] ">
             <p class="text-black font-semibold">BLOG</p>
             <div class="w-full h-0.5 bg-[#04AFC6] mx-2"></div>
@@ -2778,7 +2794,7 @@ lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
             <img src="https://test.infolks.info/home/blog/blog3.png" alt="Blog 3"
               class="h-auto md:h-[305px] w-full object-cover rounded-xl transition duration-300" />
             <div id="circle3"
-        class="absolute w-[20vmin] h-[20vmin] flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition duration-300 z-50">
+        class="absolute w-[20vmin] h-[20vmin] flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition duration-300 z-50 hidden lg:flex">
         
         <!-- SVG Blob -->
         <svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" class="absolute w-full h-full blob z-10">
@@ -2802,7 +2818,7 @@ lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
           
           <div class="border-t-2 border-red-500 p-4 flex items-center justify-between gap-3">
   <p class="text-black text-lg font-semibold">The Future of Data Labeling and AI Training</p>
-  <div class="md:hidden z-30 w-10 cursor-none lg:hidden">
+  <div class="md:hidden z-30 w-10 cursor-pointer lg:hidden">
     <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clip-path="url(#clip0_649_2556)">
         <path d="M32.969 14.0537H27.4862C26.3096 14.0537 25.1593 14.4131 24.1696 15.0911L23.0002 15.8889L21.8308 15.0911C20.8421 14.4132 19.6906 14.053 18.5143 14.0537H13.0315C12.6073 14.0537 12.2646 14.4182 12.2646 14.8693V29.3467C12.2646 29.7978 12.6073 30.1623 13.0315 30.1623H18.5143C19.6909 30.1623 20.8411 30.5217 21.8308 31.1997L22.8948 31.9286C22.9259 31.949 22.9619 31.9618 22.9978 31.9618C23.0338 31.9618 23.0697 31.9516 23.1009 31.9286L24.1648 31.1997C25.1569 30.5217 26.3096 30.1623 27.4862 30.1623H32.969C33.3931 30.1623 33.7358 29.7978 33.7358 29.3467V14.8693C33.7358 14.4182 33.3931 14.0537 32.969 14.0537ZM18.5143 28.3272H13.99V15.8889H18.5143C19.3626 15.8889 20.1869 16.1463 20.8986 16.6331L22.0681 17.4309L22.2334 17.5456V29.3212C21.0927 28.6687 19.8179 28.3272 18.5143 28.3272ZM32.0104 28.3272H27.4862C26.1826 28.3272 24.9077 28.6687 23.7671 29.3212V17.5456L23.9324 17.4309L25.1018 16.6331C25.8135 16.1463 26.6379 15.8889 27.4862 15.8889H32.0104V28.3272ZM20.242 19.1514H15.7897C15.6962 19.1514 15.6195 19.238 15.6195 19.3425V20.4895C15.6195 20.594 15.6962 20.6807 15.7897 20.6807H20.2396C20.3331 20.6807 20.4098 20.594 20.4098 20.4895V19.3425C20.4122 19.238 20.3355 19.1514 20.242 19.1514ZM25.5883 19.3425V20.4895C25.5883 20.594 25.6649 20.6807 25.7584 20.6807H30.2084C30.3019 20.6807 30.3785 20.594 30.3785 20.4895V19.3425C30.3785 19.238 30.3019 19.1514 30.2084 19.1514H25.7584C25.6649 19.1514 25.5883 19.238 25.5883 19.3425ZM20.242 22.7197H15.7897C15.6962 22.7197 15.6195 22.8064 15.6195 22.9109V24.0579C15.6195 24.1624 15.6962 24.249 15.7897 24.249H20.2396C20.3331 24.249 20.4098 24.1624 20.4098 24.0579V22.9109C20.4122 22.8064 20.3355 22.7197 20.242 22.7197ZM30.2108 22.7197H25.7584C25.6649 22.7197 25.5883 22.8064 25.5883 22.9109V24.0579C25.5883 24.1624 25.6649 24.249 25.7584 24.249H30.2084C30.3019 24.249 30.3785 24.1624 30.3785 24.0579V22.9109C30.3809 22.8064 30.3043 22.7197 30.2108 22.7197Z" fill="#FF8E90" />
@@ -3170,7 +3186,21 @@ lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
       </div>
     </footer>
   </div>
+<script> // vedio anmination
+     gsap.registerPlugin(ScrollTrigger);
 
+    gsap.to(".video-sectionn", {
+      scrollTrigger: {
+        trigger: ".video-sectionn",
+        start: "top 80%",
+        toggleActions: "play none none none"
+      },
+      opacity: 1,
+      x: 0,
+      duration: 1.2,
+      ease: "power3.out"
+    });
+    </script>
   <script>
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -3375,7 +3405,7 @@ lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
       const current = `.card${i}`;
       const next = `.card${i + 1}`;
 
-      tl.from(next, { yPercent: 75, opacity: 0 });
+      tl.from(next, { yPercent: 100, opacity: 1 });
       tl.to(current, {
         scale: 0.95,
         yPercent: -0.5,
@@ -3421,52 +3451,89 @@ lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
 </script>
 
 <script>
-  const cards = document.querySelectorAll(".comparison-card");
+document.querySelectorAll('.comparison-card').forEach(card => {
+  const afterContainer = card.querySelector('.afterContainer');
+  const handle = card.querySelector('.sliderHandle');
 
-  cards.forEach(card => {
-    const afterContainer = card.querySelector(".afterContainer");
-    const sliderHandle = card.querySelector(".sliderHandle");
-
+  if (afterContainer && handle) {
     let isDragging = false;
 
-    const onMouseMove = (e) => {
-      if (!isDragging) return;
+    const startDrag = () => isDragging = true;
+    const stopDrag = () => isDragging = false;
 
+    const onDrag = (e) => {
+      if (!isDragging) return;
       const rect = card.getBoundingClientRect();
       let offsetX = e.clientX - rect.left;
-      offsetX = Math.max(0, Math.min(offsetX, rect.width));
-      const percent = (offsetX / rect.width) * 100;
+      if (offsetX < 0) offsetX = 0;
+      if (offsetX > rect.width) offsetX = rect.width;
 
+      const percent = (offsetX / rect.width) * 100;
       afterContainer.style.width = `${percent}%`;
-      sliderHandle.style.left = `${percent}%`;
+      handle.style.left = `${percent}%`;
     };
 
-    sliderHandle.addEventListener("mousedown", () => {
-      isDragging = true;
-    });
+    handle.addEventListener('mousedown', startDrag);
+    window.addEventListener('mouseup', stopDrag);
+    window.addEventListener('mousemove', onDrag);
+  }
+});
+</script>
+<!-- mobileandmedium screen carosel dragmove -->
+<script>
+  const carousel = document.getElementById('carousell');
+  const nextBtn = document.getElementById('nextttBtn');
+  const prevBtn = document.getElementById('prevvvBtn');
 
-    window.addEventListener("mouseup", () => {
-      isDragging = false;
-    });
+  const cardWidth = 300; // card width + gap
 
-    window.addEventListener("mousemove", onMouseMove);
+  // Button click scroll
+  nextBtn.addEventListener('click', () => {
+    carousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
   });
-  </script>
+
+  prevBtn.addEventListener('click', () => {
+    carousel.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+  });
+
+  // --- Mouse drag scroll ---
+  let isDraggingg = false;
+  let startX;
+  let scrollStart;
+
+  carousel.addEventListener('mousedown', (e) => {
+    isDraggingg = true;
+    carousel.style.cursor = "grabbing";
+    startX = e.pageX - carousel.offsetLeft;
+    scrollStart = carousel.scrollLeft;
+  });
+
+  carousel.addEventListener('mouseup', () => {
+    isDraggingg = false;
+    carousel.style.cursor = "grab";
+  });
+
+  carousel.addEventListener('mouseleave', () => {
+    isDraggingg = false;
+    carousel.style.cursor = "grab";
+  });
+
+  carousel.addEventListener('mousemove', (e) => {
+    if (!isDraggingg) return;
+    e.preventDefault();
+    const x = e.pageX - carousel.offsetLeft;
+    const move = (x - startX) * 1; // speed multiplier
+    carousel.scrollLeft = scrollStart - move;
+  });
+
+  // Optional: change cursor style initially
+  carousel.style.cursor = "grab";
+</script>
+
+ 
  <!-- circlecrosel -->
   <script>
-    const carousel = document.getElementById('carousell');
-    const nextBtn = document.getElementById('nextttBtn');
-    const prevBtn = document.getElementById('prevvvBtn');
-
-    const cardWidth = 340; // card width (320px) + gap (20px)
-
-    nextBtn.addEventListener('click', () => {
-      carousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
-    });
-
-    prevBtn.addEventListener('click', () => {
-      carousel.scrollBy({ left: -cardWidth, behavior: 'smooth' });
-    });
+    
   
     $(document).ready(function () {
       let currentCardIndex = 0;
@@ -3501,21 +3568,31 @@ lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
       });
     });
     // vedio anmination
-     gsap.registerPlugin(ScrollTrigger);
-
-    gsap.to(".video-section", {
-      scrollTrigger: {
-        trigger: ".video-section",
-        start: "top 80%",
-        toggleActions: "play none none none"
-      },
-      opacity: 1,
-      x: 0,
-      duration: 1.2,
-      ease: "power3.out"
-    });
+    
   </script>
+<script>
+  document.querySelectorAll(".comparison-card").forEach(card => {
+    const afterContainer = card.querySelector(".afterContainer");
+    const sliderHandle = card.querySelector(".sliderHandle");
+    let isDragging = false;
 
+    const moveSlider = (e) => {
+      if (!isDragging) return;
+      const rect = card.getBoundingClientRect();
+      let offsetX = e.clientX - rect.left;
+      offsetX = Math.max(0, Math.min(offsetX, rect.width));
+      const percent = (offsetX / rect.width) * 100;
+
+      // Width grows to the left, right side fixed
+      afterContainer.style.width = `${100 - percent}%`;
+      sliderHandle.style.left = `${percent}%`;
+    };
+
+    sliderHandle.addEventListener("mousedown", () => isDragging = true);
+    window.addEventListener("mouseup", () => isDragging = false);
+    window.addEventListener("mousemove", moveSlider);
+  });
+</script>
 </body>
 
 </html>
