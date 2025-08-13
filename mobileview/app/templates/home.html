@@ -99,10 +99,16 @@
 
     .we-card.prev-2,
     .we-card.next-2 {
-      opacity: 0.1.5;
-      
-      z-index: 0;
+      opacity: 0.6;
+      filter: blur(0.3px);
+      z-index: 1;
     }
+.we-card.prev-3,
+.we-card.next-3 {
+  opacity: 0;
+
+  z-index: -1;
+}
 
     .we-card.prev-1 {
       transform: translateX(-400px) rotate(-10deg) translateY(20px);
@@ -119,6 +125,13 @@
     .we-card.next-2 {
       transform: translateX(800px) rotate(20deg) translateY(200px);
     }
+ .we-card.prev-3 {
+  transform: translateX(-1200px) rotate(-25deg) translateY(300px);
+}
+
+.we-card.next-3 {
+  transform: translateX(1200px) rotate(25deg) translateY(300px);
+}
 
     .we-arrow-controls {
       margin-top: 30px;
@@ -373,10 +386,10 @@
         </button>
         </nav>
         <!-- Desktop Menu Right -->
-        <nav class="hidden  lg:flex items-center gap-8 text-white font-medium">
+        <nav class="hidden  lg:flex items-center gap- text-white font-medium">
           <div class="container mx-auto flex justify-between items-center   text-white">
 
-            <ul class="flex space-x-9 nav-slide">
+            <ul class="flex 2xl:space-x-9 xl:space-x-7  nav-slide">
   <li class="flex flex-col items-center w-16">
     <div class="link">
       <span class="text-white">Home</span>
@@ -1004,7 +1017,7 @@
       </div>
 
       <!-- Video Section (Animated) -->
-      <div class="video-sectionn flex rounded-[16px] lg:rounded-[35px] overflow-hidden xl:w-[60%] w-full opacity-0 translate-x-10 transition-all duration-500 ">
+      <div class="video-sectionn flex rounded-[16px] lg:rounded-[35px] overflow-hidden xl:w-[60%] w-full opacity-0 translate-x-10 transition-all duration-1000 ">
         <div class="w-full">
           
          <video autoplay loop playsinline muted
@@ -1988,7 +2001,7 @@
    
           <!-- Text Content -->
           <h5 class="text-[16px] md:text-[20px] mb-2">Tie up with our hands to power a better AI initiative.</h5>
-          <h1 class="text-[16px] font-primary-medium uppercase w-[80%] mx-auto">LET’S KNOW HOW WE CAN HELP YOU</h1>
+          <h1 class="text-4xl font-primary-medium uppercase w-[80%] mx-auto">LET’S KNOW HOW WE CAN HELP YOU</h1>
    
     </div>
 
@@ -2439,9 +2452,15 @@
           <div class="w-[80%] h-[1px] bg-[#00BFFF] mb-4 mx-auto"></div>
         </div>
 
-         <section class="we-carousel flex flex-col items-center w-[100%] overflow-hidden lg:h-[600px] lg:pt-[100px]  ">
+         <section class="we-carousel flex flex-col items-center w-[100%] overflow-hidden lg:h-[650px] lg:pt-[100px]  "style="background-image: url('https://test.infolks.info/techniques/blogbg.png'); background-position: center center; background-size: cover;" >
+          <div class="justify-center mb-20 ">
+    <h2 class="text-[#37508A] text-3xl font-primary-regular heading-h2 text-center">
+      WHAT OUR CLIENTS HAVE TO SAY
+    </h2>
+  </div>
     <!-- Large screen carousel -->
     <div class="we-card-container hidden lg:block">
+      
       <!-- Cards for 3D carousel -->
       <div class="we-card">
         <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
@@ -2636,10 +2655,27 @@
   </div>
     
     <!-- Navigation Arrows (only visible on large screens) -->
-    <div class="we-arrow-controls hidden lg:flex">
-      <div class="we-arrow left">&#10094;</div>
-      <div class="we-arrow right">&#10095;</div>
-    </div>
+ <div class="we-arrow-controls hidden lg:flex items-center gap-4">
+  <!-- Left Arrow -->
+  <div class="we-arrow left prev-slide z-50 cursor-pointer bg-white rounded-full p-3 shadow-md hover:bg-gray-100 transition">
+    <img 
+      src="https://test.infolks.info/home/icons/client-left-arrow.svg" 
+      alt="Previous"
+      class="w-5 h-5"
+    >
+  </div>
+
+  <!-- Right Arrow -->
+  <div class="we-arrow right next-slide z-50 cursor-pointer bg-white rounded-full p-3 shadow-md hover:bg-gray-100 transition">
+    <img 
+      src="https://test.infolks.info/home/icons/client-right-arrow.svg" 
+      alt="Next"
+      class="w-5 h-5"
+    >
+  </div>
+</div>
+
+
   </section>
         <section class="flex flex-col justify-center items-center pt-5 md:pt-10 lg:pt-20 pb-10 container mx-auto">
           <h2 class="text-[#37508A] font-primary-regular text-center heading-h2 lg:pb-10 text-3xl">WORKFLOW</h2>
@@ -2657,186 +2693,218 @@
     </div>
 
     <!-- Cards Container -->
-    <div class="flex flex-wrap gap-8 justify-center w-full lg:cursor-none">
+    <div class="flex flex-wrap gap-8 justify-center w-full cursor-pointer ">
       <!-- Card 1 -->
       <div class="card-wrapper flex justify-center w-full sm:w-full md:w-full lg:w-auto">
-        <div class="red-borderone hidden lg:block "></div>
-        <div id="card1"
-  class="group lg:cursor-none relative w-full sm:w-full md:w-full lg:max-w-xs rounded-xl overflow-hidden border-2 border-gray-200 bg-white">
-  
-  <div class="flex items-center gap-2 justify-between px-4 pt-4 text-[10px]
-      transform transition-transform duration-300 ease-in-out
-      sm:hover:scale-105 md:hover:scale-105
-  ">
-            <p class="text-black font-semibold">BLOG</p>
-            <div class="w-full h-0.5 bg-[#04AFC6] mx-2"></div>
-            <p class="w-16 text-black font-semibold">JAN 2024</p>
+  <div class="red-borderone hidden lg:block"></div>
+  <div id="card1"
+    class="relative w-full sm:w-full md:w-full lg:max-w-xs rounded-xl overflow-hidden transition-all duration-300 border-2 border-gray-200 bg-white">
+
+    <!-- Top Bar -->
+    <div class="flex items-center gap-2 justify-between px-4 pt-4 text-[10px] transform transition-transform duration-300 ease-in-out 
+      sm:hover:scale-105 md:hover:scale-105 lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100">
+      <p class="text-black font-semibold">BLOG</p>
+      <div class="w-full h-0.5 bg-[#04AFC6] mx-2"></div>
+      <p class="w-16 text-black font-semibold">JAN 2024</p>
+    </div>
+
+    <!-- Image + Blob -->
+    <div class="relative p-4">
+      <div id="image-wrapper1" class="relative group lg:cursor-none">
+        <img src="https://test.infolks.info/home/blog/blog.png" alt="Blog 1"
+          class="h-auto md:h-[305px] w-full object-cover rounded-xl transition duration-300" />
+
+        <!-- Blob -->
+        <div id="circle1"
+  class="absolute w-[20vmin] h-[20vmin] flex items-center justify-center pointer-events-none opacity-0 transition duration-300 z-50 hidden lg:flex">
+          <!-- SVG Blob -->
+          <svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg"
+            class="absolute w-full h-full blob z-10">
+            <g transform="translate(0, 0)">
+              <path
+                d="M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z">
+                <animate attributeName="d" dur="6s" repeatCount="indefinite" keyTimes="0;0.5;1" values="
+                  M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z;
+                  M62.7,-37C74.8,-15.3,73.6,13.3,60.9,35.4C48.3,57.4,24.1,73.1,4.1,70.7C-15.9,68.3,-31.8,47.9,-44.4,25.8C-57,3.8,-66.4,-20,-58.4,-39.3C-50.5,-58.7,-25.2,-73.6,0,-73.6C25.3,-73.6,50.6,-58.7,62.7,-37Z;
+                  M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z" />
+              </path>
+            </g>
+          </svg>
+
+          <!-- Center Text -->
+          <div class="relative z-20 text-white text-sm tracking-wide">
+            READ MORE
           </div>
-
-          <div class="relative p-4">
-            <img src="https://test.infolks.info/home/blog/blog.png" alt="Blog 1"
-              class="h-auto md:h-[305px] w-full object-cover rounded-xl transition duration-300" />
-            <div id="circle1" 
-        class="absolute w-[20vmin] h-[20vmin] flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition duration-300 z-50 hidden lg:flex">
-        
-        <!-- SVG Blob -->
-        <svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" class="absolute w-full h-full blob z-10">
-          <g transform="translate(0, 0)">
-            <path d="M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z">
-              <animate attributeName="d" dur="6s" repeatCount="indefinite" keyTimes="0;0.5;1" values="
-                M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z;
-                M62.7,-37C74.8,-15.3,73.6,13.3,60.9,35.4C48.3,57.4,24.1,73.1,4.1,70.7C-15.9,68.3,-31.8,47.9,-44.4,25.8C-57,3.8,-66.4,-20,-58.4,-39.3C-50.5,-58.7,-25.2,-73.6,0,-73.6C25.3,-73.6,50.6,-58.7,62.7,-37Z;
-                M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z" />
-            </path>
-          </g>
-        </svg>
-
-        <!-- Centered Text -->
-        <div class="relative z-20 text-white text-sm  tracking-wide">
-          READ MORE
-        </div>
-      </div>
-          </div>
-          
-
-          <div class="border-t-2 border-red-500 p-4 flex items-center justify-between gap-3">
-  <p class="text-black text-lg font-semibold">Revolutionizing Industries with AI Solutions</p>
-  <div class="md:hidden z-30 w-10 cursor-pointer lg:hidden">
-    <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g clip-path="url(#clip0_649_2556)">
-        <path d="M32.969 14.0537H27.4862C26.3096 14.0537 25.1593 14.4131 24.1696 15.0911L23.0002 15.8889L21.8308 15.0911C20.8421 14.4132 19.6906 14.053 18.5143 14.0537H13.0315C12.6073 14.0537 12.2646 14.4182 12.2646 14.8693V29.3467C12.2646 29.7978 12.6073 30.1623 13.0315 30.1623H18.5143C19.6909 30.1623 20.8411 30.5217 21.8308 31.1997L22.8948 31.9286C22.9259 31.949 22.9619 31.9618 22.9978 31.9618C23.0338 31.9618 23.0697 31.9516 23.1009 31.9286L24.1648 31.1997C25.1569 30.5217 26.3096 30.1623 27.4862 30.1623H32.969C33.3931 30.1623 33.7358 29.7978 33.7358 29.3467V14.8693C33.7358 14.4182 33.3931 14.0537 32.969 14.0537ZM18.5143 28.3272H13.99V15.8889H18.5143C19.3626 15.8889 20.1869 16.1463 20.8986 16.6331L22.0681 17.4309L22.2334 17.5456V29.3212C21.0927 28.6687 19.8179 28.3272 18.5143 28.3272ZM32.0104 28.3272H27.4862C26.1826 28.3272 24.9077 28.6687 23.7671 29.3212V17.5456L23.9324 17.4309L25.1018 16.6331C25.8135 16.1463 26.6379 15.8889 27.4862 15.8889H32.0104V28.3272ZM20.242 19.1514H15.7897C15.6962 19.1514 15.6195 19.238 15.6195 19.3425V20.4895C15.6195 20.594 15.6962 20.6807 15.7897 20.6807H20.2396C20.3331 20.6807 20.4098 20.594 20.4098 20.4895V19.3425C20.4122 19.238 20.3355 19.1514 20.242 19.1514ZM25.5883 19.3425V20.4895C25.5883 20.594 25.6649 20.6807 25.7584 20.6807H30.2084C30.3019 20.6807 30.3785 20.594 30.3785 20.4895V19.3425C30.3785 19.238 30.3019 19.1514 30.2084 19.1514H25.7584C25.6649 19.1514 25.5883 19.238 25.5883 19.3425ZM20.242 22.7197H15.7897C15.6962 22.7197 15.6195 22.8064 15.6195 22.9109V24.0579C15.6195 24.1624 15.6962 24.249 15.7897 24.249H20.2396C20.3331 24.249 20.4098 24.1624 20.4098 24.0579V22.9109C20.4122 22.8064 20.3355 22.7197 20.242 22.7197ZM30.2108 22.7197H25.7584C25.6649 22.7197 25.5883 22.8064 25.5883 22.9109V24.0579C25.5883 24.1624 25.6649 24.249 25.7584 24.249H30.2084C30.3019 24.249 30.3785 24.1624 30.3785 24.0579V22.9109C30.3809 22.8064 30.3043 22.7197 30.2108 22.7197Z" fill="#FF8E90" />
-      </g>
-      <circle cx="23" cy="23" r="22.5" stroke="#FF8E90" />
-      <defs>
-        <clipPath id="clip0_649_2556">
-          <rect width="22" height="18" fill="white" transform="translate(12 14)" />
-        </clipPath>
-      </defs>
-    </svg>
-  </div>
-</div>
-
-        </div>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="card-wrapper flex justify-center w-full sm:w-full md:w-full lg:w-auto">
-        <div class="red-bordertwo hidden lg:block"></div>
-        <div id="card2"
-          class="group lg:cursor-none relative w-full sm:w-full md:w-full lg:max-w-xs rounded-xl overflow-hidden transition-all duration-300 border-2 border-gray-200 bg-white">
-          <div class="flex items-center gap-2 justify-between px-4 pt-4 text-[10px] transform transition-transform duration-300 ease-in-out 
-sm:hover:scale-105 md:hover:scale-105 
-lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
-">
-            <p class="text-black font-semibold">BLOG</p>
-            <div class="w-full h-0.5 bg-[#04AFC6] mx-2"></div>
-            <p class="w-16 text-black font-semibold">JAN 2024</p>
-          </div>
-
-          <div class="relative p-4">
-            <img src="https://test.infolks.info/home/blog/blog2.png" alt="Blog 2"
-              class="h-auto md:h-[305px] w-full object-cover rounded-xl transition duration-300" />
-           <div id="circle2"
-        class="absolute w-[20vmin] h-[20vmin] flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition duration-300 z-50 hidden lg:flex">
-        
-        <!-- SVG Blob -->
-        <svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" class="absolute w-full h-full blob z-10">
-          <g transform="translate(0, 0)">
-            <path d="M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z">
-              <animate attributeName="d" dur="6s" repeatCount="indefinite" keyTimes="0;0.5;1" values="
-                M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z;
-                M62.7,-37C74.8,-15.3,73.6,13.3,60.9,35.4C48.3,57.4,24.1,73.1,4.1,70.7C-15.9,68.3,-31.8,47.9,-44.4,25.8C-57,3.8,-66.4,-20,-58.4,-39.3C-50.5,-58.7,-25.2,-73.6,0,-73.6C25.3,-73.6,50.6,-58.7,62.7,-37Z;
-                M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z" />
-            </path>
-          </g>
-        </svg>
-
-        <!-- Centered Text -->
-       <div class="relative z-20 text-white text-sm  tracking-wide">
-          READ MORE
-        </div>
-      </div>
-          </div>
-
-         
-          <div class="border-t-2 border-red-500 p-4 flex items-center justify-between gap-3">
-  <p class="text-black text-lg font-semibold">Unlocking the Power of AI with Expert Annotation</p>
-  <div class="md:hidden z-30 w-10 cursor-pointer lg:hidden" >
-    <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g clip-path="url(#clip0_649_2556)">
-        <path d="M32.969 14.0537H27.4862C26.3096 14.0537 25.1593 14.4131 24.1696 15.0911L23.0002 15.8889L21.8308 15.0911C20.8421 14.4132 19.6906 14.053 18.5143 14.0537H13.0315C12.6073 14.0537 12.2646 14.4182 12.2646 14.8693V29.3467C12.2646 29.7978 12.6073 30.1623 13.0315 30.1623H18.5143C19.6909 30.1623 20.8411 30.5217 21.8308 31.1997L22.8948 31.9286C22.9259 31.949 22.9619 31.9618 22.9978 31.9618C23.0338 31.9618 23.0697 31.9516 23.1009 31.9286L24.1648 31.1997C25.1569 30.5217 26.3096 30.1623 27.4862 30.1623H32.969C33.3931 30.1623 33.7358 29.7978 33.7358 29.3467V14.8693C33.7358 14.4182 33.3931 14.0537 32.969 14.0537ZM18.5143 28.3272H13.99V15.8889H18.5143C19.3626 15.8889 20.1869 16.1463 20.8986 16.6331L22.0681 17.4309L22.2334 17.5456V29.3212C21.0927 28.6687 19.8179 28.3272 18.5143 28.3272ZM32.0104 28.3272H27.4862C26.1826 28.3272 24.9077 28.6687 23.7671 29.3212V17.5456L23.9324 17.4309L25.1018 16.6331C25.8135 16.1463 26.6379 15.8889 27.4862 15.8889H32.0104V28.3272ZM20.242 19.1514H15.7897C15.6962 19.1514 15.6195 19.238 15.6195 19.3425V20.4895C15.6195 20.594 15.6962 20.6807 15.7897 20.6807H20.2396C20.3331 20.6807 20.4098 20.594 20.4098 20.4895V19.3425C20.4122 19.238 20.3355 19.1514 20.242 19.1514ZM25.5883 19.3425V20.4895C25.5883 20.594 25.6649 20.6807 25.7584 20.6807H30.2084C30.3019 20.6807 30.3785 20.594 30.3785 20.4895V19.3425C30.3785 19.238 30.3019 19.1514 30.2084 19.1514H25.7584C25.6649 19.1514 25.5883 19.238 25.5883 19.3425ZM20.242 22.7197H15.7897C15.6962 22.7197 15.6195 22.8064 15.6195 22.9109V24.0579C15.6195 24.1624 15.6962 24.249 15.7897 24.249H20.2396C20.3331 24.249 20.4098 24.1624 20.4098 24.0579V22.9109C20.4122 22.8064 20.3355 22.7197 20.242 22.7197ZM30.2108 22.7197H25.7584C25.6649 22.7197 25.5883 22.8064 25.5883 22.9109V24.0579C25.5883 24.1624 25.6649 24.249 25.7584 24.249H30.2084C30.3019 24.249 30.3785 24.1624 30.3785 24.0579V22.9109C30.3809 22.8064 30.3043 22.7197 30.2108 22.7197Z" fill="#FF8E90" />
-      </g>
-      <circle cx="23" cy="23" r="22.5" stroke="#FF8E90" />
-      <defs>
-        <clipPath id="clip0_649_2556">
-          <rect width="22" height="18" fill="white" transform="translate(12 14)" />
-        </clipPath>
-      </defs>
-    </svg>
-  </div>
-</div>
-
-        </div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="card-wrapper flex justify-center w-full sm:w-full md:w-full lg:w-auto">
-        <div class="red-borderthree hidden lg:block"></div>
-        <div id="card3"
-          class="group lg:cursor-none relative w-full sm:w-full md:w-full lg:max-w-xs rounded-xl overflow-hidden transition-all duration-300 border-2 border-gray-200 bg-white">
-          <div class="flex items-center gap-2 justify-between px-4 pt-4 text-[10px] ">
-            <p class="text-black font-semibold">BLOG</p>
-            <div class="w-full h-0.5 bg-[#04AFC6] mx-2"></div>
-            <p class="w-16 text-black font-semibold">JAN 2024</p>
-          </div>
-
-          <div class="relative p-4">
-            <img src="https://test.infolks.info/home/blog/blog3.png" alt="Blog 3"
-              class="h-auto md:h-[305px] w-full object-cover rounded-xl transition duration-300" />
-            <div id="circle3"
-        class="absolute w-[20vmin] h-[20vmin] flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition duration-300 z-50 hidden lg:flex">
-        
-        <!-- SVG Blob -->
-        <svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" class="absolute w-full h-full blob z-10">
-          <g transform="translate(0, 0)">
-            <path d="M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z">
-              <animate attributeName="d" dur="6s" repeatCount="indefinite" keyTimes="0;0.5;1" values="
-                M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z;
-                M62.7,-37C74.8,-15.3,73.6,13.3,60.9,35.4C48.3,57.4,24.1,73.1,4.1,70.7C-15.9,68.3,-31.8,47.9,-44.4,25.8C-57,3.8,-66.4,-20,-58.4,-39.3C-50.5,-58.7,-25.2,-73.6,0,-73.6C25.3,-73.6,50.6,-58.7,62.7,-37Z;
-                M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z" />
-            </path>
-          </g>
-        </svg>
-
-        <!-- Centered Text -->
-        <div class="relative z-20 text-white text-sm  tracking-wide">
-          READ MORE
-        </div>
-      </div>
-          </div>
-
-          
-          <div class="border-t-2 border-red-500 p-4 flex items-center justify-between gap-3">
-  <p class="text-black text-lg font-semibold">The Future of Data Labeling and AI Training</p>
-  <div class="md:hidden z-30 w-10 cursor-pointer lg:hidden">
-    <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g clip-path="url(#clip0_649_2556)">
-        <path d="M32.969 14.0537H27.4862C26.3096 14.0537 25.1593 14.4131 24.1696 15.0911L23.0002 15.8889L21.8308 15.0911C20.8421 14.4132 19.6906 14.053 18.5143 14.0537H13.0315C12.6073 14.0537 12.2646 14.4182 12.2646 14.8693V29.3467C12.2646 29.7978 12.6073 30.1623 13.0315 30.1623H18.5143C19.6909 30.1623 20.8411 30.5217 21.8308 31.1997L22.8948 31.9286C22.9259 31.949 22.9619 31.9618 22.9978 31.9618C23.0338 31.9618 23.0697 31.9516 23.1009 31.9286L24.1648 31.1997C25.1569 30.5217 26.3096 30.1623 27.4862 30.1623H32.969C33.3931 30.1623 33.7358 29.7978 33.7358 29.3467V14.8693C33.7358 14.4182 33.3931 14.0537 32.969 14.0537ZM18.5143 28.3272H13.99V15.8889H18.5143C19.3626 15.8889 20.1869 16.1463 20.8986 16.6331L22.0681 17.4309L22.2334 17.5456V29.3212C21.0927 28.6687 19.8179 28.3272 18.5143 28.3272ZM32.0104 28.3272H27.4862C26.1826 28.3272 24.9077 28.6687 23.7671 29.3212V17.5456L23.9324 17.4309L25.1018 16.6331C25.8135 16.1463 26.6379 15.8889 27.4862 15.8889H32.0104V28.3272ZM20.242 19.1514H15.7897C15.6962 19.1514 15.6195 19.238 15.6195 19.3425V20.4895C15.6195 20.594 15.6962 20.6807 15.7897 20.6807H20.2396C20.3331 20.6807 20.4098 20.594 20.4098 20.4895V19.3425C20.4122 19.238 20.3355 19.1514 20.242 19.1514ZM25.5883 19.3425V20.4895C25.5883 20.594 25.6649 20.6807 25.7584 20.6807H30.2084C30.3019 20.6807 30.3785 20.594 30.3785 20.4895V19.3425C30.3785 19.238 30.3019 19.1514 30.2084 19.1514H25.7584C25.6649 19.1514 25.5883 19.238 25.5883 19.3425ZM20.242 22.7197H15.7897C15.6962 22.7197 15.6195 22.8064 15.6195 22.9109V24.0579C15.6195 24.1624 15.6962 24.249 15.7897 24.249H20.2396C20.3331 24.249 20.4098 24.1624 20.4098 24.0579V22.9109C20.4122 22.8064 20.3355 22.7197 20.242 22.7197ZM30.2108 22.7197H25.7584C25.6649 22.7197 25.5883 22.8064 25.5883 22.9109V24.0579C25.5883 24.1624 25.6649 24.249 25.7584 24.249H30.2084C30.3019 24.249 30.3785 24.1624 30.3785 24.0579V22.9109C30.3809 22.8064 30.3043 22.7197 30.2108 22.7197Z" fill="#FF8E90" />
-      </g>
-      <circle cx="23" cy="23" r="22.5" stroke="#FF8E90" />
-      <defs>
-        <clipPath id="clip0_649_2556">
-          <rect width="22" height="18" fill="white" transform="translate(12 14)" />
-        </clipPath>
-      </defs>
-    </svg>
-  </div>
-</div>
-
         </div>
       </div>
     </div>
 
+    <!-- Bottom Bar -->
+    <div class="border-t-2 border-red-500 p-4 flex items-center justify-between gap-3">
+      <p class="text-black text-lg font-semibold">Revolutionizing Industries with AI Solutions</p>
+      <div class="md:hidden z-30 w-10 cursor-pointer lg:hidden">
+        <svg width="46" height="46" viewBox="0 0 46 46" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_649_2556)">
+            <path
+              d="M32.969 14.0537H27.4862C26.3096 14.0537 25.1593 14.4131 24.1696 15.0911L23.0002 15.8889L21.8308 15.0911C20.8421 14.4132 19.6906 14.053 18.5143 14.0537H13.0315C12.6073 14.0537 12.2646 14.4182 12.2646 14.8693V29.3467C12.2646 29.7978 12.6073 30.1623 13.0315 30.1623H18.5143C19.6909 30.1623 20.8411 30.5217 21.8308 31.1997L22.8948 31.9286C22.9259 31.949 22.9619 31.9618 22.9978 31.9618C23.0338 31.9618 23.0697 31.9516 23.1009 31.9286L24.1648 31.1997C25.1569 30.5217 26.3096 30.1623 27.4862 30.1623H32.969C33.3931 30.1623 33.7358 29.7978 33.7358 29.3467V14.8693C33.7358 14.4182 33.3931 14.0537 32.969 14.0537ZM18.5143 28.3272H13.99V15.8889H18.5143C19.3626 15.8889 20.1869 16.1463 20.8986 16.6331L22.0681 17.4309L22.2334 17.5456V29.3212C21.0927 28.6687 19.8179 28.3272 18.5143 28.3272ZM32.0104 28.3272H27.4862C26.1826 28.3272 24.9077 28.6687 23.7671 29.3212V17.5456L23.9324 17.4309L25.1018 16.6331C25.8135 16.1463 26.6379 15.8889 27.4862 15.8889H32.0104V28.3272ZM20.242 19.1514H15.7897C15.6962 19.1514 15.6195 19.238 15.6195 19.3425V20.4895C15.6195 20.594 15.6962 20.6807 15.7897 20.6807H20.2396C20.3331 20.6807 20.4098 20.594 20.4098 20.4895V19.3425C20.4122 19.238 20.3355 19.1514 20.242 19.1514ZM25.5883 19.3425V20.4895C25.5883 20.594 25.6649 20.6807 25.7584 20.6807H30.2084C30.3019 20.6807 30.3785 20.594 30.3785 20.4895V19.3425C30.3785 19.238 30.3019 19.1514 30.2084 19.1514H25.7584C25.6649 19.1514 25.5883 19.238 25.5883 19.3425ZM20.242 22.7197H15.7897C15.6962 22.7197 15.6195 22.8064 15.6195 22.9109V24.0579C15.6195 24.1624 15.6962 24.249 15.7897 24.249H20.2396C20.3331 24.249 20.4098 24.1624 20.4098 24.0579V22.9109C20.4122 22.8064 20.3355 22.7197 20.242 22.7197ZM30.2108 22.7197H25.7584C25.6649 22.7197 25.5883 22.8064 25.5883 22.9109V24.0579C25.5883 24.1624 25.6649 24.249 25.7584 24.249H30.2084C30.3019 24.249 30.3785 24.1624 30.3785 24.0579V22.9109C30.3809 22.8064 30.3043 22.7197 30.2108 22.7197Z"
+              fill="#FF8E90" />
+          </g>
+          <circle cx="23" cy="23" r="22.5" stroke="#FF8E90" />
+          <defs>
+            <clipPath id="clip0_649_2556">
+              <rect width="22" height="18" fill="white" transform="translate(12 14)" />
+            </clipPath>
+          </defs>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+    <!-- Card 2 -->
+<div class="card-wrapper flex justify-center w-full sm:w-full md:w-full lg:w-auto">
+  <div class="red-bordertwo hidden lg:block"></div>
+  <div id="card2"
+    class="relative w-full sm:w-full md:w-full lg:max-w-xs rounded-xl overflow-hidden transition-all duration-300 border-2 border-gray-200 bg-white">
+
+    <!-- Top Bar -->
+    <div class="flex items-center gap-2 justify-between px-4 pt-4 text-[10px] transform transition-transform duration-300 ease-in-out 
+      sm:hover:scale-105 md:hover:scale-105 lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100">
+      <p class="text-black font-semibold">BLOG</p>
+      <div class="w-full h-0.5 bg-[#04AFC6] mx-2"></div>
+      <p class="w-16 text-black font-semibold">JAN 2024</p>
+    </div>
+
+    <!-- Image + Blob -->
+    <div class="relative p-4">
+      <div id="image-wrapper2" class="relative group lg:cursor-none">
+        <img src="https://test.infolks.info/home/blog/blog2.png" alt="Blog 2"
+          class="h-auto md:h-[305px] w-full object-cover rounded-xl transition duration-300" />
+
+        <!-- Blob -->
+        <div id="circle2"
+          class="absolute w-[20vmin] h-[20vmin] flex items-center justify-center pointer-events-none opacity-0 transition duration-300 z-50 hidden lg:flex">
+
+          <!-- SVG Blob -->
+          <svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg"
+            class="absolute w-full h-full blob z-10">
+            <g transform="translate(0, 0)">
+              <path
+                d="M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z">
+                <animate attributeName="d" dur="6s" repeatCount="indefinite" keyTimes="0;0.5;1" values="
+                  M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z;
+                  M62.7,-37C74.8,-15.3,73.6,13.3,60.9,35.4C48.3,57.4,24.1,73.1,4.1,70.7C-15.9,68.3,-31.8,47.9,-44.4,25.8C-57,3.8,-66.4,-20,-58.4,-39.3C-50.5,-58.7,-25.2,-73.6,0,-73.6C25.3,-73.6,50.6,-58.7,62.7,-37Z;
+                  M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z" />
+              </path>
+            </g>
+          </svg>
+
+          <!-- Center Text -->
+          <div class="relative z-20 text-white text-sm tracking-wide">
+            READ MORE
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="border-t-2 border-red-500 p-4 flex items-center justify-between gap-3">
+      <p class="text-black text-lg font-semibold">Unlocking the Power of AI with Expert Annotation</p>
+      <div class="md:hidden z-30 w-10 cursor-pointer lg:hidden">
+        <svg width="46" height="46" viewBox="0 0 46 46" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_649_2556)">
+            <path
+              d="M32.969 14.0537H27.4862C26.3096 14.0537 25.1593 14.4131 24.1696 15.0911L23.0002 15.8889L21.8308 15.0911C20.8421 14.4132 19.6906 14.053 18.5143 14.0537H13.0315C12.6073 14.0537 12.2646 14.4182 12.2646 14.8693V29.3467C12.2646 29.7978 12.6073 30.1623 13.0315 30.1623H18.5143C19.6909 30.1623 20.8411 30.5217 21.8308 31.1997L22.8948 31.9286C22.9259 31.949 22.9619 31.9618 22.9978 31.9618C23.0338 31.9618 23.0697 31.9516 23.1009 31.9286L24.1648 31.1997C25.1569 30.5217 26.3096 30.1623 27.4862 30.1623H32.969C33.3931 30.1623 33.7358 29.7978 33.7358 29.3467V14.8693C33.7358 14.4182 33.3931 14.0537 32.969 14.0537ZM18.5143 28.3272H13.99V15.8889H18.5143C19.3626 15.8889 20.1869 16.1463 20.8986 16.6331L22.0681 17.4309L22.2334 17.5456V29.3212C21.0927 28.6687 19.8179 28.3272 18.5143 28.3272ZM32.0104 28.3272H27.4862C26.1826 28.3272 24.9077 28.6687 23.7671 29.3212V17.5456L23.9324 17.4309L25.1018 16.6331C25.8135 16.1463 26.6379 15.8889 27.4862 15.8889H32.0104V28.3272ZM20.242 19.1514H15.7897C15.6962 19.1514 15.6195 19.238 15.6195 19.3425V20.4895C15.6195 20.594 15.6962 20.6807 15.7897 20.6807H20.2396C20.3331 20.6807 20.4098 20.594 20.4098 20.4895V19.3425C20.4122 19.238 20.3355 19.1514 20.242 19.1514ZM25.5883 19.3425V20.4895C25.5883 20.594 25.6649 20.6807 25.7584 20.6807H30.2084C30.3019 20.6807 30.3785 20.594 30.3785 20.4895V19.3425C30.3785 19.238 30.3019 19.1514 30.2084 19.1514H25.7584C25.6649 19.1514 25.5883 19.238 25.5883 19.3425ZM20.242 22.7197H15.7897C15.6962 22.7197 15.6195 22.8064 15.6195 22.9109V24.0579C15.6195 24.1624 15.6962 24.249 15.7897 24.249H20.2396C20.3331 24.249 20.4098 24.1624 20.4098 24.0579V22.9109C20.4122 22.8064 20.3355 22.7197 20.242 22.7197ZM30.2108 22.7197H25.7584C25.6649 22.7197 25.5883 22.8064 25.5883 22.9109V24.0579C25.5883 24.1624 25.6649 24.249 25.7584 24.249H30.2084C30.3019 24.249 30.3785 24.1624 30.3785 24.0579V22.9109C30.3809 22.8064 30.3043 22.7197 30.2108 22.7197Z"
+              fill="#FF8E90" />
+          </g>
+          <circle cx="23" cy="23" r="22.5" stroke="#FF8E90" />
+          <defs>
+            <clipPath id="clip0_649_2556">
+              <rect width="22" height="18" fill="white" transform="translate(12 14)" />
+            </clipPath>
+          </defs>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+      <!-- Card 3 -->
+      <div class="card-wrapper flex justify-center w-full sm:w-full md:w-full lg:w-auto">
+  <div class="red-borderthree hidden lg:block"></div>
+  <div id="card3"
+    class="relative w-full sm:w-full md:w-full lg:max-w-xs rounded-xl overflow-hidden transition-all duration-300 border-2 border-gray-200 bg-white">
+
+    <!-- Top Bar -->
+    <div class="flex items-center gap-2 justify-between px-4 pt-4 text-[10px] transform transition-transform duration-300 ease-in-out 
+      sm:hover:scale-105 md:hover:scale-105 lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100">
+      <p class="text-black font-semibold">BLOG</p>
+      <div class="w-full h-0.5 bg-[#04AFC6] mx-2"></div>
+      <p class="w-16 text-black font-semibold">JAN 2024</p>
+    </div>
+
+    <!-- Image + Blob -->
+    <div class="relative p-4">
+      <div id="image-wrapper3" class="relative group lg:cursor-none">
+            <img src="https://test.infolks.info/home/blog/blog3.png" alt="Blog 3"
+          class="h-auto md:h-[305px] w-full object-cover rounded-xl transition duration-300" />
+
+        <!-- Blob -->
+        <div id="circle3"
+          class="absolute w-[20vmin] h-[20vmin] flex items-center justify-center pointer-events-none opacity-0 transition duration-300 z-50 hidden lg:flex">
+
+          <!-- SVG Blob -->
+          <svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg"
+            class="absolute w-full h-full blob z-10">
+            <g transform="translate(0, 0)">
+              <path
+                d="M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z">
+                <animate attributeName="d" dur="6s" repeatCount="indefinite" keyTimes="0;0.5;1" values="
+                  M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z;
+                  M62.7,-37C74.8,-15.3,73.6,13.3,60.9,35.4C48.3,57.4,24.1,73.1,4.1,70.7C-15.9,68.3,-31.8,47.9,-44.4,25.8C-57,3.8,-66.4,-20,-58.4,-39.3C-50.5,-58.7,-25.2,-73.6,0,-73.6C25.3,-73.6,50.6,-58.7,62.7,-37Z;
+                  M43,-25.8C55.6,-3.1,65.5,20.2,57.9,34.9C50.3,49.6,25.1,55.6,-0.9,56.1C-27,56.6,-53.9,51.7,-68.1,33.2C-82.3,14.8,-83.7,-17.2,-70.2,-40.4C-56.7,-63.6,-28.4,-78.1,-6.6,-74.3C15.2,-70.5,30.5,-48.4,43,-25.8Z" />
+              </path>
+            </g>
+          </svg>
+
+          <!-- Center Text -->
+          <div class="relative z-20 text-white text-sm tracking-wide">
+            READ MORE
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="border-t-2 border-red-500 p-4 flex items-center justify-between gap-3">
+      <p class="text-black text-lg font-semibold">The Future of Data Labeling and AI Training</p>
+      <div class="md:hidden z-30 w-10 cursor-pointer lg:hidden">
+        <svg width="46" height="46" viewBox="0 0 46 46" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_649_2556)">
+            <path
+              d="M32.969 14.0537H27.4862C26.3096 14.0537 25.1593 14.4131 24.1696 15.0911L23.0002 15.8889L21.8308 15.0911C20.8421 14.4132 19.6906 14.053 18.5143 14.0537H13.0315C12.6073 14.0537 12.2646 14.4182 12.2646 14.8693V29.3467C12.2646 29.7978 12.6073 30.1623 13.0315 30.1623H18.5143C19.6909 30.1623 20.8411 30.5217 21.8308 31.1997L22.8948 31.9286C22.9259 31.949 22.9619 31.9618 22.9978 31.9618C23.0338 31.9618 23.0697 31.9516 23.1009 31.9286L24.1648 31.1997C25.1569 30.5217 26.3096 30.1623 27.4862 30.1623H32.969C33.3931 30.1623 33.7358 29.7978 33.7358 29.3467V14.8693C33.7358 14.4182 33.3931 14.0537 32.969 14.0537ZM18.5143 28.3272H13.99V15.8889H18.5143C19.3626 15.8889 20.1869 16.1463 20.8986 16.6331L22.0681 17.4309L22.2334 17.5456V29.3212C21.0927 28.6687 19.8179 28.3272 18.5143 28.3272ZM32.0104 28.3272H27.4862C26.1826 28.3272 24.9077 28.6687 23.7671 29.3212V17.5456L23.9324 17.4309L25.1018 16.6331C25.8135 16.1463 26.6379 15.8889 27.4862 15.8889H32.0104V28.3272ZM20.242 19.1514H15.7897C15.6962 19.1514 15.6195 19.238 15.6195 19.3425V20.4895C15.6195 20.594 15.6962 20.6807 15.7897 20.6807H20.2396C20.3331 20.6807 20.4098 20.594 20.4098 20.4895V19.3425C20.4122 19.238 20.3355 19.1514 20.242 19.1514ZM25.5883 19.3425V20.4895C25.5883 20.594 25.6649 20.6807 25.7584 20.6807H30.2084C30.3019 20.6807 30.3785 20.594 30.3785 20.4895V19.3425C30.3785 19.238 30.3019 19.1514 30.2084 19.1514H25.7584C25.6649 19.1514 25.5883 19.238 25.5883 19.3425ZM20.242 22.7197H15.7897C15.6962 22.7197 15.6195 22.8064 15.6195 22.9109V24.0579C15.6195 24.1624 15.6962 24.249 15.7897 24.249H20.2396C20.3331 24.249 20.4098 24.1624 20.4098 24.0579V22.9109C20.4122 22.8064 20.3355 22.7197 20.242 22.7197ZM30.2108 22.7197H25.7584C25.6649 22.7197 25.5883 22.8064 25.5883 22.9109V24.0579C25.5883 24.1624 25.6649 24.249 25.7584 24.249H30.2084C30.3019 24.249 30.3785 24.1624 30.3785 24.0579V22.9109C30.3809 22.8064 30.3043 22.7197 30.2108 22.7197Z"
+              fill="#FF8E90" />
+          </g>
+          <circle cx="23" cy="23" r="22.5" stroke="#FF8E90" />
+          <defs>
+            <clipPath id="clip0_649_2556">
+              <rect width="22" height="18" fill="white" transform="translate(12 14)" />
+            </clipPath>
+          </defs>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+    </div>
     <!-- View All Blogs Button -->
     <div class="flex justify-center items-center py-10">
       <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 md:gap-x-2.5">
@@ -3186,7 +3254,8 @@ lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
       </div>
     </footer>
   </div>
-<script> // vedio anmination
+
+  <script> // vedio anmination
      gsap.registerPlugin(ScrollTrigger);
 
     gsap.to(".video-sectionn", {
@@ -3266,26 +3335,37 @@ lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
     });
 
   </script>
-  <script>
-  function setupCardHover(cardId, circleId) {
-    const card = document.getElementById(cardId);
-    const hoverCircle = document.getElementById(circleId);
+<script>
+function setupImageHover(imageWrapperId, circleId) {
+  const imageWrapper = document.getElementById(imageWrapperId);
+  const hoverCircle = document.getElementById(circleId);
 
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left - hoverCircle.offsetWidth / 2;
-      const y = e.clientY - rect.top - hoverCircle.offsetHeight / 2;
+  imageWrapper.addEventListener('mousemove', (e) => {
+    const rect = imageWrapper.getBoundingClientRect();
+    const x = e.clientX - rect.left - hoverCircle.offsetWidth / 2;
+    const y = e.clientY - rect.top - hoverCircle.offsetHeight / 2;
 
-      hoverCircle.style.left = `${x}px`;
-      hoverCircle.style.top = `${y}px`;
-    });
-  }
+    hoverCircle.style.left = `${x}px`;
+    hoverCircle.style.top = `${y}px`;
+  });
 
-  // Setup for 3 cards
-  setupCardHover('card1', 'circle1');
-  setupCardHover('card2', 'circle2');
-  setupCardHover('card3', 'circle3');
+  imageWrapper.addEventListener('mouseenter', () => {
+    hoverCircle.style.opacity = "1";
+  });
+
+  imageWrapper.addEventListener('mouseleave', () => {
+    hoverCircle.style.opacity = "0";
+  });
+}
+
+ setupImageHover('image-wrapper1', 'circle1');
+ setupImageHover('image-wrapper2', 'circle2');
+ setupImageHover('image-wrapper3', 'circle3');
 </script>
+
+
+  </script>
+
 
   <!-- caroselhoverimage -->
   <script>
@@ -3424,31 +3504,7 @@ lg:hover:scale-100 xl:hover:scale-100 2xl:hover:scale-100
     window.addEventListener("resize", () => ScrollTrigger.refresh());
   </script>
  
-<script>
-  const afterContainer = document.getElementById("afterContainer");
-  const sliderHandle = document.getElementById("sliderHandle");
-  const container = sliderHandle.parentElement;
 
-  let isDragging = false;
-
-  sliderHandle.addEventListener("mousedown", () => {
-    isDragging = true;
-  });
-
-  window.addEventListener("mouseup", () => {
-    isDragging = false;
-  });
-
-  window.addEventListener("mousemove", (e) => {
-    if (!isDragging) return;
-    const rect = container.getBoundingClientRect();
-    let offsetX = e.clientX - rect.left; // <-- from left
-    offsetX = Math.max(0, Math.min(offsetX, rect.width)); // clamp
-    const percent = (offsetX / rect.width) * 100;
-    afterContainer.style.width = `${percent}%`;
-    sliderHandle.style.left = `${percent}%`;
-  });
-</script>
 
 <script>
 document.querySelectorAll('.comparison-card').forEach(card => {
@@ -3458,27 +3514,45 @@ document.querySelectorAll('.comparison-card').forEach(card => {
   if (afterContainer && handle) {
     let isDragging = false;
 
-    const startDrag = () => isDragging = true;
-    const stopDrag = () => isDragging = false;
+    const startDrag = (e) => {
+      e.preventDefault();
+      isDragging = true;
+    };
+
+    const stopDrag = () => {
+      isDragging = false;
+    };
 
     const onDrag = (e) => {
       if (!isDragging) return;
-      const rect = card.getBoundingClientRect();
-      let offsetX = e.clientX - rect.left;
-      if (offsetX < 0) offsetX = 0;
-      if (offsetX > rect.width) offsetX = rect.width;
 
-      const percent = (offsetX / rect.width) * 100;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const rect = card.getBoundingClientRect();
+      let offsetX = clientX - rect.left;
+
+      offsetX = Math.max(0, Math.min(offsetX, rect.width));
+
+      // Reverse percentage so right image reveals correctly
+      const percent = ((rect.width - offsetX) / rect.width) * 100;
+
       afterContainer.style.width = `${percent}%`;
-      handle.style.left = `${percent}%`;
+      handle.style.left = `${100 - percent}%`;
     };
 
+    // Mouse Events
     handle.addEventListener('mousedown', startDrag);
     window.addEventListener('mouseup', stopDrag);
     window.addEventListener('mousemove', onDrag);
+
+    // Touch Events
+    handle.addEventListener('touchstart', startDrag);
+    window.addEventListener('touchend', stopDrag);
+    window.addEventListener('touchmove', onDrag);
   }
 });
+
 </script>
+
 <!-- mobileandmedium screen carosel dragmove -->
 <script>
   const carousel = document.getElementById('carousell');
@@ -3541,19 +3615,24 @@ document.querySelectorAll('.comparison-card').forEach(card => {
       const totalCards = cards.length;
 
       function updateCarousel() {
-        cards.removeClass('active prev-1 next-1 prev-2 next-2');
-        $(cards[currentCardIndex]).addClass('active');
+  cards.removeClass('active prev-1 next-1 prev-2 next-2 prev-3 next-3');
+  $(cards[currentCardIndex]).addClass('active');
 
-        const prevIndex_1 = (currentCardIndex - 1 + totalCards) % totalCards;
-        const nextIndex_1 = (currentCardIndex + 1) % totalCards;
-        const prevIndex_2 = (currentCardIndex - 2 + totalCards) % totalCards;
-        const nextIndex_2 = (currentCardIndex + 2) % totalCards;
+  const prevIndex_1 = (currentCardIndex - 1 + totalCards) % totalCards;
+  const nextIndex_1 = (currentCardIndex + 1) % totalCards;
+  const prevIndex_2 = (currentCardIndex - 2 + totalCards) % totalCards;
+  const nextIndex_2 = (currentCardIndex + 2) % totalCards;
+  const prevIndex_3 = (currentCardIndex - 3 + totalCards) % totalCards;
+  const nextIndex_3 = (currentCardIndex + 3) % totalCards;
 
-        $(cards[prevIndex_1]).addClass('prev-1');
-        $(cards[nextIndex_1]).addClass('next-1');
-        $(cards[prevIndex_2]).addClass('prev-2');
-        $(cards[nextIndex_2]).addClass('next-2');
-      }
+  $(cards[prevIndex_1]).addClass('prev-1');
+  $(cards[nextIndex_1]).addClass('next-1');
+  $(cards[prevIndex_2]).addClass('prev-2');
+  $(cards[nextIndex_2]).addClass('next-2');
+  $(cards[prevIndex_3]).addClass('prev-3');
+  $(cards[nextIndex_3]).addClass('next-3');
+}
+
 
       updateCarousel();
 
@@ -3593,6 +3672,7 @@ document.querySelectorAll('.comparison-card').forEach(card => {
     window.addEventListener("mousemove", moveSlider);
   });
 </script>
+
 </body>
 
 </html>
