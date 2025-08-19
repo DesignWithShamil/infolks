@@ -10,12 +10,29 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://assets.codepen.io/16327/Draggable3.min.js"></script>
+  <script src="https://assets.codepen.io/16327/InertiaPlugin.min.js"></script>
+  <script>
+  gsap.registerPlugin(Draggable, InertiaPlugin);
+</script>
 </head>
 
 <style>
+.slides-container {
+  width: 100%;
+
+  position: relative;
+  overflow: hidden;
+   cursor: default !important;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+}
 
 .nav-slide .link {
   display: flex;
@@ -77,29 +94,44 @@
       top: 0;
       opacity: 0;
       transition: all 0.5s ease;
-    }
+      border-radius:15px;
+      
+     
+    
+background: linear-gradient(to bottom, #e2dfdf, #eaeaea) 
 
+
+   }
+   .we-card.active .circlcard {
+  
+  transform: scale(1) translate(20px, -10px);
+  transition: all 0.3s ease;
+  background: linear-gradient(to bottom right, #f4f6fb, #d9e6f2) !important;
+}
+
+   
     .we-card.active {
-      opacity: 1;
-      z-index: 2;
-      padding-left: 20px;
-      transform: translateY(-40px);
-      border-radius: 16px;
-      border: 1px solid #ccdff5;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
-      background: linear-gradient(to bottom right, #f4f6fb, #d9e6f2);
-    }
+  opacity: 1;
+  z-index: 2;
+ 
+  transform: translateY(-40px);
+  border-radius: 16px;
+  border: 1px solid #5582b6;
+  
+
+  
+}
 
     .we-card.prev-1,
     .we-card.next-1 {
-      opacity: 0.9;
-      filter: blur(0.3px);
+      opacity: 1;
+      filter: blur(0.2px);
       z-index: 1;
     }
 
     .we-card.prev-2,
     .we-card.next-2 {
-      opacity: 0.8;
+      opacity: 1;
       filter: blur(0.3px);
       z-index: 1;
     }
@@ -111,26 +143,26 @@
 }
 
     .we-card.prev-1 {
-      transform: translateX(-370px) rotate(-10deg) translateY(20px);
+      transform: translateX(-370px) rotate(-8deg) translateY(-20px);
     }
 
     .we-card.next-1 {
-      transform: translateX(370px) rotate(10deg) translateY(20px);
+      transform: translateX(370px) rotate(8deg) translateY(-20px);
     }
 
     .we-card.prev-2 {
-      transform: translateX(-750px) rotate(-20deg) translateY(200px);
+      transform: translateX(-750px) rotate(-16deg) translateY(67px);
     }
 
     .we-card.next-2 {
-      transform: translateX(750px) rotate(20deg) translateY(200px);
+      transform: translateX(750px) rotate(16deg) translateY(67px);
     }
  .we-card.prev-3 {
-  transform: translateX(-1100px) rotate(-25deg) translateY(300px);
+  transform: translateX(-1100px) rotate(-20deg) translateY(100px);
 }
 
 .we-card.next-3 {
-  transform: translateX(1100px) rotate(25deg) translateY(300px);
+  transform: translateX(1100px) rotate(20deg) translateY(100px);
 }
 
     .we-arrow-controls {
@@ -146,13 +178,13 @@
       user-select: none;
       color: #fff;
       padding: 10px 18px;
-      background: rgba(0, 0, 0, 0.3);
+      background: linear-gradient(to bottom, #e2dfdf, #eaeaea);
       border-radius: 8px;
       transition: background 0.3s ease;
     }
 
     .we-arrow:hover {
-      background: rgba(0, 0, 0, 0.5);
+      background: linear-gradient(to bottom, #e2dfdf, #eaeaea);
     }
 
     /* Small screen horizontal scroll styles */
@@ -276,7 +308,7 @@
     left: -10px;
     right: 20px;
     bottom: -10px;
-    border: 2px solid red;
+    border: 1px solid red;
     border-radius: 0.8rem;
     z-index: 0;
     opacity: 0;
@@ -288,7 +320,7 @@
     left: -10px;
     right: 20px;
     bottom: -10px;
-    border: 2px solid rgb(25, 0, 255);
+    border: 1px solid rgb(25, 0, 255);
     border-radius: 0.8rem;
     z-index: 0;
     opacity: 0;
@@ -300,7 +332,7 @@
     left: -10px;
     right: 20px;
     bottom: -10px;
-    border: 2px solid rgb(0, 162, 255);
+    border: 1px solid rgb(0, 162, 255);
     border-radius: 0.8rem;
     z-index: 0;
     opacity: 0;
@@ -846,163 +878,87 @@
     </header>
 
 
-    <div class="relative w-full h-screen overflow-hidden">
-
-      <!-- SLIDES -->
-      <div id="videoSlides" class="relative w-full h-screen">
-
-        <!-- Slide 1 -->
-        <div class="slide active absolute inset-0">
-          <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover">
-            <source src="https://test.infolks.info/home/hero/videos/banner1.mp4" type="video/mp4">
-          </video>
-          <div class="absolute inset-0 bg-blue-900 opacity-40"></div>
-          <div
-            class="absolute inset-0 flex flex-col justify-center items-center mx-auto container lg:items-start lg:left-[6%] gap-4">
-            <h1 class="text-[#FFFBF0] text-5xl text-center lg:text-left leading-tight ">
-              CHOOSE THE<br />RIGHT ANNOTATION TECHNIQUE TO<br />ENHANCE YOUR AI INITIATIVES
-            </h1>
-            <p class="hidden lg:flex text-left text-[#FFFBF0] text-[20px] leading-8 mt-3 w-[90%] lg:w-[70%]">
-              We specialize in data annotation, offering extensive expertise and a wide range of services.
-              Our commitment is to deliver precise datasets through diverse annotation techniques.
-            </p>
-            <div class="flex flex-col lg:hidden text-center justify-center items-center mt-3 w-[90%]">
-              <p class="text-[#FFFBF0] text-[16px] md:text-[20px] leading-8">
-                We specialize in data annotation...
-                <span class="more-text hidden">delivering datasets through diverse annotation techniques.</span>
-              </p>
-              <button class="read-more-btn text-[#20B3F1] mt-2 cursor-pointer">Read more</button>
-            </div>
-            <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 mt-4">
-              <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A]">
-                <span class="relative z-10 text-sm">CONNECT US</span>
-              </button>
-              <span
-                class="absolute inset-0 h-full w-full bg-[#FFFBF0] transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] rounded-full"></span>
-              <div
-                class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
-                style="width: 50px; height: 50px;">
-                <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
-              </div>
+     <div class="slides-container relative w-full h-screen overflow-hidden">
+       <!-- <div class="absolute inset-0 bg-blue-900 opacity-40"></div> -->
+    <div class="slides-inner relative w-full h-full overflow-hidden ">
+      <div class="slide active absolute inset-0   w-full opacity-100">
+       <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover"> <source src="https://test.infolks.info/home/hero/videos/banner1.mp4" type="video/mp4"> </video>
+         <div class="absolute inset-0 bg-blue-900 opacity-40 -z-10"></div> 
+        <div class="absolute inset-0 flex flex-col justify-center items-center mx-auto container lg:items-start lg:left-[6%] gap-4">
+          <h1 class="text-[#FFFBF0] text-3xl sm:text-4xl  lg:text-5xl text-center lg:text-left leading-tight">
+            DIFFERENT DATA TYPES, VARIOUS <br />TECHNIQUES, AND SEVERAL INDUSTRIES
+          </h1>
+          <p class="lg:flex text-center lg:text-left text-[#FFFBF0] mt-0 lg:mt-3 w-[90%] md:w-[80%] lg:w-[70%] xl:w-[65%] tex-xs md:text-xl lg:text-2xl justify-center">
+            Highly skilled and trained human annotators precisely curate and label data with exceptional precision.
+          </p>
+          <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 mt-4">
+            <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A]">
+              <span class="relative z-10 text-sm">PARTNER WITH US</span>
+            </button>
+            <span class="absolute inset-0 h-full w-full bg-[#FFFBF0] transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] rounded-full"></span>
+            <div class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
+                 style="width: 50px; height: 50px;">
+              <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
             </div>
           </div>
         </div>
-
-        <!-- Slide 2 -->
-        <div class="slide absolute inset-0">
-          <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover">
-            <source src="https://test.infolks.info/home/hero/videos/banner3.mp4" type="video/mp4">
-          </video>
-          <div class="absolute inset-0 bg-blue-900 opacity-40"></div>
-          <div
-            class="absolute inset-0 flex flex-col justify-center items-center mx-auto container lg:items-start lg:left-[6%] gap-4">
-            <h1 class="text-[#FFFBF0] text-5xl text-center lg:text-left leading-tight ">
-              DATA LABELING FOR<br />YOUR MACHINE LEARNING MODELS
-            </h1>
-            <p class="hidden lg:flex text-left text-[#FFFBF0] text-[20px] leading-8 mt-3 w-[90%] lg:w-[70%]">
-              Our services are designed to empower AI with reliable, annotated data.
-            </p>
-            <div class="flex flex-col lg:hidden text-center justify-center items-center mt-3 w-[90%]">
-              <p class="text-[#FFFBF0] text-[16px] md:text-[20px] leading-8">
-                Empower AI with annotated data...
-                <span class="more-text hidden">using precise and scalable solutions.</span>
-              </p>
-              <button class="read-more-btn text-[#20B3F1] mt-2 cursor-pointer">Read more</button>
-            </div>
-            <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 mt-4">
-              <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A]">
-                <span class="relative z-10 text-sm">CONNECT US</span>
-              </button>
-              <span
-                class="absolute inset-0 h-full w-full bg-[#FFFBF0] transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] rounded-full"></span>
-              <div
-                class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
-                style="width: 50px; height: 50px;">
-                <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Slide 3 -->
-        <div class="slide absolute inset-0">
-          <img class="w-full h-screen object-cover" src="https://test.infolks.info/home/hero/videos/banner.gif"
-            alt="Background Image">
-          <div class="absolute inset-0 bg-blue-900 opacity-40"></div>
-          <div
-            class="absolute inset-0 flex flex-col justify-center items-center mx-auto container lg:items-start lg:left-[6%] gap-4">
-            <h1 class="text-[#FFFBF0] text-5xl text-center lg:text-left leading-tight ">
-              IMAGE & VIDEO ANNOTATION<br />FOR COMPUTER VISION
-            </h1>
-            <p class="hidden lg:flex text-left text-[#FFFBF0] text-[20px] leading-8 mt-3 w-[90%] lg:w-[70%]">
-              Boost computer vision models with precise annotation of images and videos.
-            </p>
-            <div class="flex flex-col lg:hidden text-center justify-center items-center mt-3 w-[90%]">
-              <p class="text-[#FFFBF0] text-[16px] md:text-[20px] leading-8">
-                Annotate visual data efficiently...
-                <span class="more-text hidden">with quality control and expert workforce.</span>
-              </p>
-              <button class="read-more-btn text-[#20B3F1] mt-2 cursor-pointer">Read more</button>
-            </div>
-            <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 mt-4">
-              <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A]">
-                <span class="relative z-10 text-sm">CONNECT US</span>
-              </button>
-              <span
-                class="absolute inset-0 h-full w-full bg-[#FFFBF0] transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] rounded-full"></span>
-              <div
-                class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
-                style="width: 50px; height: 50px;">
-                <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Slide 4 -->
-        <div class="slide absolute inset-0">
-          <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover">
-            <source src="https://test.infolks.info/home/hero/videos/banner1.mp4" type="video/mp4">
-          </video>
-          <div class="absolute inset-0 bg-blue-900 opacity-40"></div>
-          <div
-            class="absolute inset-0 flex flex-col justify-center items-center mx-auto container lg:items-start lg:left-[6%] gap-4">
-            <h1 class="text-[#FFFBF0] text-5xl text-center lg:text-left leading-tight ">
-              SCALABLE TEXT ANNOTATION SERVICES
-            </h1>
-            <p class="hidden lg:flex text-left text-[#FFFBF0] text-[20px] leading-8 mt-3 w-[90%] lg:w-[70%]">
-              Structure your natural language data with scalable text labeling techniques.
-            </p>
-            <div class="flex flex-col lg:hidden text-center justify-center items-center mt-3 w-[90%]">
-              <p class="text-[#FFFBF0] text-[16px] md:text-[20px] leading-8">
-                Text annotation at scale...
-                <span class="more-text hidden">to support NLP and chatbot systems.</span>
-              </p>
-              <button class="read-more-btn text-[#20B3F1] mt-2 cursor-pointer">Read more</button>
-            </div>
-            <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 mt-4">
-              <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A]">
-                <span class="relative z-10 text-sm">CONNECT US</span>
-              </button>
-              <span
-                class="absolute inset-0 h-full w-full bg-[#FFFBF0] transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] rounded-full"></span>
-              <div
-                class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
-                style="width: 50px; height: 50px;">
-                <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
+      <div class="slide active  absolute inset-0   opacity-100 w-full">
+       <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover"> <source src="https://test.infolks.info/home/hero/videos/banner3.mp4" type="video/mp4"> </video>
+         <div class="absolute inset-0 bg-blue-900 opacity-40"></div>
+        <div class="absolute inset-0 flex flex-col justify-center items-center mx-auto container lg:items-start lg:left-[6%] gap-4">
+          <h1 class="text-[#FFFBF0] text-3xl sm:text-4xl lg:text-5xl text-center lg:text-left leading-tight">
+           ENHANCE AI WITH HUMAN ACCURACY
+          </h1>
+          <p class="lg:flex text-center lg:text-left text-[#FFFBF0] mt-0 lg:mt-3 w-[80%]  lg:w-[70%] xl:w-[75%]  tex-sm sm:text-base md:text-lg  lg:text-xl justify-center">
+             We bridge the gap between machine learning algorithms and real-world data by infusing the precision and intuition of human expertise into the AI training process.
+          </p>
+           <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 mt-4">
+            <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A]">
+              <span class="relative z-10 text-sm">PARTNER WITH US</span>
+            </button>
+            <span class="absolute inset-0 h-full w-full bg-[#FFFBF0] transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] rounded-full"></span>
+            <div class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
+                 style="width: 50px; height: 50px;">
+              <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide  active absolute inset-0   opacity-100 w-full">
+       <img class="w-full h-screen object-cover" src="https://test.infolks.info/home/hero/videos/banner.gif" alt="Background Image">
+         <div class="absolute inset-0 bg-blue-900 opacity-40"></div>
+        <div class="absolute inset-0 flex flex-col justify-center items-center mx-auto container lg:items-start lg:left-[6%] gap-4">
+          <h1 class="text-[#FFFBF0] text-3xl sm:text-4xl lg:text-5xl text-center lg:text-left leading-tight">
+            ACCURATE ANNOTATIONS<br />FOR ACTIONABLE INSIGHTS
+          </h1>
+          <h4 class="lg:flex  lg:text-left   text-[#FFFBF0] mt-0 lg:mt-3 w-[90%] lg:w-[70%] xl:w-[75%] text-sm  sm:text-base md:text-2xl lg:text-3xl text-center">
+            Infolks, An Exclusive Data Annotation Partner From Infolks Group
+          </h4>
+          <p class="text-white text-base md:text-base lg:text-lg text-center lg:text-left paragraph w-[80%]">We process high-quality training data for AI and ML models through fully managed data labeling services.</p>
+           <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 mt-4">
+            <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A]">
+              <span class="relative z-10 text-sm">PARTNER WITH US</span>
+            </button>
+            <span class="absolute inset-0 h-full w-full bg-[#FFFBF0] transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] rounded-full"></span>
+            <div class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
+                 style="width: 50px; height: 50px;">
+              <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      
     </div>
+  </div>
 
   </section>
   <div
     class="w-full bg-gradient-to-r from-[#414278] to-[#021AA1] min-h-screen flex flex-col items-center justify-center ">
 
-    <div class=" flex flex-col justify-center  w- w-[84%] bg-white rounded-b-3xl">
+    <div class=" flex flex-col justify-center w-[90%]     md:w-[768px]   lg:w-[1024px]   xl:w-[1280px]  bg-white rounded-b-3xl">
 
     <section class="rounded-t-[40px] font-primary-regular transform z-[9999]">
     <div class="rounded-[16px] lg:rounded-[35px] w-full bg-[#0B9FFD] flex flex-col-reverse lg:flex-row font-primary-regular lg:h-[35rem] p-2 md:p-4 lg:p-0 -translate-y-20">
@@ -1031,8 +987,8 @@
 
     </div>
   </section>
-<div class="-mt-[7rem]  ">
-    <div class="row">
+<div class="-mt-[7rem]  items-center ">
+    <div class="row ">
       <section class=" flex justify-center flex-col items-center py-20  lg:hidden">
   <div class="service-card-body bg-[#E9EAE2] flex flex-col items-center w-full max-w-[1200px] shadow-lg  lg:px-10 py-10">
 
@@ -1057,18 +1013,24 @@
     </div>
 
     <!-- Slider Handle -->
-    <div class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize" style="left: 50%;">
-      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
-        </svg>
-      </div>
-    </div>
+    <div class="sliderHandle absolute top-0 bottom-0 w-[1px] bg-white rounded-full z-20 cursor-ew-resize" style="left: 50%;">
+  <div class="absolute top-1/2 left-1/2 flex items-center gap-1 transform -translate-x-1/2 -translate-y-1/2">
+    <!-- Left Arrow -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+
+    <!-- Right Arrow -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  </div>
+</div> 
   </div>
    
 
     <!-- ✅ TEXT CONTENT (BOTTOM) -->
-    <div class="w-full px-4 2xl:px-10 max-w-3xl">
+    <div class="w-full px-4 2xl:px-10 max-w-3xl pt-10">
       <!-- Button -->
       <div class="mb-4">
   <button class="text-[#13B2F5] border border-[#13B2F5] text-md font-medium rounded-full px-5 py-1">
@@ -1118,7 +1080,7 @@
           <!-- 8 Cards -->
           <div class="custom-card card1" id="1">
             <section class="slider_content flex justify-center items-center py-20">
-  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%] ">
+  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] md:w-[90%]  ">
     
     <!-- Left Content -->
     <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
@@ -1137,7 +1099,7 @@
       </div>
 
       <!-- Text Content -->
-      <div class="px-4 2xl:px-10 max-w-xl">
+      <div class="px-4 2xl:px-10 max-w-xl pt-[5%]">
         <!-- Button -->
         <div class="mb-4">
           <button class="text-[#13B2F5] border border-[#13B2F5] text-sm font-medium rounded-full px-5 py-1">
@@ -1177,8 +1139,8 @@
       </div>
     </div>
 
-<section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
-  <div class="comparison-card relative w-[500px] aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
+<section class="flex justify-center items-center py-20 bg-[#E9EAE2] ">
+  <div class="comparison-card relative w-[400px]  xl:w-[500px] aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black ">
     
     <!-- Before Image -->
     <img
@@ -1189,22 +1151,35 @@
 
     <!-- After Image (fixed right side) -->
     <div class="afterContainer absolute top-0 right-0 h-full overflow-hidden z-10" style="width: 50%;">
-      <img
-       src="https://test.infolks.info/home/services/images/image-annotations/image-annotation-after.jpg"
-        class="absolute top-0 right-0 h-full object-cover"
-        style="width: 100%; object-position: right;"
-        alt="After Image"
-      />
-    </div>
+  
+  <!-- Image -->
+  <img
+    src="https://test.infolks.info/home/services/images/image-annotations/image-annotation-after.jpg"
+    class="absolute top-0 right-0 h-full object-cover"
+    style="width: 100%; object-position: right;"
+    alt="After Image"
+  />
+
+  <!-- Smoky overlay on top of image -->
+  <div class="absolute inset-0 bg-white/40  z-20"></div>
+
+</div>
 
     <!-- Slider Handle -->
-    <div class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize" style="left: 50%;">
-      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
-        </svg>
-      </div>
-    </div>
+    <div class="sliderHandle absolute top-0 bottom-0 w-[1px] bg-white rounded-full z-20 cursor-ew-resize" style="left: 50%;">
+  <div class="absolute top-1/2 left-1/2 flex items-center gap-1 transform -translate-x-1/2 -translate-y-1/2">
+    <!-- Left Arrow -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+
+    <!-- Right Arrow -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  </div>
+</div>
+
   </div>
 </section>
 
@@ -1219,7 +1194,7 @@
 
           <div class="custom-card card2" id="2">
             <section class="slider_content flex justify-center items-center py-20">
-  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%] ">
+  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] md:w-[90%]  ">
     
     <!-- Left Content -->
     <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
@@ -1239,7 +1214,7 @@
       </div>
 
       <!-- Text Content -->
-      <div class="px-4 2xl:px-10 max-w-xl">
+      <div class="px-4 2xl:px-10 max-w-xl pt-[5%]">
         <!-- Button -->
         <div class="mb-4">
           <button class="text-[#13B2F5] border border-[#13B2F5] text-sm font-medium rounded-full px-5 py-1">
@@ -1282,7 +1257,7 @@
 
 
 <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
-  <div class="comparison-card relative w-[500px] aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
+  <div class="comparison-card relative w-[400px]  xl:w-[500px]   aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
     
     <!-- Before Image -->
     <img
@@ -1304,7 +1279,7 @@
 
           <div class="custom-card card3" id="3">
              <section class="slider_content flex justify-center items-center py-20">
-  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%]">
+  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] md:w-[90%] ">
     
     <!-- Left Content -->
     <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
@@ -1324,7 +1299,7 @@
       </div>
 
       <!-- Text Content -->
-      <div class="px-4 2xl:px-10 max-w-xl">
+      <div class="px-4 2xl:px-10 max-w-xl pt-[5%]">
         <!-- Button -->
         <div class="mb-4">
           <button class="text-[#13B2F5] border border-[#13B2F5] text-sm font-medium rounded-full px-5 py-1">
@@ -1367,7 +1342,7 @@
 
 
 <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
-  <div class="comparison-card relative w-[500px] aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
+  <div class="comparison-card relative w-[400px]  xl:w-[500px]   aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
     
     <!-- Before Image -->
     <img
@@ -1384,16 +1359,25 @@
         style="width: 100%; object-position: right;"
         alt="After Image"
       />
+      <div class="absolute inset-0 bg-white/40  z-20"></div>
+
+
     </div>
 
     <!-- Slider Handle -->
-    <div class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize" style="left: 50%;">
-      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
-        </svg>
-      </div>
-    </div>
+    <div class="sliderHandle absolute top-0 bottom-0 w-[1px] bg-white rounded-full z-20 cursor-ew-resize" style="left: 50%;">
+  <div class="absolute top-1/2 left-1/2 flex items-center gap-1 transform -translate-x-1/2 -translate-y-1/2">
+    <!-- Left Arrow -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+
+    <!-- Right Arrow -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  </div>
+</div> 
   </div>
 </section>
 
@@ -1406,7 +1390,7 @@
 
           <div class="custom-card card4" id="4">
             <section class="slider_content flex justify-center items-center py-20">
-  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%]">
+  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] md:w-[90%] ">
     
     <!-- Left Content -->
     <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
@@ -1426,7 +1410,7 @@
       </div>
 
       <!-- Text Content -->
-      <div class="px-4 2xl:px-10 max-w-xl">
+      <div class="px-4 2xl:px-10 max-w-xl pt-[5%]">
         <!-- Button -->
         <div class="mb-4">
           <button class="text-[#13B2F5] border border-[#13B2F5] text-sm font-medium rounded-full px-5 py-1">
@@ -1468,7 +1452,7 @@
     
 
 <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
-  <div class="comparison-card relative w-[500px] aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
+  <div class="comparison-card relative w-[400px]  xl:w-[500px]   aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
     
     <!-- Before Image -->
     <img
@@ -1485,16 +1469,25 @@
         style="width: 100%; object-position: right;"
         alt="After Image"
       />
+      <div class="absolute inset-0 bg-white/40  z-20"></div>
+
+
     </div>
 
     <!-- Slider Handle -->
-    <div class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize" style="left: 50%;">
-      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
-        </svg>
-      </div>
-    </div>
+    <div class="sliderHandle absolute top-0 bottom-0 w-[1px] bg-white rounded-full z-20 cursor-ew-resize" style="left: 50%;">
+  <div class="absolute top-1/2 left-1/2 flex items-center gap-1 transform -translate-x-1/2 -translate-y-1/2">
+    <!-- Left Arrow -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+
+    <!-- Right Arrow -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  </div>
+</div> 
   </div>
 </section>
 
@@ -1508,7 +1501,7 @@
 
           <div class="custom-card card5" id="5">
              <section class="slider_content flex justify-center items-center py-20">
-  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%] ">
+  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] md:w-[90%]  ">
     
     <!-- Left Content -->
     <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
@@ -1528,7 +1521,7 @@
       </div>
 
       <!-- Text Content -->
-      <div class="px-4 2xl:px-10 max-w-xl">
+      <div class="px-4 2xl:px-10 max-w-xl pt-[5%]">
         <!-- Button -->
         <div class="mb-4">
           <button class="text-[#13B2F5] border border-[#13B2F5] text-sm font-medium rounded-full px-5 py-1">
@@ -1570,7 +1563,7 @@
 
 
 <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
-  <div class="comparison-card relative w-[500px] aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
+  <div class="comparison-card relative w-[400px]  xl:w-[500px]   aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
     
     <!-- Before Image -->
     <img
@@ -1592,7 +1585,7 @@
 
 <div class="custom-card card6" id="6">
             <section class="slider_content flex justify-center items-center py-20">
-  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%] ">
+  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] md:w-[90%]  ">
     
     <!-- Left Content -->
     <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
@@ -1612,7 +1605,7 @@
       </div>
 
       <!-- Text Content -->
-      <div class="px-4 2xl:px-10 max-w-xl">
+      <div class="px-4 2xl:px-10 max-w-xl pt-[5%]">
         <!-- Button -->
         <div class="mb-4">
           <button class="text-[#13B2F5] border border-[#13B2F5] text-sm font-medium rounded-full px-5 py-1">
@@ -1654,7 +1647,7 @@
 
 
 <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
-  <div class="comparison-card relative w-[500px] aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
+  <div class="comparison-card relative w-[400px]  xl:w-[500px]   aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
     
     <!-- Before Image -->
     <img
@@ -1671,16 +1664,23 @@
         style="width: 100%; object-position: right;"
         alt="After Image"
       />
+      <div class="absolute inset-0 bg-white/40  z-20"></div>
     </div>
 
     <!-- Slider Handle -->
-    <div class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize" style="left: 50%;">
-      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
-        </svg>
-      </div>
-    </div>
+    <div class="sliderHandle absolute top-0 bottom-0 w-[1px] bg-white rounded-full z-20 cursor-ew-resize" style="left: 50%;">
+  <div class="absolute top-1/2 left-1/2 flex items-center gap-1 transform -translate-x-1/2 -translate-y-1/2">
+    <!-- Left Arrow -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+
+    <!-- Right Arrow -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  </div>
+</div> 
   </div>
 </section>
 
@@ -1693,7 +1693,7 @@
 
           <div class="custom-card card7" id="7">
            <section class="slider_content flex justify-center items-center py-20">
-  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%] ">
+  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] md:w-[90%]  ">
     
     <!-- Left Content -->
     <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
@@ -1713,7 +1713,7 @@
       </div>
 
       <!-- Text Content -->
-      <div class="px-4 2xl:px-10 max-w-xl">
+      <div class="px-4 2xl:px-10 max-w-xl pt-[5%]">
         <!-- Button -->
         <div class="mb-4">
           <button class="text-[#13B2F5] border border-[#13B2F5] text-sm font-medium rounded-full px-5 py-1">
@@ -1755,7 +1755,7 @@
 
  
 <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
-  <div class="comparison-card relative w-[500px] aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
+  <div class="comparison-card relative w-[400px]  xl:w-[500px]   aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
     
     <!-- Before Image -->
     <img
@@ -1777,7 +1777,7 @@
 
           <div class="custom-card card8" id="8">
             <section class="slider_content flex justify-center items-center py-20">
-  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%] ">
+  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] md:w-[90%]  ">
     
     <!-- Left Content -->
     <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
@@ -1797,7 +1797,7 @@
       </div>
 
       <!-- Text Content -->
-      <div class="px-4 2xl:px-10 max-w-xl">
+      <div class="px-4 2xl:px-10 max-w-xl pt-[5%]">
         <!-- Button -->
         <div class="mb-4">
           <button class="text-[#13B2F5] border border-[#13B2F5] text-sm font-medium rounded-full px-5 py-1">
@@ -1838,7 +1838,7 @@
     </div>
 
  <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
-  <div class="comparison-card relative w-[500px] aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
+  <div class="comparison-card relative w-[400px]  xl:w-[500px]   aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
     
     <!-- Before Image -->
     <img
@@ -1855,16 +1855,23 @@
         style="width: 100%; object-position: right;"
         alt="After Image"
       />
+      <div class="absolute inset-0 bg-white/40  z-20"></div>
     </div>
 
     <!-- Slider Handle -->
-    <div class="sliderHandle absolute top-0 bottom-0 w-[2px] bg-white z-20 cursor-ew-resize" style="left: 50%;">
-      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l-7 7 7 7M15 5l7 7-7 7" />
-        </svg>
-      </div>
-    </div>
+    <div class="sliderHandle absolute top-0 bottom-0 w-[1px] bg-white rounded-full z-20 cursor-ew-resize" style="left: 50%;">
+  <div class="absolute top-1/2 left-1/2 flex items-center gap-1 transform -translate-x-1/2 -translate-y-1/2">
+    <!-- Left Arrow -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+
+    <!-- Right Arrow -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  </div>
+</div> 
   </div>
 </section>
 
@@ -1876,7 +1883,7 @@
         </div>
         <div class="custom-card card9" id="9">
             <section class="slider_content flex justify-center items-center py-20">
-  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] w-[100%]  ">
+  <div class="service-card-body bg-[#E9EAE2] flex justify-between px-10 rounded-[50px] md:w-[90%]   ">
     
     <!-- Left Content -->
     <div class="flex-1 flex 2xl:px-10 py-14 2xl:py-20">
@@ -1897,7 +1904,7 @@
       </div>
 
       <!-- Text Content -->
-      <div class="px-4 2xl:px-10 max-w-xl">
+      <div class="px-4 2xl:px-10 max-w-xl pt-[5%]">
         <!-- Button -->
         <div class="mb-4">
           <button class="text-[#13B2F5] border border-[#13B2F5] text-sm font-medium rounded-full px-5 py-1">
@@ -1939,7 +1946,7 @@
 
 
 <section class="flex justify-center items-center py-20 bg-[#E9EAE2]">
-  <div class="comparison-card relative w-[500px] aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
+  <div class="comparison-card relative w-[400px]  xl:w-[500px]   aspect-[4/3] rounded-[30px] overflow-hidden shadow-lg bg-black">
     
     <!-- Before Image -->
     <img
@@ -1964,7 +1971,7 @@
 
 
     <div class="flex flex-col justify-center text-white z-20 text-center 
-  rounded-3xl w-full p-5 md:px-[10px] md:py-[10px] lg:p-20
+  rounded-3xl w-full  md:px-[10px] md:py-[10px] lg:p-20
   bg-[linear-gradient(to_right,#60a5fa,#3b82f6),url('https://test.infolks.info/techniques/blogbg.png')] 
   bg-center bg-cover bg-blend-overlay">
   <div class="flex flex-col justify-center items-center  ">
@@ -2000,24 +2007,23 @@
   </div>
 
   <!-- Text Content -->
-  <div class="flex flex-col">
-    <div class="text-center p-3">
+  <div class="flex flex-col pt-3">
+    <div class="text-center  lg:p-3">
       
-      <h1 class=" text-xl lg:text-3xl font-semibold font-primary-medium uppercase w-[90%] mx-auto"> Step Up with Our Annotation Techniques</h1>
+      <p class=" text-sm lg:text-xl font-semibold font-primary-medium  w-[100%] lg:w-[80%] mx-auto"> Tie up with our hands to power a better AI initiative.
+</p>
+    </div>
+
+    <div class="text-center lg:p-3">
+      
+      <h1 class=" text-lg lg:text-3xl font-semibold font-primary-medium uppercase w-[100%] lg:w-[90%] mx-auto"> LET’S KNOW HOW WE CAN HELP YOU</h1>
     </div>
 
     <!-- CTA Button -->
     <div class="flex justify-center items-center py-10">
-      <div class="flex justify-center items-center relative group cursor-pointer gap-x-2 md:gap-x-2.5">
-        <button class="relative mx-auto px-4 uppercase tracking-wide text-[#37508A] z-20">
-          <span class="relative z-10 text-sm">Contact Us Now</span>
-        </button>
-        <span class="absolute inset-0 h-full w-full bg-[#FFFBF0] border border-[#13B2F5] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] md:group-hover:w-[calc(100%-3.7rem)]"></span>
-        <div class="relative z-30 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0" style="width: 50px; height: 50px;">
-          <img src="https://test.infolks.info/home/icons/arrowRight.png" alt="arrow" class="w-4 md:w-6">
-        </div>
-      </div>
-    </div>
+  <div class="flex justify-center items-center"><div><a href="/contact"><div class="flex justify-center items-center relative group cursor-pointer gap-x-[1rem] md:gap-x-[.7rem]"><button class="relative mx-auto px-4 md:py-2.5 uppercase tracking-wide text-[#37508A]"><span class="relative z-10 text-sm">LET’S TALK</span></button><span class="absolute inset-0 h-full w-full bg-[#FFFBF0] transition-all duration-500 ease-out group-hover:w-[calc(100%-3.8rem)] md:group-hover:w-[calc(100%-3.8rem)] rounded-full"></span><div class="relative z-20 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:bg-white md:px-3.5 md:py-4 -translate-x-1 transition-all delay-100 duration-100 group-hover:delay-0" style="width: 50px; height: 50px;"><img src="https://test.infolks.info/home/icons/arrowRight.png" alt="" class="w-4 md:w-6 group-hover:hidden"><img src="https://test.infolks.info/home/icons/arrow%20blue.svg" alt="" class="w-4 md:w-6 hidden group-hover:block"></div></div></a></div></div>
+</div>
+
   </div>
 </div>
 
@@ -2463,7 +2469,7 @@
       
       <!-- Cards for 3D carousel -->
       <div class="we-card">
-        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+        <div class="circlcard p-6 -ml-2 mt-2 h-[293px] rounded-xl  flex flex-col items-start space-y-4 relative ">
           <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
           <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
           <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
@@ -2471,7 +2477,7 @@
         </div>
       </div>
       <div class="we-card">
-        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+        <div class=" circlcard p-6 -ml-2 mt-2 h-[293px] rounded-xl  flex flex-col items-start space-y-4 relative ">
           <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
           <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
           <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
@@ -2479,7 +2485,7 @@
         </div>
       </div>
       <div class="we-card">
-        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+        <div class=" circlcard p-6 -ml-2 mt-2  h-[293px] rounded-xl  flex flex-col items-start space-y-4 relative ">
           <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
           <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
           <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
@@ -2487,7 +2493,7 @@
         </div>
       </div>
       <div class="we-card">
-        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+        <div class=" circlcard p-6 -ml-2 mt-2  h-[293px] rounded-xl  flex flex-col items-start space-y-4 relative ">
           <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
           <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
           <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
@@ -2495,7 +2501,7 @@
         </div>
       </div>
       <div class="we-card">
-        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+        <div class="circlcard p-6 -ml-2 mt-2  h-[293px] rounded-xl  flex flex-col items-start space-y-4 relative ">
           <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
           <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
           <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
@@ -2503,7 +2509,7 @@
         </div>
       </div>
       <div class="we-card">
-        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+        <div class=" circlcard p-6 -ml-2 mt-2  h-[293px] rounded-xl  flex flex-col items-start space-y-4 relative ">
           <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
           <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
           <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
@@ -2511,7 +2517,7 @@
         </div>
       </div>
       <div class="we-card">
-        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+        <div class=" circlcard p-6 -ml-2 mt-2  h-[293px] rounded-xl  flex flex-col items-start space-y-4 relative ">
           <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
           <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
           <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
@@ -2519,7 +2525,7 @@
         </div>
       </div>
       <div class="we-card">
-        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+        <div class=" circlcard p-6 -ml-2 mt-2  h-[293px] rounded-xl  flex flex-col items-start space-y-4 relative ">
           <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
           <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
           <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
@@ -2527,7 +2533,7 @@
         </div>
       </div>
       <div class="we-card">
-        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+        <div class=" circlcard p-6 -ml-2 mt-2  h-[293px] rounded-xl  flex flex-col items-start space-y-4 relative ">
           <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
           <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
           <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
@@ -2535,7 +2541,7 @@
         </div>
       </div>
       <div class="we-card">
-        <div class="p-6 -ml-2 mt-2 bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] h-[293px] rounded-xl shadow-md flex flex-col items-start space-y-4 relative">
+        <div class=" circlcard p-6 -ml-2 mt-2  h-[293px] rounded-xl  flex flex-col items-start space-y-4 relative ">
           <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
           <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects. Highly recommend their services!</p>
           <img src="https://test.infolks.info/home/icons/quotes.svg" alt="" class="ml-[180px] rotate-[10deg]">
@@ -2553,7 +2559,7 @@
       
       <!-- Card 1 -->
      
-      <div class="pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2]">
+      <div class="pl-3 pb-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2]">
   <div class="flex-shrink-0 w-[270px] h-[320px] lg:w-[320px] lg:h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
     
     <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
@@ -2573,7 +2579,7 @@
 
 
       <!-- Card 2 -->
-      <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+      <div class="  pl-3 pb-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
       <div class="flex-shrink-0 w-[270px] h-[320px]  lg:w-[320px] lg:h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
         <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
         <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
@@ -2581,7 +2587,7 @@
         <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
       </div>
     </div>
- <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+ <div class="  pl-3 pb-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
       <div class="flex-shrink-0 w-[270px] h-[320px]  lg:w-[320px] lg:h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
         <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
         <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
@@ -2589,7 +2595,7 @@
         <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
       </div>
     </div>
-       <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+       <div class="  pl-3 pb-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
       <div class="flex-shrink-0 w-[270px] h-[320px]  lg:w-[320px] lg:h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
         <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
         <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
@@ -2597,7 +2603,7 @@
         <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
       </div>
     </div>
-       <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+       <div class="  pl-3 pb-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
       <div class="flex-shrink-0 w-[270px] h-[320px]  lg:w-[320px] lg:h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
         <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
         <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
@@ -2605,7 +2611,7 @@
         <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
       </div>
     </div>
-       <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+       <div class="  pl-3 pb-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
       <div class="flex-shrink-0 w-[270px] h-[320px]  lg:w-[320px] lg:h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
         <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
         <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
@@ -2613,7 +2619,7 @@
         <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
       </div>
     </div>
-       <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+       <div class="  pl-3 pb-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
       <div class="flex-shrink-0 w-[270px] h-[320px]  lg:w-[320px] lg:h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
         <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
         <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
@@ -2621,7 +2627,7 @@
         <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
       </div>
     </div>
-       <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+       <div class="  pl-3 pb-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
       <div class="flex-shrink-0 w-[270px] h-[320px]  lg:w-[320px] lg:h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
         <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
         <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
@@ -2629,7 +2635,7 @@
         <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
       </div>
     </div>
-       <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+       <div class="  pl-3 pb-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
       <div class="flex-shrink-0 w-[270px] h-[320px]  lg:w-[320px] lg:h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
         <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
         <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
@@ -2637,7 +2643,7 @@
         <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
       </div>
     </div>
-        <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+        <div class="  pl-3 pb-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
       <div class="flex-shrink-0 w-[270px] h-[320px]  lg:w-[320px] lg:h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
         <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
         <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
@@ -2645,7 +2651,7 @@
         <div class="absolute text-sm font-semibold text-gray-800 bottom-6">John Smith, AI Innovations</div>
       </div>
     </div>
-       <div class="  pl-3 pt-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
+       <div class="  pl-3 pb-2 rounded-[16px] border border-[#ccdff5] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-gradient-to-br from-[#f4f6fb] to-[#d9e6f2] ">
       <div class="flex-shrink-0 w-[270px] h-[320px]  lg:w-[320px] lg:h-[350px] snap-center bg-gradient-to-r from-[#F1EAE6] to-[#D6E6EC] rounded-xl shadow-md p-6 relative">
         <img src="https://test.infolks.info/home/icons/black-dot.svg" alt="">
         <p class="mt-5 mb-5 text-[13px] text-[#595759]">Infolks' attention to detail and commitment to deadlines have been invaluable to our projects.</p>
@@ -2658,10 +2664,25 @@
     </div>
 
     <!-- Navigation Buttons -->
-    <div class="flex justify-center gap-6 ">
-      <button id="prevvvBtn" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition">&#10094;</button>
-      <button id="nextttBtn" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition">&#10095;</button>
-    </div>
+       <div class="flex justify-center gap-6 mb-10  ">
+  <!-- Left Arrow -->
+  <div id="prevvvBtn" class=" left prev-slide z-50 cursor-pointer bg-white rounded-full p-3 shadow-md hover:bg-gray-100 transition">
+    <img 
+      src="https://test.infolks.info/home/icons/client-left-arrow.svg" 
+      alt="Previous"
+      class="w-5 h-5"
+    >
+  </div>
+
+  <!-- Right Arrow -->
+  <div id="nextttBtn" class="right next-slide z-50 cursor-pointer bg-white rounded-full p-3 shadow-md hover:bg-gray-100 transition">
+    <img 
+      src="https://test.infolks.info/home/icons/client-right-arrow.svg" 
+      alt="Next"
+      class="w-5 h-5"
+    >
+  </div>
+</div>
   </div>
     
     <!-- Navigation Arrows (only visible on large screens) -->
@@ -2699,16 +2720,16 @@
   <div class="max-w-7xl mx-auto px-4 items-center justify-center">
     <!-- Heading -->
     <div class="text-center text-4xl">
-      <h2 class="text-[#37508A] heading-h2 mb-2 md:mb-10 lg:mb-14 lg:mt-10 uppercase">RELATED BLOGS</h2>
+      <h2 class="text-[#37508A] heading-h2 mb-5 pb-2 md:mb-10 lg:mb-14 lg:mt-10 uppercase">A QUICK LOOK TO BLOGS</h2>
     </div>
 
     <!-- Cards Container -->
-    <div class="flex flex-wrap gap-8 justify-center w-full cursor-pointer  sm:px-10 lg:px-0">
+    <div class=" flex flex-wrap      lg:grid  lg:grid-cols-2 xl:grid-cols-3  gap-5 lg:pl-8 xl:pl-10      lg:gap-8 xl:gap-8 justify-center w-full cursor-pointer  sm:px-10 ">
       <!-- Card 1 -->
-      <div class="card-wrapper flex justify-center w-full sm:w-full md:w-full lg:w-auto">
+      <div class="card-wrapper flex justify-center w-full sm:w-full md:w-full  lg:w-[450px] xl:w-[350px] ">
   <div class="red-borderone hidden lg:block"></div>
   <div id="card1"
-  class="relative w-full sm:w-full md:w-full lg:max-w-sm rounded-xl overflow-hidden transition-all duration-300 border-2 border-red-500 bg-white hover:scale-105 hover:lg:scale-100">
+  class="relative w-full  lg:w-[450px] xl:w-[350px] xl:max-w-sm rounded-xl overflow-hidden transition-all duration-300 border border-red-500 bg-white hover:scale-105 hover:lg:scale-100">
 
 
     <!-- Top Bar -->
@@ -2723,11 +2744,11 @@
     <div class="relative p-4">
   <div id="image-wrapper1" class="relative group lg:cursor-none overflow-hidden rounded-xl">
     <img src="https://test.infolks.info/home/blog/blog.png" alt="Blog 1"
-      class="h-auto md:h-[305px] w-full object-cover transition duration-300" />
+      class="h-auto md:h-[305px]  w-full  object-cover transition duration-300" />
 
     <!-- Blob -->
     <div id="circle1"
-      class="absolute w-[20vmin] h-[20vmin]  items-center justify-center hidden lg:flex pointer-events-none opacity-0 transition duration-300 z-50 lg:flex">
+      class="absolute w-[20vmin] h-[20vmin]  items-center justify-center hidden lg:flex pointer-events-none opacity-0 transition duration-300 z-50 ">
       <!-- SVG Blob -->
       <svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg"
         class="absolute w-full h-full blob z-10">
@@ -2752,8 +2773,8 @@
 
 
     <!-- Bottom Bar -->
-    <div class="border-t-2 border-red-500 p-4 flex items-center justify-between gap-3">
-      <p class="text-black text-lg font-semibold">Revolutionizing Industries with AI Solutions</p>
+    <div class="border-t border-red-500 p-4 flex items-center justify-between gap-3">
+      <p class="text-black text-xs font-semibold uppercase">Revolutionizing Industries with AI Solutions</p>
       <div class="md:hidden z-30 w-10 cursor-pointer lg:hidden">
         <svg width="46" height="46" viewBox="0 0 46 46" fill="none"
           xmlns="http://www.w3.org/2000/svg">
@@ -2776,10 +2797,10 @@
 </div>
 
     <!-- Card 2 -->
-<div class="card-wrapper flex justify-center w-full sm:w-full md:w-full lg:w-auto">
+<div class="card-wrapper flex justify-center w-full sm:w-full md:w-full lg:w-[450px] xl:w-[350px]">
   <div class="red-bordertwo hidden lg:block"></div>
   <div id="card2"
-  class="relative w-full sm:w-full md:w-full lg:max-w-sm rounded-xl overflow-hidden transition-all duration-300 border-2 border-blue-700 bg-white hover:scale-105 hover:lg:scale-100">
+  class="relative w-full sm:w-full md:w-full lg:w-[450px] xl:w-[350px] rounded-xl overflow-hidden transition-all duration-300 border border-blue-700 bg-white hover:scale-105 hover:lg:scale-100">
 
 
     <!-- Top Bar -->
@@ -2823,8 +2844,8 @@
     </div>
 
     <!-- Bottom Bar -->
-    <div class="border-t-2 border-blue-700 p-4 flex items-center justify-between gap-3">
-      <p class="text-black text-lg font-semibold">Unlocking the Power of AI with Expert Annotation</p>
+    <div class="border-t border-blue-700 p-4 flex items-center justify-between gap-3">
+      <p class="text-black text-xs font-semibold uppercase">Unlocking the Power of AI with Expert Annotation</p>
       <div class="md:hidden z-30 w-10 cursor-pointer lg:hidden">
         <svg width="46" height="46" viewBox="0 0 46 46" fill="none"
           xmlns="http://www.w3.org/2000/svg">
@@ -2848,10 +2869,10 @@
 
 
       <!-- Card 3 -->
-      <div class="card-wrapper flex justify-center w-full sm:w-full md:w-full lg:w-auto">
+      <div class="card-wrapper flex justify-center  w-full sm:w-full md:w-full lg:w-[450px] xl:w-[350px]">
   <div class="red-borderthree hidden lg:block"></div>
   <div id="card3"
-  class="relative w-full sm:w-full md:w-full lg:max-w-sm rounded-xl overflow-hidden transition-all duration-300 border-2 border-sky-400 bg-white hover:scale-105 hover:lg:scale-100">
+  class="relative w-full sm:w-full md:w-full lg:w-[450px] xl:w-[350px] rounded-xl overflow-hidden transition-all duration-300 border border-sky-400 bg-white hover:scale-105 hover:lg:scale-100">
 
 
     <!-- Top Bar -->
@@ -2895,8 +2916,8 @@
     </div>
 
     <!-- Bottom Bar -->
-    <div class="border-t-2 border-sky-400 p-4 flex items-center justify-between gap-3">
-      <p class="text-black text-lg font-semibold">The Future of Data Labeling and AI Training</p>
+    <div class="border-t border-sky-400 p-4 flex items-center justify-between gap-3">
+      <p class="text-black text-xs font-semibold uppercase">The Future of Data Labeling and AI Training</p>
       <div class="md:hidden z-30 w-10 cursor-pointer lg:hidden">
         <svg width="46" height="46" viewBox="0 0 46 46" fill="none"
           xmlns="http://www.w3.org/2000/svg">
@@ -2929,7 +2950,7 @@
         </button>
         <!-- White Background Span WITH BORDER -->
         <span
-          class="absolute inset-0 h-full w-full bg-[#FFFBF0] border border-[#13B2F5] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] md:group-hover:w-[calc(100%-3.7rem)]"></span>
+          class="absolute inset-0 h-full w-full bg-white border border-[#13B2F5] rounded-full transition-all duration-500 ease-out group-hover:w-[calc(100%-3.7rem)] md:group-hover:w-[calc(100%-3.7rem)]"></span>
         <!-- Arrow Button -->
         <div
           class="relative z-30 flex items-center justify-center bg-[#13B2F5] border-4 border-white rounded-full group-hover:border-[#13B2F5] transition-all delay-300 duration-100 group-hover:delay-0"
@@ -2942,18 +2963,26 @@
 </section>
 
         <div
-  class="z-20 flex flex-col items-center justify-center text-center text-white gap-4 p-5 
+  class="z-20 flex flex-col items-center justify-center text-center text-white  gap-2 lg:gap-4 p-10 lg:p-14 
          bg-[#00BFFF] bg-[url('https://test.infolks.info/techniques/blogbg.png')] 
          bg-center bg-cover rounded-3xl rounded-b-3xl">
-          <h3 class="text-2xl md:text-3xl lg:text-4xl font-primary-medium leading-tight md:mb-2 lg:mb-8">
+          <h3 class="text-2xl md:text-3xl lg:text-4xl font-primary-medium leading-tight ">
             GET IN TOUCH TODAY
           </h3>
           <a href="/contact" aria-label="Contact Us">
-            <button
-              class="mt-2 md:mt-0 size-10 xl:size-16 bg-[#13B2F5] hover:bg-white rounded-full flex items-center justify-center transition-colors duration-300 group">
-              <img src="https://test.infolks.info/home/icons/arrow.svg" alt="Arrow Icon"
-                class="w-6 transition-transform duration-300 group-hover:translate-x-1" />
-            </button>
+           <button
+  class="mt-2 md:mt-0 size-10 xl:size-16 bg-[#13B2F5] hover:bg-white rounded-full flex items-center justify-center transition-colors duration-300 group">
+  
+  <!-- Default Arrow -->
+  <img src="https://test.infolks.info/home/icons/arrow.svg"
+       alt="Arrow Icon"
+       class="w-6 block group-hover:hidden transition duration-300" />
+  
+  <!-- Blue Arrow (visible on hover) -->
+  <img src="https://test.infolks.info/home/icons/arrow%20blue.svg"
+       alt="Arrow Icon Blue"
+       class="w-6 hidden group-hover:block transition duration-300" />
+</button>
           </a>
         </div>
 
@@ -2961,7 +2990,7 @@
 
     </div>
      <footer class="bg-gradient-to-r from-[#414278] to-[#021AA1]  px-6 py-12 md:px-16 lg:px-24 text-white">
-    <div class="max-w-7xl mx-auto space-y-12">
+   <div class="max-w-7xl mx-auto space-y-12">
 
       <!-- Heading -->
       <div class="">
@@ -2970,7 +2999,7 @@
       </div>
 
       <!-- Main Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-10">
 
         <!-- Left: Company Info + Social Icons -->
         <div class="space-y-6">
@@ -3003,7 +3032,7 @@
         </div>
 
         <!-- Right: Link Groups -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6  md:text-base">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6  md:text-base">
           <div class="space-y-3">
             <!-- Trigger Wrapper -->
 <div class="relative group inline-block w-full">
@@ -3104,7 +3133,7 @@
 
   <!-- Hover Modal Dropdown -->
   <div
-    class=" hidden lg:block absolute left-1/2 transform -translate-x-1/2 mt-4 w-[500px] bg-gradient-to-r from-[#138ff5] to-[#03a7ee] text-white rounded-2xl shadow-lg p-8 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 sm:hidden lg:block">
+    class=" hidden lg:block absolute left-1/2 transform -translate-x-1/2 mt-4 w-[500px] bg-gradient-to-r from-[#138ff5] to-[#03a7ee] text-white rounded-2xl shadow-lg p-8 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 sm:hidden ">
 
     <!-- Notch -->
     <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -3196,10 +3225,10 @@
       </div>
 
       <!-- Bottom Footer -->
-     <div class="flex flex-col md:flex-row justify-between items-start md:items-center lg:gap-6 pt-6 text-xs md:text-sm">
+     <div class="flex flex-col md:flex-col xl:flex-row items-start md:justify-center md:items-center lg:gap-6 md:pt-6 text-xs md:text-sm">
 
   <!-- Social Icons (Desktop) -->
-  <div class="hidden md:flex flex-wrap items-center gap-4 w-full md:w-auto">
+  <div class="hidden lg:flex flex-wrap justify-center gap-4 w-full md:w-auto ">
     <a href="#" aria-label="LinkedIn" class="bg-white text-[#122987] hover:bg-[#13B2F5] hover:text-white p-2 rounded-md shadow transition-all">
       <i class="fab fa-linkedin-in"></i>
     </a>
@@ -3221,10 +3250,18 @@
     <a href="#" aria-label="Telegram" class="bg-white text-[#122987] hover:bg-[#13B2F5] hover:text-white p-2 rounded-md shadow transition-all">
       <i class="fab fa-telegram"></i>
     </a>
+    <div class="hidden lg:flex flex-row  xl:hidden  lg:items-center gap-6 w-full md:w-auto pl-10 lg:text-lg">
+    <a href="#" class="group hover:text-[#13B2F5] transition-all border-b border-white/30">
+      Privacy Policy <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+    </a>
+    <a href="#" class="group hover:text-[#13B2F5] transition-all border-b border-white/30">
+      Terms & Conditions <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
+    </a>
+  </div>
   </div>
 
   <!-- Links -->
-  <div class="flex flex-col md:flex-row items-start md:items-center gap-6 w-full md:w-auto">
+  <div class="flex flex-col md:flex-row  -mt-4 md:mt-0 sm:items-start md:justify-center  lg:hidden xl:flex gap-6 w-full md:w-auto md:text-lg">
     <a href="#" class="group hover:text-[#13B2F5] transition-all border-b border-white/30">
       Privacy Policy <i class="fas fa-arrow-right rotate-[-45deg] group-hover:rotate-0 transition-transform duration-300"></i>
     </a>
@@ -3234,12 +3271,12 @@
   </div>
 
   <!-- Copyright -->
-  <div class="w-full md:w-auto text-left md:text-right">
+  <div class="w-full md:w-auto text-left md:text-right py-3 justify-center md:text-lg">
     INFOLKS©2024 All Rights Reserved | Crafted by webfolks
   </div>
 
   <!-- Social Icons (Mobile) -->
-  <div class="flex md:hidden flex-wrap items-center gap-5 w-full">
+  <div class="flex lg:hidden flex-wrap justify-center gap-5 w-full">
     <a href="#" aria-label="LinkedIn" class="bg-white text-[#122987] hover:bg-[#13B2F5] hover:text-white p-2 rounded-md shadow transition-all">
       <i class="fab fa-linkedin-in"></i>
     </a>
@@ -3266,7 +3303,7 @@
 </div>
 
   </footer>
-  </div>
+  
 
   <script> // vedio anmination
      gsap.registerPlugin(ScrollTrigger);
@@ -3317,37 +3354,99 @@
       }
     });
   </script>
-  <script>
-    const slides = document.querySelectorAll(".slide");
-    let current = 0;
-    setInterval(() => {
-      slides[current].classList.remove("active");
-      current = (current + 1) % slides.length;
-      slides[current].classList.add("active");
-    }, 8000); // 8 seconds per slide
+<script>
+gsap.registerPlugin(Draggable, InertiaPlugin);
 
-    document.querySelectorAll(".read-more-btn").forEach((btn, i) => {
-      btn.addEventListener("click", () => {
-        const moreText = btn.previousElementSibling.querySelector(".more-text");
-        if (moreText.classList.contains("hidden")) {
-          moreText.classList.remove("hidden");
-          btn.textContent = "Read less";
-        } else {
-          moreText.classList.add("hidden");
-          btn.textContent = "Read more";
-        }
-      });
-    });
-  </script>
-  <!-- 🔧 JS to pause marquee on hover -->
-  <script>
-    document.querySelectorAll('.group').forEach(group => {
-      const marquee = group.querySelector('.animate-marquee-left, .animate-marquee-right');
-      group.addEventListener('mouseenter', () => marquee?.classList.add('paused'));
-      group.addEventListener('mouseleave', () => marquee?.classList.remove('paused'));
-    });
+let slideDelay = 6,
+    slideDuration = 0.6,
+    slides = gsap.utils.toArray(".slide"),
+    numSlides = slides.length - 1,
+    progressPerItem = 1 / numSlides, // each slide step
+    snapProgress = gsap.utils.snap(progressPerItem);
 
-  </script>
+// ✅ Position slides side by side
+gsap.set(slides, { xPercent: i => i * 100 });
+// ✅ Infinite looping tween
+let animation = gsap.to(slides, {
+  xPercent: "-=" + (numSlides * 100),
+  ease: "none",
+  duration: 1,
+  repeat: -1,
+  paused: true
+});
+
+// ✅ Show first slide at start
+animation.progress(0).render(true);
+
+// ✅ Track animation progress for velocity
+InertiaPlugin.track(animation, "progress");
+
+// ✅ Autoplay timer
+let timer = gsap.delayedCall(slideDelay, autoPlay);
+
+// ✅ Draggable setup
+let draggable = new Draggable(document.createElement("div"), {
+  trigger: ".slides-container",
+  onPress() {
+    gsap.killTweensOf(animation);
+    this.startProgress = animation.progress();
+    timer.pause();
+  },
+  onDrag() {
+    let change = (this.x - this.startX) / slides[0].offsetWidth;
+    let wrapped = gsap.utils.wrap(0, 1, this.startProgress - change);
+    animation.progress(wrapped);
+  },
+  onRelease() {
+  let change = (this.x - this.startX) / slides[0].offsetWidth;
+  let target = gsap.utils.wrap(0, 1, this.startProgress - change);
+
+  gsap.to(animation, {
+    progress: snapProgress(target),
+    duration: 0.6,
+    ease: "power3.out",
+    onComplete: () => timer.restart(true)
+  });
+}
+});
+
+// ✅ Next/Prev navigation (optional)
+function animateSlides(direction) {
+  let target = snapProgress(
+    gsap.utils.wrap(0, 1, animation.progress() + direction * progressPerItem)
+  );
+  gsap.to(animation, {
+    progress: target,
+    duration: slideDuration,
+    overwrite: true,
+    onComplete: () => timer.restart(true)
+  });
+}
+
+// ✅ Autoplay function
+function autoPlay() {
+  if (draggable.isPressed || gsap.isTweening(animation)) {
+    timer.restart(true); // wait until drag/inertia ends
+  } else {
+    animateSlides(1); // always move forward
+  }
+}
+
+// ✅ Start autoplay immediately
+timer.restart(true);
+</script>
+
+
+
+<!-- 🔧 JS to pause marquee on hover -->
+<script>
+document.querySelectorAll('.group').forEach(group => {
+  const marquee = group.querySelector('.animate-marquee-left, .animate-marquee-right');
+  group.addEventListener('mouseenter', () => marquee?.classList.add('paused'));
+  group.addEventListener('mouseleave', () => marquee?.classList.remove('paused'));
+});
+</script>
+
 <script>
 function setupImageHover(imageWrapperId, circleId) {
   const imageWrapper = document.getElementById(imageWrapperId);
@@ -3630,6 +3729,7 @@ document.querySelectorAll('.comparison-card').forEach(card => {
       function updateCarousel() {
   cards.removeClass('active prev-1 next-1 prev-2 next-2 prev-3 next-3');
   $(cards[currentCardIndex]).addClass('active');
+  
 
   const prevIndex_1 = (currentCardIndex - 1 + totalCards) % totalCards;
   const nextIndex_1 = (currentCardIndex + 1) % totalCards;
