@@ -3511,35 +3511,36 @@ function setupImageHover(imageWrapperId, circleId) {
 
     let currentIndex = 1;
 
-    function renderCarousel() {
-      const carousel = document.getElementById("carousel");
-      if (!carousel) return;
-      carousel.innerHTML = "";
+   function renderCarousel() {
+  const carousel = document.getElementById("carousel");
+  if (!carousel) return;
+  carousel.innerHTML = "";
 
-      const prev = data[(currentIndex - 1 + data.length) % data.length];
-      const current = data[currentIndex % data.length];
-      const next = data[(currentIndex + 1) % data.length];
+  const prev = data[(currentIndex - 1 + data.length) % data.length];
+  const current = data[currentIndex % data.length];
+  const next = data[(currentIndex + 1) % data.length];
 
-      [prev, current, next].forEach((item, i) => {
-        const isActive = i === 1;
+  [prev, current, next].forEach((item, i) => {
+    const isActive = i === 1;
 
-        const card = document.createElement("div");
-        card.className = `transition-all duration-500 rounded-xl overflow-hidden shadow-lg text-center ${isActive
-            ? "w-[420px] h-[360px] scale-100 opacity-100"
-            : "w-48 h-64 scale-90 opacity-70"
-          }`;
+    const card = document.createElement("div");
+    card.className = `transition-all duration-500 rounded-xl overflow-hidden shadow-lg text-center transform inline-block mx-2 ${
+      isActive
+        ? "w-[420px] h-[360px] scale-100 opacity-100 -translate-y-16"
+        : "w-48 h-64 scale-90 opacity-70 translate-y-10"
+    }`;
 
-        card.innerHTML = `
-          <img src="${item.image}" alt="${item.title}" class="w-full h-4/5 object-cover">
-          <div class="flex flex-col items-center mt-2">
-            <img src="${item.icon}" class="w-8 h-8" alt="">
-            <p class="mt-1 text-sm">${item.title}</p>
-          </div>
-        `;
+    card.innerHTML = `
+      <img src="${item.image}" alt="${item.title}" class="w-full h-4/5 object-cover">
+      <div class="flex  items-center justify-center mt-2 " style="background-color: transparent !important;">
+        <img src="${item.icon}" class="w-8 h-8" alt="">
+        <p class="mt-1 px-2 text-sm ">${item.title}</p>
+      </div>
+    `;
 
-        carousel.appendChild(card);
-      });
-    }
+    carousel.appendChild(card);
+  });
+}
 
     function prevCard() {
       currentIndex = (currentIndex - 1 + data.length) % data.length;
