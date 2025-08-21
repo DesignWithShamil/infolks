@@ -423,7 +423,7 @@ background: linear-gradient(to bottom, #e2dfdf, #eaeaea)
         <nav class="hidden  lg:flex items-center gap- text-white font-medium">
           <div class="container mx-auto flex justify-between items-center   text-white">
 
-            <ul class="flex 2xl:space-x-9 xl:space-x-7  nav-slide">
+            <ul class="flex lg:space-x-6 2xl:space-x-6 xl:space-x-3  nav-slide">
   <li class="flex flex-col items-center w-16">
     <div class="link">
       <span class="text-white">Home</span>
@@ -679,7 +679,12 @@ background: linear-gradient(to bottom, #e2dfdf, #eaeaea)
                         </div>
                       </div>
 
-
+<li class="flex flex-col items-center w-16">
+  <a href="{% url 'home' %}" class="link">
+    <span class="text-white">Techniques</span>
+    <span class="text-[#98FFDD]">Techniques</span>
+  </a>
+</li>
               <li class="flex flex-col items-center xl:h-8 h-6 w-16 overflow-hidden">
     <div class="link">
       <span class="text-white">Pricing</span>
